@@ -1,45 +1,82 @@
 ---
 name: megeve-luxury-instagram
-description: Crée des posts Instagram complets (légende + visuel HTML) pour des propriétés de luxe à Megève. Génère le texte accrocheur, les hashtags et le rendu visuel HTML/CSS au format 1080x1080px. À utiliser quand l'utilisateur fournit des données de propriété et demande un post Instagram.
+description: Orchestre la création complète d'un post Instagram pour Douglas Elliman Megève. Combine copywriting, social-content, ad-creative et marketing-psychology pour produire légende + visuel HTML 1080x1080px. À utiliser quand l'utilisateur fournit des données de propriété et demande un post Instagram.
 ---
 
-# Megève Luxury Instagram — Skill de génération de posts
+# Megève Luxury Instagram — Skill orchestrateur
 
-Ce skill orchestre la création complète d'un post Instagram pour Douglas Elliman Megève : rédaction de la légende, sélection des hashtags, et génération du visuel HTML exportable.
+**Toujours commencer par lire** `.agents/product-marketing-context.md` pour le contexte produit.
 
-## Flux de travail
+Ce skill orchestre les 5 skills marketing du projet :
+- `copywriting` → rédaction de la légende
+- `social-content` → format, calendrier, pilier de contenu
+- `ad-creative` → si boost/campagne payante demandé
+- `marketing-psychology` → leviers de persuasion appliqués
+- `frontend-design` → rendu visuel HTML 1080×1080px
 
-Quand l'utilisateur fournit des données de propriété (ou demande un post), tu dois :
+---
 
-1. **Rédiger la légende** — Accroche émotionnelle en français, description sensorielle (vue, matériaux, ambiance), données clés, appel à l'action
-2. **Sélectionner les hashtags** — Combiner hashtags géo, luxe, et Douglas Elliman (voir liste ci-dessous)
-3. **Générer le visuel HTML** — Utiliser le skill `frontend-design` pour produire le rendu 1080×1080px
-4. **Proposer les variantes** — Suggérer une version Story (vertical 1080×1920px) si pertinent
+## Flux de travail complet
 
-## Format de la légende
+### Étape 1 — Comprendre le bien et l'objectif
+Si les données ne sont pas fournies, demander :
+- Nom, prix, surface, pièces, chambres, localisation
+- Type de bien (chalet familial / pied-à-terre / résidence d'exception / investissement)
+- Objectif du post (organique Instagram / Story / campagne Meta payante)
+- Image disponible ? (URL ou placeholder)
+
+### Étape 2 — Choisir le levier psychologique (skill: marketing-psychology)
+Selon le type de bien et l'audience cible :
+- Résidence principale → Jobs to Be Done + Peak-End Rule
+- Résidence secondaire → Rareté + Style de vie
+- Investissement → Autorité + Ancrage
+- Bien rare → Exclusivité + Perte (Loss Aversion)
+
+### Étape 3 — Rédiger 3 variantes d'accroche (skill: copywriting)
+Toujours proposer :
+1. **Sensorielle** — ce qu'on voit/ressent en arrivant
+2. **Narrative** — mini-histoire d'un acheteur type
+3. **Exclusive** — rareté ou FOMO dosé
+
+### Étape 4 — Construire la légende complète (skill: copywriting + social-content)
 
 ```
-[ACCROCHE ÉMOTIONNELLE — 1 phrase, max 15 mots]
+[ACCROCHE CHOISIE — 1 phrase, max 15 mots]
 
-[DESCRIPTION — 2-3 phrases évocatrices : vue, volumes, matériaux nobles]
+[CORPS — 2-3 phrases évocatrices : vue, matériaux, ambiance, expérience]
 
-✦ [Prix]  ✦ [Surface]  ✦ [Pièces]
-📍 [Quartier], Megève
+✦ [Prix en M€]  ✦ [Surface m²]  ✦ [Pièces]P · [Chambres]Ch
+📍 [Localisation], Megève
 
-[APPEL À L'ACTION — contact ou lien bio]
+[CTA — 1 phrase simple]
 
-[HASHTAGS — 20 à 25 maximum]
+[HASHTAGS — 20-25]
 ```
+
+### Étape 5 — Générer le visuel HTML (skill: frontend-design)
+Produire le rendu 1080×1080px avec :
+- Palette : ivoire `#f5f0e8`, or `#C9A96E`, anthracite `#0f0e0c`
+- Typographie : Playfair Display (titres) + Inter (détails)
+- Logo Douglas Elliman + "Megève" en coin
+- Photo du bien ou placeholder dégradé or/anthracite
+
+### Étape 6 — Proposer les formats dérivés (skill: social-content)
+- Story verticale 1080×1920px (version simplifiée)
+- Variante Meta Ads si campagne payante (skill: ad-creative)
+
+---
 
 ## Banque de hashtags
 
 **Géographiques** : #Megève #HauteSavoie #Alpes #AlpesLuxe #MegeveSki #MontBlanc
 
-**Immobilier luxe** : #ImmobilierLuxe #LuxuryRealEstate #Chalet #ChaletLuxe #AlpineLuxury #LuxuryChalet #MountainLiving
+**Immobilier luxe** : #ImmobilierLuxe #LuxuryRealEstate #ChaletLuxe #AlpineLuxury #LuxuryChalet #MountainLiving
 
 **Douglas Elliman** : #DouglasElliman #DouglasEllimanFrance #DEMegeve
 
 **Lifestyle** : #SkiInSkiOut #MountainView #AlpineLife #LuxuryLifestyle #FrenchAlps #SkiResort
+
+---
 
 ## Données d'entrée attendues
 
@@ -52,34 +89,34 @@ Quand l'utilisateur fournit des données de propriété (ou demande un post), tu
   "chambres": 5,
   "localisation": "Mont d'Arbois",
   "description": "Vue panoramique Mont-Blanc, spa, ski aux pieds",
-  "image_url": "https://..."
+  "image_url": "https://...",
+  "type_bien": "chalet_familial",
+  "objectif_post": "organique"
 }
 ```
 
-## Ton et style
+---
 
-- **Langue** : Français, registre haut de gamme mais accessible
-- **Voix** : Aspirationnelle, sensorielle, exclusive
-- **Emojis** : Utilisés avec parcimonie (✦ ❄️ 🏔️ 🔑)
-- **Prix** : Toujours en millions avec virgule française (3,5 M€)
-- **Surface** : En m² (280 m²)
+## Exemple de post complet généré
 
-## Exemples de légendes générées
-
-> **Là où le ciel touche la neige.**
-> 
-> Depuis le salon cathédrale, le Mont-Blanc se dresse à portée de regard. 280 m² de bois blond, de pierre locale et de lumière alpine — un chalet conçu pour ceux qui exigent l'excellence.
-> 
-> ✦ 3,5 M€  ✦ 280 m²  ✦ 7 pièces
+**Variante 1 (sensorielle) :**
+> La neige. Le silence. Et cette vue sur le Mont-Blanc depuis le salon.
+>
+> 280 m² où le bois alpin rencontre la pierre de taille. Spa au sous-sol, ski à 200m, et cette lumière de fin d'après-midi qui ne ressemble à rien d'autre.
+>
+> ✦ 3,5 M€  ✦ 280 m²  ✦ 7P · 5Ch
 > 📍 Mont d'Arbois, Megève
-> 
+>
 > Contactez-nous en message privé ou via le lien en bio.
-> 
+>
 > #Megève #ChaletLuxe #DouglasElliman #AlpesLuxe #MontBlanc #ImmobilierLuxe #LuxuryChalet #FrenchAlps #SkiResort #AlpineLuxury #MountainLiving #HauteSavoie #MegeveSki #DouglasEllimanFrance #DEMegeve #LuxuryRealEstate #SkiInSkiOut #MountainView #LuxuryLifestyle #AlpineLife
 
-## Directives supplémentaires
+---
 
-- Ne jamais inventer de données non fournies (prix, surface, localisation)
-- Si l'image n'est pas disponible, utiliser un placeholder élégant en dégradé or/anthracite
-- Proposer systématiquement 3 variantes d'accroche parmi lesquelles l'utilisateur peut choisir
-- Adapter le ton selon le type de bien : chalet familial vs. pied-à-terre vs. résidence d'exception
+## Règles absolues
+
+- Ne jamais inventer prix, surface ou localisation
+- Toujours proposer 3 variantes d'accroche avant de valider
+- Prix : toujours en M€ avec virgule française (3,5 M€)
+- Jamais de superlatifs non prouvés ("le plus beau", "exceptionnel")
+- Maximum 25 hashtags par post

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Douglas Elliman — {{nom}}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: #1a1a1a;
+    }
+
+    .post {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Zone image — 58% de la hauteur */
+    .image-zone {
+      width: 100%;
+      height: 626px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 50%, #3a3020 100%);
+    }
+
+    .image-zone img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #1e1e1e 0%, #2d2415 40%, #1a1209 100%);
+    }
+
+    .placeholder-icon {
+      font-size: 80px;
+      opacity: 0.15;
+      color: #C9A96E;
+    }
+
+    /* Dégradé de transition image → contenu */
+    .image-zone::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, transparent, #0f0e0c);
+    }
+
+    /* Bandeau marque en haut */
+    .brand-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.65), transparent);
+      z-index: 10;
+    }
+
+    .brand-name {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 18px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .brand-location {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: #C9A96E;
+      text-transform: uppercase;
+    }
+
+    /* Zone contenu */
+    .content-zone {
+      flex: 1;
+      background: #0f0e0c;
+      padding: 28px 40px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .property-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #f5f0e8;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+    }
+
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: #C9A96E;
+      margin: 14px 0;
+    }
+
+    .specs {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .spec-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 600;
+      color: #C9A96E;
+    }
+
+    .spec-label {
+      font-size: 11px;
+      font-weight: 400;
+      color: #8a8070;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .spec-separator {
+      width: 1px;
+      height: 36px;
+      background: #2a2820;
+    }
+
+    .description {
+      font-size: 16px;
+      font-weight: 300;
+      color: #a09880;
+      line-height: 1.6;
+      max-height: 52px;
+      overflow: hidden;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .location {
+      font-size: 14px;
+      color: #6a6055;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .location-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #C9A96E;
+    }
+
+    .cta {
+      font-size: 12px;
+      font-weight: 500;
+      color: #C9A96E;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid #C9A96E33;
+      padding: 8px 18px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="post">
+
+    <!-- Image -->
+    <div class="image-zone">
+      <div class="brand-bar">
+        <span class="brand-name">Douglas Elliman</span>
+        <span class="brand-location">Megève</span>
+      </div>
+
+      {{#if image_url}}
+        <img src="{{image_url}}" alt="{{nom}}" />
+      {{else}}
+        <div class="image-placeholder">
+          <span class="placeholder-icon">🏔️</span>
+        </div>
+      {{/if}}
+    </div>
+
+    <!-- Contenu -->
+    <div class="content-zone">
+      <div>
+        <div class="property-name">{{nom}}</div>
+        <div class="divider"></div>
+
+        <div class="specs">
+          <div class="spec-item">
+            <span class="spec-value">{{prix_affiche}}</span>
+            <span class="spec-label">Prix</span>
+          </div>
+          <div class="spec-separator"></div>
+          <div class="spec-item">
+            <span class="spec-value">{{surface_m2}} m²</span>
+            <span class="spec-label">Surface</span>
+          </div>
+          <div class="spec-separator"></div>
+          <div class="spec-item">
+            <span class="spec-value">{{pieces}} P · {{chambres}} Ch</span>
+            <span class="spec-label">Composition</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="description">{{description}}</div>
+
+      <div class="footer">
+        <div class="location">
+          <div class="location-dot"></div>
+          {{localisation}}, Megève
+        </div>
+        <div class="cta">Voir le bien →</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "chalet-mont-arbois-01",
+    "nom": "Chalet Les Grandes Alpes",
+    "prix": 3500000,
+    "surface_m2": 280,
+    "pieces": 7,
+    "chambres": 5,
+    "localisation": "Mont d'Arbois",
+    "description": "Vue panoramique Mont-Blanc, spa privé, ski aux pieds, finitions haut de gamme",
+    "image_url": null
+  },
+  {
+    "id": "chalet-rochebrune-02",
+    "nom": "Chalet Rochebrune",
+    "prix": 1850000,
+    "surface_m2": 145,
+    "pieces": 5,
+    "chambres": 3,
+    "localisation": "Rochebrune",
+    "description": "Chalet traditionnel rénové, vue dégagée, terrasse ensoleillée, garage double",
+    "image_url": null
+  },
+  {
+    "id": "appartement-village-03",
+    "nom": "Pied-à-Terre Village",
+    "prix": 980000,
+    "surface_m2": 72,
+    "pieces": 3,
+    "chambres": 2,
+    "localisation": "Centre Village",
+    "description": "Au cœur du village piétonnier, vue sur l'église, prestations luxueuses, cave à ski",
+    "image_url": null
+  }
+]

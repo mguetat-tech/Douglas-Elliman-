@@ -84,20 +84,24 @@ Les fichiers générés apparaissent dans `output/<id>/` :
 
 ## Skills disponibles
 
-| Skill | Usage |
-|---|---|
-| `megeve-luxury-instagram` | Créer un post complet (légende + visuel) — orchestrateur |
-| `frontend-design` | Générer ou modifier un visuel HTML de post |
-| `claude-api` | Intégration Anthropic SDK, prompt caching, modèles |
-| `copywriting` | Rédaction légendes luxe, ton Douglas Elliman |
-| `social-content` | Stratégie Instagram, calendrier, métriques |
-| `ad-creative` | Formats Meta Ads, ciblage audiences |
-| `marketing-psychology` | Leviers psychologiques par type de post |
-| `brainstorming` | Gate créatif avant toute implémentation |
-| `test-driven-development` | Cycle RED-GREEN-REFACTOR, pytest |
-| `systematic-debugging` | Diagnostic root cause avant correctif |
-| `verification-before-completion` | Checklist preuves avant déclaration de succès |
-| `writing-plans` | Plans d'implémentation TDD en tâches 2-5 min |
+| Skill | Usage | Source |
+|---|---|---|
+| `megeve-luxury-instagram` | Créer un post complet (légende + visuel) — orchestrateur | custom |
+| `frontend-design` | Générer ou modifier un visuel HTML de post | anthropics/skills |
+| `canvas-design` | Visuels artistiques PNG/PDF qualité musée (posters, campagnes) | anthropics/skills |
+| `brand-guidelines` | Palette + typo Douglas Elliman sur tout artefact | anthropics/skills |
+| `pptx` | Books propriété, pitchs investisseur, decks client | anthropics/skills |
+| `xlsx` | Suivi portefeuille, matrices de prix, calculs ROI locatif | anthropics/skills |
+| `claude-api` | Intégration Anthropic SDK, prompt caching, modèles | anthropics/skills |
+| `copywriting` | Rédaction légendes luxe, ton Douglas Elliman | coreyhaines31 |
+| `social-content` | Stratégie Instagram, calendrier, métriques | coreyhaines31 |
+| `ad-creative` | Formats Meta Ads, ciblage audiences | coreyhaines31 |
+| `marketing-psychology` | Leviers psychologiques par type de post | coreyhaines31 |
+| `brainstorming` | Gate créatif avant toute implémentation | obra/superpowers |
+| `test-driven-development` | Cycle RED-GREEN-REFACTOR, pytest | obra/superpowers |
+| `systematic-debugging` | Diagnostic root cause avant correctif | obra/superpowers |
+| `verification-before-completion` | Checklist preuves avant déclaration de succès | obra/superpowers |
+| `writing-plans` | Plans d'implémentation TDD en tâches 2-5 min | obra/superpowers |
 
 ## Conventions
 

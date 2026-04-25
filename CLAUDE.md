@@ -82,3 +82,35 @@ python command_center.py brief "3 posts publiés, 2 leads qualifiés..."
 | `AgencyCommandCenter` | `command_center/center.py` | Orchestrates all 8 agents (Sales Team + Command Center) |
 
 All Command Center agents share the same prompt-caching pattern (brand context as first cached block). `CampaignPlanner` and `DealSourcer` use streaming + adaptive thinking; `MarketAnalyst` and `BriefingOfficer` use adaptive thinking without streaming.
+
+## AI Marketing Suite
+
+A specialist marketing layer (`ai_marketing_suite/`) focused on content production beyond Instagram: visual direction, email campaigns, press relations, and paid advertising.
+
+### Commands
+
+```bash
+# Photo & video shoot brief
+python command_center.py visual "Chalet 480m², ski in/ski out, vue Mont-Blanc"
+
+# Email nurture sequence (default 3 emails, use --steps N to change)
+python command_center.py email "Prospect belge, budget €8-12M..." --steps 4
+
+# Press release
+python command_center.py pr "Vente record €15,5M, chalet Mont d'Arbois"
+
+# Paid ad copy — platform: meta | google | both (default)
+python command_center.py ads "Chalet 480m², ski in/ski out" --platform meta
+```
+
+### Architecture
+
+| Agent | File | Role |
+|---|---|---|
+| `VisualDirector` | `ai_marketing_suite/agents.py` | Photography & videography shoot briefs |
+| `EmailMarketingWriter` | `ai_marketing_suite/agents.py` | Personalized prospect email sequences |
+| `PRWriter` | `ai_marketing_suite/agents.py` | Press releases for properties and agency news |
+| `AdCopyWriter` | `ai_marketing_suite/agents.py` | Paid advertising copy for Meta & Google Ads |
+| `AIMarketingSuite` | `ai_marketing_suite/suite.py` | Orchestrates the 4 marketing agents |
+
+All Marketing Suite agents use the same prompt-caching pattern (brand context as first cached block) and streaming + adaptive thinking. `AgencyCommandCenter` delegates to `AIMarketingSuite` for all marketing operations; the interactive CLI menu (`command_center.py`) exposes them as options 7–10.

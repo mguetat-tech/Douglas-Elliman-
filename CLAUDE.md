@@ -43,10 +43,42 @@ python main.py
 
 | Agent | File | Role |
 |---|---|---|
-| `ContentStrategist` | `agents.py` | Defines content angle, format, and CTA |
-| `Copywriter` | `agents.py` | Writes the Instagram caption (streams output) |
-| `HashtagSpecialist` | `agents.py` | Generates 20 optimised hashtags in 3 tiers |
-| `LeadQualifier` | `agents.py` | Scores inquiries and suggests responses |
-| `AISalesTeam` | `team.py` | Orchestrates the pipeline |
+| `ContentStrategist` | `ai_sales_team/agents.py` | Defines content angle, format, and CTA |
+| `Copywriter` | `ai_sales_team/agents.py` | Writes the Instagram caption (streams output) |
+| `HashtagSpecialist` | `ai_sales_team/agents.py` | Generates 20 optimised hashtags in 3 tiers |
+| `LeadQualifier` | `ai_sales_team/agents.py` | Scores inquiries and suggests responses |
+| `AISalesTeam` | `ai_sales_team/team.py` | Orchestrates the post pipeline |
 
 The shared Megève/Douglas Elliman brand context is prompt-cached across all agents to reduce token costs. Adaptive thinking is enabled on agents that do complex reasoning (ContentStrategist, LeadQualifier).
+
+## Agency Command Center
+
+A higher-level layer (`command_center/`) that adds strategic and campaign-level agents on top of the AI Sales Team.
+
+### Commands
+
+```bash
+# Interactive menu (all operations)
+python command_center.py
+
+# Direct CLI
+python command_center.py post "Chalet 450m², ski in/ski out, €8M"
+python command_center.py post --fast "..."          # skip strategy step
+python command_center.py lead "Bonjour, je cherche..."
+python command_center.py campaign "..." --weeks 4   # multi-week editorial calendar
+python command_center.py market "Tendances hiver 2025"
+python command_center.py source "Chalets >€5M, quartier Jaillet"
+python command_center.py brief "3 posts publiés, 2 leads qualifiés..."
+```
+
+### Architecture
+
+| Agent | File | Role |
+|---|---|---|
+| `MarketAnalyst` | `command_center/agents.py` | Strategic market intelligence reports |
+| `CampaignPlanner` | `command_center/agents.py` | Multi-week Instagram editorial calendars |
+| `DealSourcer` | `command_center/agents.py` | Off-market property sourcing strategies |
+| `BriefingOfficer` | `command_center/agents.py` | Weekly executive briefings |
+| `AgencyCommandCenter` | `command_center/center.py` | Orchestrates all 8 agents (Sales Team + Command Center) |
+
+All Command Center agents share the same prompt-caching pattern (brand context as first cached block). `CampaignPlanner` and `DealSourcer` use streaming + adaptive thinking; `MarketAnalyst` and `BriefingOfficer` use adaptive thinking without streaming.

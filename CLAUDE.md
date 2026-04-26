@@ -114,3 +114,16 @@ python command_center.py ads "Chalet 480m², ski in/ski out" --platform meta
 | `AIMarketingSuite` | `ai_marketing_suite/suite.py` | Orchestrates the 4 marketing agents |
 
 All Marketing Suite agents use the same prompt-caching pattern (brand context as first cached block) and streaming + adaptive thinking. `AgencyCommandCenter` delegates to `AIMarketingSuite` for all marketing operations; the interactive CLI menu (`command_center.py`) exposes them as options 7–10.
+
+## Skills
+
+Reusable skill definitions in `skills/`, sourced from [github.com/anthropics/skills](https://github.com/anthropics/skills). Each skill is a `SKILL.md` file with YAML frontmatter (`name`, `description`) that Claude Code loads when the task matches the trigger condition.
+
+| Skill | Directory | Trigger |
+|---|---|---|
+| `xlsx` | `skills/xlsx/` | Creating, editing, or analyzing `.xlsx`/`.csv` spreadsheet files |
+| `pptx` | `skills/pptx/` | Creating or editing PowerPoint `.pptx` presentations |
+| `docx` | `skills/docx/` | Creating or editing Word `.docx` documents |
+| `pdf` | `skills/pdf/` | Reading, merging, splitting, creating, or OCR-ing PDF files |
+| `brand-guidelines` | `skills/brand-guidelines/` | Applying Anthropic brand colors and typography to any artifact |
+| `frontend-design` | `skills/frontend-design/` | Building distinctive, production-grade web UI components or pages |

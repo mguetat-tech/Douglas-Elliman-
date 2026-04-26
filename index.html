@@ -1,1 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Douglas Elliman · Megève</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--gold:#c9a84c;--gold-dim:#c9a84c33;--bg:#080806;--bg2:#0f0e09;--bg3:#141208;--text:#e8e0d0;--text-dim:#8a7a60;--text-mid:#c8bfa8}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
+    header{text-align:center;padding:52px 24px 40px;border-bottom:1px solid var(--gold-dim);background:linear-gradient(180deg,#12100a 0%,var(--bg) 100%)}
+    .eyebrow{font-size:9px;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+    h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6vw,48px);color:#f0e8d0;letter-spacing:2px;margin-bottom:10px}
+    .subtitle{font-size:11px;letter-spacing:2px;color:var(--text-dim)}
+    .gold-line{width:40px;height:1px;background:var(--gold);margin:20px auto 0}
+    .filters{display:flex;justify-content:center;gap:8px;padding:28px 16px 12px;flex-wrap:wrap}
+    .filter-btn{background:transparent;color:var(--gold);border:1px solid #c9a84c44;padding:8px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;font-family:'Montserrat',sans-serif;border-radius:1px}
+    .filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+    .posts{max-width:700px;margin:0 auto;padding:16px 16px 60px}
+    .post-card{background:var(--bg2);border:1px solid #c9a84c18;margin-bottom:12px;border-radius:2px;overflow:hidden;transition:border-color .25s}
+    .post-card:hover{border-color:#c9a84c44}
+    .post-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s}
+    .post-card.open .post-header{border-bottom-color:#c9a84c15}
+    .post-meta{display:flex;align-items:center;gap:14px}
+    .post-emoji{font-size:22px}
+    .post-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#f0e8d0;letter-spacing:.5px}
+    .post-tags{display:flex;gap:8px;margin-top:4px}
+    .tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+    .tag-platform{color:var(--gold);font-weight:500}
+    .toggle{font-size:22px;color:var(--gold);font-family:'Cormorant Garamond',serif;transition:transform .3s;min-width:24px;text-align:center}
+    .post-card.open .toggle{transform:rotate(45deg)}
+    .post-body{display:none;padding:22px}
+    .post-card.open .post-body{display:block}
+    .post-text{white-space:pre-wrap;font-size:13px;line-height:1.9;color:var(--text-mid);font-family:'Montserrat',sans-serif;font-weight:300;background:var(--bg3);border:1px solid #c9a84c12;border-radius:2px;padding:18px;max-height:320px;overflow-y:auto;margin-bottom:16px}
+    .copy-btn{width:100%;padding:13px;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:none;border-radius:1px;cursor:pointer;transition:all .3s;background:var(--gold);color:var(--bg);font-weight:500}
+    .copy-btn.copied{background:#1e3a12;color:#6dbe3a}
+    .tips-box{max-width:700px;margin:0 auto 60px;padding:0 16px}
+    .tips-inner{border:1px solid #c9a84c20;border-radius:2px;background:var(--bg2);padding:28px;text-align:center}
+    .tips-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+    .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;text-align:left}
+    .tip{padding:14px;background:var(--bg3);border-left:2px solid var(--gold-dim)}
+    .tip-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+    .tip-text{font-size:12px;color:var(--text-dim);line-height:1.7;font-weight:300}
+    .post-card.hidden{display:none}
+  </style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">Douglas Elliman · Megève · Alpes Françaises</div>
+  <h1>Posts Réseaux Sociaux</h1>
+  <p class="subtitle">Prêts à publier · Instagram & LinkedIn</p>
+  <div class="gold-line"></div>
+</header>
+<div class="filters">
+  <button class="filter-btn active" onclick="filterPosts('all',this)">Tous les posts</button>
+  <button class="filter-btn" onclick="filterPosts('instagram',this)">📸 Instagram</button>
+  <button class="filter-btn" onclick="filterPosts('linkedin',this)">💼 LinkedIn</button>
+</div>
+<div class="posts">
+  <div class="post-card" data-platform="instagram">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">🏔️</span><div><div class="post-title">Appel aux propriétaires</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Acquisition</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">🏔️ Vous êtes propriétaire d'un chalet ou d'un appartement à Megève ?
+
+Douglas Elliman recherche activement des biens d'exception pour une clientèle internationale exigeante.
+
+Nos acheteurs — issus de Paris, Londres, New York, Genève — sont prêts à acquérir. Il nous manque votre bien.
+
+Discret, rapide, au juste prix.
+
+📩 Contactez-nous en message privé pour une estimation confidentielle.
+
+#Megève #ImmobilierLuxe #DouglasElliman #Chalet #AlpesFrançaises #LuxuryRealEstate</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="instagram">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">❄️</span><div><div class="post-title">Storytelling montagne</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Émotionnel</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">❄️ Imaginez.
+
+Le crépitement du feu. La neige fraîche au dehors. Une vue sur le Mont-Blanc qui coupe le souffle.
+
+Ce chalet existe. Peut-être est-il le vôtre.
+
+Chez Douglas Elliman Megève, nous accompagnons les propriétaires qui souhaitent valoriser leur bien au meilleur moment — avec discrétion et expertise.
+
+Votre bien mérite les bons acheteurs. Nous les connaissons.
+
+💬 Un message suffit.
+
+#MegèveLuxury #AlpesLuxe #ChaletMegève #ImmobilierPrestige #DouglasEllimanFrance</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="instagram">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">🔑</span><div><div class="post-title">Urgence marché</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Marché</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">🔑 Le marché de Megève n'attend pas.
+
+La demande internationale pour les biens d'exception en station n'a jamais été aussi forte. Nos acheteurs qualifiés cherchent chalets, appartements ski-in/ski-out et propriétés atypiques.
+
+Si vous envisagez de vendre — même dans 6 mois — c'est maintenant qu'il faut anticiper.
+
+Estimation gratuite & confidentielle avec notre équipe Douglas Elliman.
+
+📲 Écrivez-nous en DM ou en bio.
+
+#VendreMegève #ImmobilierMontagne #LuxuryAlps #DouglasElliman</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="instagram">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">🌨️</span><div><div class="post-title">Saison & timing</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Saisonnalité</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">🌨️ Le meilleur moment pour vendre à Megève ?
+
+Maintenant. Avant la saison. Quand les acheteurs rêvent encore.
+
+Nos clients internationaux planifient leurs acquisitions des mois à l'avance. Ils veulent être propriétaires avant les premières neiges — pas après.
+
+Si votre chalet ou appartement est disponible, nous avons les acheteurs qu'il lui faut.
+
+Estimation confidentielle en 48h.
+
+📩 Message privé ou lien en bio.
+
+#MegèveAlpes #ImmobilierSki #SkiProperty #LuxuryMountain #DouglasElliman</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="linkedin">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">📊</span><div><div class="post-title">Analyse marché Megève</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Expertise</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">Le marché immobilier de Megève en 2025 : ce que les chiffres ne disent pas.
+
+Depuis plusieurs saisons, nous observons une transformation profonde du profil des acquéreurs : familles franco-britanniques, family offices, acheteurs américains séduits par le positionnement européen de la station.
+
+Ce que cela signifie pour les propriétaires :
+→ Les biens bien positionnés se vendent en moins de 60 jours
+→ Les prix au m² sur les chalets d'exception ont progressé
+→ La discrétion est devenue une exigence, pas une option
+
+Chez Douglas Elliman, nous apportons une clientèle internationale que peu d'acteurs locaux peuvent mobiliser.
+
+Vous envisagez une cession ? Parlons-en en privé.
+
+#ImmobilierLuxe #Megève #DouglasElliman #PatrimoineMontagne</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="linkedin">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">🤝</span><div><div class="post-title">Appel réseau & off-market</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Réseau</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">Un message direct à mon réseau.
+
+Je recherche activement des biens à Megève pour nos clients acquéreurs :
+
+✦ Chalets à partir de 300 m² avec vue dégagée
+✦ Appartements ski-in / ski-out en résidence de standing
+✦ Propriétés avec piscine, spa ou prestations hôtelières
+✦ Terrains constructibles en zone premium
+
+Si vous êtes propriétaire, notaire, gestionnaire de patrimoine ou au courant d'un bien disponible — même hors marché — je serais ravi d'échanger.
+
+La confidentialité est garantie. La réactivité aussi.
+
+Douglas Elliman | Megève & Alpes françaises
+
+#OffMarket #Megève #ImmobilierPrestige #DouglasElliman</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+  <div class="post-card" data-platform="linkedin">
+    <div class="post-header" onclick="togglePost(this)">
+      <div class="post-meta"><span class="post-emoji">🌍</span><div><div class="post-title">Clientèle internationale</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Différenciation</span></div></div></div>
+      <div class="toggle">+</div>
+    </div>
+    <div class="post-body">
+      <div class="post-text">Ce qui nous différencie à Megève ? Notre réseau.
+
+Douglas Elliman est présent à New York, Miami, Los Angeles, Londres et dans les Hamptons. Nos acheteurs viennent chercher Megève comme destination d'excellence mondiale.
+
+Pour un propriétaire, cela change tout :
+→ Exposition à des acheteurs que les agences locales n'atteignent pas
+→ Transactions souvent sans condition de prêt
+→ Positionnement prix qui reflète la valeur réelle du bien
+
+Si vous avez un bien d'exception à Megève, vous méritez une agence d'exception.
+
+Parlons-en.
+
+#DouglasElliman #LuxuryRealEstate #MegèveImmobilier #InternationalBuyers</div>
+      <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
+    </div>
+  </div>
+</div>
+<div class="tips-box">
+  <div class="tips-inner">
+    <div class="tips-title">Conseils de publication</div>
+    <div class="tips-grid">
+      <div class="tip"><div class="tip-label">📸 Instagram</div><div class="tip-text">Publiez avec une belle photo de chalet. Stories le matin, post le soir entre 18h–20h.</div></div>
+      <div class="tip"><div class="tip-label">💼 LinkedIn</div><div class="tip-text">Mardi–jeudi entre 8h et 10h. Répondez aux commentaires dans l'heure.</div></div>
+      <div class="tip"><div class="tip-label">🔄 Fréquence</div><div class="tip-text">3 posts minimum par semaine. Alternez Instagram et LinkedIn.</div></div>
+      <div class="tip"><div class="tip-label">✨ Astuce luxe</div><div class="tip-text">Ne jamais mentionner de prix. Le mystère renforce le positionnement haut de gamme.</div></div>
+    </div>
+  </div>
+</div>
+<script>
+  function togglePost(h){h.closest('.post-card').classList.toggle('open')}
+  function filterPosts(p,btn){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.post-card').forEach(c=>{
+      if(p==='all'||c.dataset.platform===p){c.classList.remove('hidden')}
+      else{c.classList.add('hidden');c.classList.remove('open')}
+    })
+  }
+  function copyPost(btn){
+    navigator.clipboard.writeText(btn.previousElementSibling.textContent).then(()=>{
+      btn.textContent='✓ Copié !';btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent='Copier ce post';btn.classList.remove('copied')},2500)
+    })
+  }
+</script>
+</body>
+</html>
 

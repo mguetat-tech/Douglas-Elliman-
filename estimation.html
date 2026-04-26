@@ -9,8 +9,8 @@
 :root{--gold:#c9a84c;--bg:#f8f6f1;--bg2:#fff;--bg3:#f2ede4;--dark:#1a1610;--text:#2a2218;--text-dim:#8a7a60;--text-mid:#5a4e3a;--border:#e0d8c8}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
-header<img src="https://img.logokit.com/elliman.com" alt="Douglas Elliman" style="height:40px;margin-bottom:16px;filter:brightness(0) invert(1);opacity:0.9;"/>
-{background:var(--dark);padding:36px 24px;text-align:center}
+header{background:var(--dark);padding:36px 24px;text-align:center}
+.logo{height:65px;margin-bottom:14px;filter:brightness(0) invert(1);opacity:0.95}
 .eyebrow{font-size:9px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,40px);font-weight:300;color:#f0e8d0;letter-spacing:2px;margin-bottom:8px}
 .sub{font-size:11px;letter-spacing:2px;color:#8a7a60}
@@ -46,7 +46,7 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 .sl{display:flex;justify-content:space-between;margin-top:5px}
 .sl span{font-size:10px;color:var(--text-dim)}
 .nav{display:flex;gap:10px;margin-top:22px}
-.bp{flex:1;padding:13px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:transparent;cursor:pointer;transition:all .2s}
+.bp{flex:1;padding:13px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:transparent;cursor:pointer}
 .bn{flex:2;padding:13px;border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dark);background:var(--gold);cursor:pointer;font-weight:500}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 #res{display:none}
@@ -67,11 +67,11 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 .sb{height:100%;border-radius:2px;background:linear-gradient(90deg,#c9a84c44,var(--gold));transition:width 1s}
 .sp{font-size:11px;color:var(--gold);width:34px;text-align:right}
 .ab{display:flex;gap:10px;margin-top:18px}
-.ap{flex:1;padding:13px;border:1px solid var(--gold);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:transparent;cursor:pointer;transition:all .2s}
+.ap{flex:1;padding:13px;border:1px solid var(--gold);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:transparent;cursor:pointer}
 .ap:hover{background:var(--gold);color:var(--dark)}
 .ar{flex:1;padding:13px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:transparent;cursor:pointer}
 .disc{font-size:10px;color:var(--text-dim);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-style:italic}
-@media print{header,.prog,.ab,.card{display:none!important}#res{display:block!important}body{background:#fff}}
+@media print{header,.prog,.ab,.card{display:none!important}#res{display:block!important}}
 </style>
 </head>
 <body>
@@ -87,100 +87,13 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 <div class="ps" id="ps4"></div>
 </div>
 <div class="wrap">
-
 <div class="card show" id="s1">
 <div class="ch"><div class="cn">Étape 01 / 04</div><div class="ct">Informations générales</div></div>
 <div class="cb">
 <div class="f"><label>Nom du propriétaire</label><input type="text" id="owner" placeholder="M. / Mme ..."/></div>
 <div class="f"><label>Type de bien</label>
 <div class="tg" id="tg-type">
-<button class="tb" onclick="tog('tg-type',this,'type')">Chalet</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Appartement</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Chalet hôtel</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Terrain</button>
-</div></div>
-<div class="two">
-<div class="f"><label>Surface (m²)</label><input type="number" id="surface" placeholder="ex: 280"/></div>
-<div class="f"><label>Chambres</label><input type="number" id="rooms" placeholder="ex: 6"/></div>
-</div>
-<div class="f"><label>Localisation</label>
-<div class="tg" id="tg-loc">
-<button class="tb" onclick="tog('tg-loc',this,'loc')">Mont d'Arbois</button>
-<button class="tb" onclick="tog('tg-loc',this,'loc')">Rochebrune</button>
-<button class="tb" onclick="tog('tg-loc',this,'loc')">Centre village</button>
-<button class="tb" onclick="tog('tg-loc',this,'loc')">Jaillet</button>
-<button class="tb" onclick="tog('tg-loc',this,'loc')">Périphérie</button>
-</div></div>
-<div class="nav"><button class="bn" onclick="go(2)">Continuer →</button></div>
-</div></div>
-
-<div class="card" id="s2">
-<div class="ch"><div class="cn">Étape 02 / 04</div><div class="ct">Prestations & équipements</div></div>
-<div class="cb">
-<div class="f"><label>État général</label>
-<div class="tg" id="tg-etat">
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Neuf / Récent</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Très bon état</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Bon état</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">À rénover</button>
-</div></div>
-<div class="f"><label>Vue</label>
-<div class="tg" id="tg-vue">
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Mont-Blanc</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue montagne</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue village</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue limitée</button>
-</div></div>
-<div class="f"><label>Prestations incluses</label>
-<div class="cg">
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🎿 Ski-in/Ski-out</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🏊 Piscine intérieure</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🧖 Spa / Hammam</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🎬 Salle de cinéma</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🚗 Garage chauffé</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🏋️ Salle de sport</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🌿 Grand terrain</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🔥 Cheminées</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🏡 Chalet gardien</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">🌡️ Domotique</span></div>
-</div></div>
-<div class="nav">
-<button class="bp" onclick="go(1)">← Retour</button>
-<button class="bn" onclick="go(3)">Continuer →</button>
-</div></div></div>
-
-<div class="card" id="s3">
-<div class="ch"><div class="cn">Étape 03 / 04</div><div class="ct">Contexte marché</div></div>
-<div class="cb">
-<div class="f"><label>Motivation du vendeur</label>
-<div class="tg" id="tg-motiv">
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Vente rapide</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Prix optimal</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Pas pressé</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Succession</button>
-</div></div>
-<div class="f"><label>Niveau de finitions</label>
-<div class="sv" id="fv">Haut de gamme</div>
-<input type="range" id="fin" min="1" max="5" value="4" oninput="upFin(this.value)"/>
-<div class="sl"><span>Standard</span><span>Luxe</span><span>Ultra-luxe</span></div>
-</div>
-<div class="f"><label>Notes internes (confidentielles)</label>
-<textarea id="notes" placeholder="Observations, points forts, contraintes..."></textarea>
-</div>
-<div class="nav">
-<button class="bp" onclick="go(2)">← Retour</button>
-<button class="bn" onclick="go(4)">Continuer →</button>
-</div></div></div>
-
-<div class="card" id="s4">
-<div class="ch"><div class="cn">Étape 04 / 04</div><div class="ct">Récapitulatif</div></div>
-<div class="cb">
-<div id="recap" style="font-size:13px;line-height:2;color:var(--text-mid)"></div>
-<div class="nav">
-<button class="bp" onclick="go(3)">← Modifier</button>
-<button class="bn" onclick="calc()" style="background:var(--dark);color:var(--gold)">Calculer l'estimation ✦</button>
-</div></div></div>
-
+<button class="tb" onclick="tog('tg-type',this,'type')">Chalet​​​​​​​​​​​​​​​​
 <div id="res">
 <div class="rh">
 <div class="rl">Estimation Douglas Elliman · Megève</div>
@@ -198,117 +111,29 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 <div id="nd" style="font-size:13px;color:var(--text-mid);line-height:1.8;padding:13px;background:var(--bg3);border-left:2px solid #c9a84c33"></div>
 </div>
 <div class="ab">
-<button class="ap" onclick="window.print()">🖨️ Imprimer / PDF</button>
-<button class="ar" onclick="reset()">↺ Nouvelle estimation</button>
+<button class="ap" onclick="window.print()">Imprimer / PDF</button>
+<button class="ar" onclick="reset()">Nouvelle estimation</button>
 </div>
-<div class="disc">Cette estimation est établie par Douglas Elliman sur la base des informations fournies et des données de marché à Megève. Elle ne constitue pas une valeur vénale officielle et reste confidentielle. Les prix sont des fourchettes indicatives susceptibles de varier selon les conditions du marché.</div>
+<div class="disc">Cette estimation est établie par Douglas Elliman sur la base des informations fournies et des données de marché à Megève. Elle ne constitue pas une valeur vénale officielle et reste confidentielle.</div>
 </div></div>
 </div>
-
 <script>
 const D={prestations:[]};
-const PB={'Mont d\'Arbois':22000,'Rochebrune':18000,'Centre village':16000,'Jaillet':14000,'Périphérie':11000};
-const CT={'Chalet':1.15,'Appartement':0.90,'Chalet hôtel':1.30,'Terrain':0.35};
-const CE={'Neuf / Récent':1.20,'Très bon état':1.05,'Bon état':0.95,'À rénover':0.75};
-const CV={'Mont-Blanc':1.25,'Vue montagne':1.10,'Vue village':1.00,'Vue limitée':0.90};
-const BP={'🎿 Ski-in/Ski-out':0.18,'🏊 Piscine intérieure':0.10,'🧖 Spa / Hammam':0.07,'🎬 Salle de cinéma':0.04,'🚗 Garage chauffé':0.03,'🏋️ Salle de sport':0.03,'🌿 Grand terrain':0.06,'🔥 Cheminées':0.02,'🏡 Chalet gardien':0.05,'🌡️ Domotique':0.03};
+const PB={"Mont d'Arbois":22000,"Rochebrune":18000,"Centre village":16000,"Jaillet":14000,"Périphérie":11000};
+const CT={"Chalet":1.15,"Appartement":0.90,"Chalet hôtel":1.30,"Terrain":0.35};
+const CE={"Neuf / Récent":1.20,"Très bon état":1.05,"Bon état":0.95,"À rénover":0.75};
+const CV={"Mont-Blanc":1.25,"Vue montagne":1.10,"Vue village":1.00,"Vue limitée":0.90};
+const BP={"Ski-in / Ski-out":0.18,"Piscine intérieure":0.10,"Spa / Hammam":0.07,"Salle de cinéma":0.05,"Cave à vin":0.04,"Hélipad":0.08,"Garage chauffé":0.03,"Salle de sport":0.03,"Grand terrain":0.06,"Cheminées":0.02,"Chalet gardien":0.05,"Studio / Bureau":0.03,"Domotique":0.03};
 const CF=[0.80,0.90,1.00,1.10,1.25];
-const FL=['Standard','Correct','Bon','Haut de gamme','Ultra-luxe'];
-
-function tog(gid,btn,key){
-  document.querySelectorAll('#'+gid+' .tb').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); D[key]=btn.textContent.trim();
-}
-function chk(el){
-  el.classList.toggle('on');
-  const ck=el.querySelector('.ck');
-  ck.textContent=el.classList.contains('on')?'✓':'';
-  const lb=el.querySelector('.cl').textContent;
-  if(el.classList.contains('on')){if(!D.prestations.includes(lb))D.prestations.push(lb);}
-  else{D.prestations=D.prestations.filter(p=>p!==lb);}
-}
-function upFin(v){document.getElementById('fv').textContent=FL[v-1];D.fin=parseInt(v);}
-function go(step){
-  D.owner=document.getElementById('owner').value;
-  D.surface=parseInt(document.getElementById('surface').value)||0;
-  D.rooms=parseInt(document.getElementById('rooms').value)||0;
-  D.notes=document.getElementById('notes').value;
-  D.fin=parseInt(document.getElementById('fin').value);
-  if(step===4)buildRecap();
-  document.querySelectorAll('.card').forEach(s=>s.classList.remove('show'));
-  document.getElementById('s'+step).classList.add('show');
-  document.getElementById('res').classList.remove('show');
-  for(let i=1;i<=4;i++)document.getElementById('ps'+i).classList.toggle('on',i<=step);
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function buildRecap(){
-  const p=D.prestations.length;
-  document.getElementById('recap').innerHTML=`
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
-  ${[['Propriétaire',D.owner||'—'],['Type',D.type||'—'],['Surface',(D.surface||'—')+' m²'],['Localisation',D.loc||'—'],['Vue',D.vue||'—'],['Prestations',p+' sélectionnée'+(p>1?'s':'')]].map(([l,v])=>`
-  <div style="padding:11px;background:var(--bg3);border-left:2px solid #c9a84c33">
-  <div style="font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px">${l}</div>
-  <div style="font-family:'Cormorant Garamond',serif;font-size:16px">${v}</div>
-  </div>`).join('')}
-  </div>`;
-}
-function fmt(n){
-  if(n>=1000000)return(n/1000000).toFixed(n%1000000===0?0:2).replace('.',',')+' M€';
-  return new Intl.NumberFormat('fr-FR').format(n)+' €';
-}
-function calc(){
-  D.owner=document.getElementById('owner').value;
-  D.surface=parseInt(document.getElementById('surface').value)||100;
-  D.rooms=parseInt(document.getElementById('rooms').value)||3;
-  D.notes=document.getElementById('notes').value;
-  D.fin=parseInt(document.getElementById('fin').value)||4;
-  let p=(PB[D.loc]||14000)*D.surface;
-  p*=(CT[D.type]||1);p*=(CE[D.etat]||1);p*=(CV[D.vue]||1);p*=CF[D.fin-1];
-  let b=0;D.prestations.forEach(x=>{b+=BP[x]||0;});p*=(1+b);
-  if(D.motiv==='Vente rapide')p*=0.93;
-  if(D.motiv==='Pas pressé')p*=1.05;
-  const lo=Math.round(p*0.92/50000)*50000;
-  const hi=Math.round(p*1.10/50000)*50000;
-  const mid=Math.round(p/50000)*50000;
-  const m2=Math.round(mid/D.surface);
-  document.getElementById('rp').textContent=fmt(mid);
-  document.getElementById('rr').textContent='Fourchette : '+fmt(lo)+' — '+fmt(hi);
-  document.getElementById('rg').innerHTML=[
-    ['Propriétaire',D.owner||'—'],['Type',D.type||'—'],
-    ['Surface',D.surface+' m²'],['Prix au m²',fmt(m2)],
-    ['Localisation',D.loc||'—'],['Prestations',D.prestations.length+' équipements']
-  ].map(([l,v])=>`<div class="ri"><div class="ril">${l}</div><div class="riv">${v}</div></div>`).join('');
-  const scores=[
-    ['Localisation',Math.round(((PB[D.loc]||14000)/22000)*100)],
-    ['État du bien',Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],
-    ['Vue',Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],
-    ['Prestations',Math.min(Math.round(b/0.67*100),100)],
-    ['Finitions',Math.round((CF[D.fin-1]-0.80)/0.45*100)]
-  ];
-  document.getElementById('bars').innerHTML=scores.map(([l,v])=>`
-  <div class="sr"><div class="sn">${l}</div>
-  <div class="sbw"><div class="sb" style="width:${Math.max(5,v)}%"></div></div>
-  <div class="sp">${v}%</div></div>`).join('');
-  if(D.notes){document.getElementById('nw').style.display='block';document.getElementById('nd').textContent=D.notes;}
-  document.querySelectorAll('.card').forEach(s=>s.classList.remove('show'));
-  document.getElementById('res').classList.add('show');
-  for(let i=1;i<=4;i++)document.getElementById('ps'+i).classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function reset(){
-  Object.keys(D).forEach(k=>{if(k==='prestations')D[k]=[];else delete D[k];});
-  document.getElementById('owner').value='';
-  document.getElementById('surface').value='';
-  document.getElementById('rooms').value='';
-  document.getElementById('notes').value='';
-  document.getElementById('fin').value=4;
-  document.getElementById('fv').textContent='Haut de gamme';
-  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.ci').forEach(c=>{c.classList.remove('on');c.querySelector('.ck').textContent='';});
-  document.getElementById('res').classList.remove('show');
-  document.getElementById('nw').style.display='none';
-  go(1);
-}
+const FL=["Standard","Correct","Bon","Haut de gamme","Ultra-luxe"];
+function tog(gid,btn,key){document.querySelectorAll("#"+gid+" .tb").forEach(b=>b.classList.remove("on"));btn.classList.add("on");D[key]=btn.textContent.trim();}
+function chk(el){el.classList.toggle("on");el.querySelector(".ck").textContent=el.classList.contains("on")?"✓":"";const lb=el.querySelector(".cl").textContent;if(el.classList.contains("on")){if(!D.prestations.includes(lb))D.prestations.push(lb);}else{D.prestations=D.prestations.filter(p=>p!==lb);}}
+function upFin(v){document.getElementById("fv").textContent=FL[v-1];D.fin=parseInt(v);}
+function go(step){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||0;D.rooms=parseInt(document.getElementById("rooms").value)||0;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value);if(step===4)buildRecap();document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("s"+step).classList.add("show");document.getElementById("res").classList.remove("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.toggle("on",i<=step);window.scrollTo({top:0,behavior:"smooth"});}
+function buildRecap(){const p=D.prestations.length;document.getElementById("recap").innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">'+[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",(D.surface||"—")+" m²"],["Localisation",D.loc||"—"],["Vue",D.vue||"—"],["Prestations",p+" sélectionnée"+(p>1?"s":"")]].map(([l,v])=>'<div style="padding:11px;background:var(--bg3);border-left:2px solid #c9a84c33"><div style="font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px">'+l+'</div><div style="font-family:Cormorant Garamond,serif;font-size:16px">'+v+"</div></div>").join("")+"</div>";}
+function fmt(n){if(n>=1000000)return(n/1000000).toFixed(n%1000000===0?0:2).replace(".",",")+' M€';return new Intl.NumberFormat("fr-FR").format(n)+" €";}
+function calc(){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||100;D.rooms=parseInt(document.getElementById("rooms").value)||3;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value)||4;let p=(PB[D.loc]||14000)*D.surface;p*=(CT[D.type]||1);p*=(CE[D.etat]||1);p*=(CV[D.vue]||1);p*=CF[D.fin-1];let b=0;D.prestations.forEach(x=>{b+=BP[x]||0;});p*=(1+b);if(D.motiv==="Vente rapide")p*=0.93;if(D.motiv==="Pas pressé")p*=1.05;const lo=Math.round(p*0.92/50000)*50000;const hi=Math.round(p*1.10/50000)*50000;const mid=Math.round(p/50000)*50000;const m2=Math.round(mid/D.surface);document.getElementById("rp").textContent=fmt(mid);document.getElementById("rr").textContent="Fourchette : "+fmt(lo)+" — "+fmt(hi);document.getElementById("rg").innerHTML=[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",D.surface+" m²"],["Prix au m²",fmt(m2)],["Localisation",D.loc||"—"],["Prestations",D.prestations.length+" équipements"]].map(([l,v])=>'<div class="ri"><div class="ril">'+l+'</div><div class="riv">'+v+"</div></div>").join("");const scores=[["Localisation",Math.round(((PB[D.loc]||14000)/22000)*100)],["État du bien",Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],["Vue",Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],["Prestations",Math.min(Math.round(b/0.67*100),100)],["Finitions",Math.round((CF[D.fin-1]-0.80)/0.45*100)]];document.getElementById("bars").innerHTML=scores.map(([l,v])=>'<div class="sr"><div class="sn">'+l+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(5,v)+'%"></div></div><div class="sp">'+v+"%</div></div>").join("");if(D.notes){document.getElementById("nw").style.display="block";document.getElementById("nd").textContent=D.notes;}document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("res").classList.add("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.add("on");window.scrollTo({top:0,behavior:"smooth"});}
+function reset(){Object.keys(D).forEach(k=>{if(k==="prestations")D[k]=[];else delete D[k];});document.getElementById("owner").value="";document.getElementById("surface").value="";document.getElementById("rooms").value="";document.getElementById("notes").value="";document.getElementById("fin").value=4;document.getElementById("fv").textContent="Haut de gamme";document.querySelectorAll(".tb").forEach(b=>b.classList.remove("on"));document.querySelectorAll(".ci").forEach(c=>{c.classList.remove("on");c.querySelector(".ck").textContent="";});document.getElementById("res").classList.remove("show");document.getElementById("nw").style.display="none";go(1);}
 upFin(4);
 </script>
 </body>

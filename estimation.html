@@ -10,7 +10,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
 header{background:var(--dark);padding:36px 24px;text-align:center}
-.logo{height:65px;margin-bottom:14px;filter:brightness(0) invert(1);opacity:0.95}
 .eyebrow{font-size:9px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,40px);font-weight:300;color:#f0e8d0;letter-spacing:2px;margin-bottom:8px}
 .sub{font-size:11px;letter-spacing:2px;color:#8a7a60}
@@ -36,8 +35,8 @@ textarea{resize:vertical;min-height:75px}
 .tb.on{background:var(--dark);border-color:var(--dark);color:var(--gold)}
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
 .ci{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .2s;background:var(--bg)}
-.ci:hover{border-color:var(--gold)}
-.ci.on{border-color:var(--gold);background:#fdf8ee}
+.ci:hover,.ci.on{border-color:var(--gold)}
+.ci.on{background:#fdf8ee}
 .ck{width:15px;height:15px;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .2s}
 .ci.on .ck{background:var(--gold);border-color:var(--gold);color:#fff}
 .cl{font-size:12px;color:var(--text-mid)}
@@ -93,7 +92,92 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 <div class="f"><label>Nom du propriétaire</label><input type="text" id="owner" placeholder="M. / Mme ..."/></div>
 <div class="f"><label>Type de bien</label>
 <div class="tg" id="tg-type">
-<button class="tb" onclick="tog('tg-type',this,'type')">Chalet​​​​​​​​​​​​​​​​
+<button class="tb" onclick="tog('tg-type',this,'type')">Chalet</button>
+<button class="tb" onclick="tog('tg-type',this,'type')">Appartement</button>
+<button class="tb" onclick="tog('tg-type',this,'type')">Chalet hôtel</button>
+<button class="tb" onclick="tog('tg-type',this,'type')">Terrain</button>
+</div></div>
+<div class="two">
+<div class="f"><label>Surface (m²)</label><input type="number" id="surface" placeholder="ex: 280"/></div>
+<div class="f"><label>Chambres</label><input type="number" id="rooms" placeholder="ex: 6"/></div>
+</div>
+<div class="f"><label>Localisation</label>
+<div class="tg" id="tg-loc">
+<button class="tb" onclick="tog('tg-loc',this,'loc')">Mont d'Arbois</button>
+<button class="tb" onclick="tog('tg-loc',this,'loc')">Rochebrune</button>
+<button class="tb" onclick="tog('tg-loc',this,'loc')">Centre village</button>
+<button class="tb" onclick="tog('tg-loc',this,'loc')">Jaillet</button>
+<button class="tb" onclick="tog('tg-loc',this,'loc')">Périphérie</button>
+</div></div>
+<div class="nav"><button class="bn" onclick="go(2)">Continuer →</button></div>
+</div></div>
+<div class="card" id="s2">
+<div class="ch"><div class="cn">Étape 02 / 04</div><div class="ct">Prestations et équipements</div></div>
+<div class="cb">
+<div class="f"><label>État général</label>
+<div class="tg" id="tg-etat">
+<button class="tb" onclick="tog('tg-etat',this,'etat')">Neuf / Récent</button>
+<button class="tb" onclick="tog('tg-etat',this,'etat')">Très bon état</button>
+<button class="tb" onclick="tog('tg-etat',this,'etat')">Bon état</button>
+<button class="tb" onclick="tog('tg-etat',this,'etat')">À rénover</button>
+</div></div>
+<div class="f"><label>Vue</label>
+<div class="tg" id="tg-vue">
+<button class="tb" onclick="tog('tg-vue',this,'vue')">Mont-Blanc</button>
+<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue montagne</button>
+<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue village</button>
+<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue limitée</button>
+</div></div>
+<div class="f"><label>Prestations incluses</label>
+<div class="cg">
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Ski-in / Ski-out</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Piscine intérieure</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Spa / Hammam</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de cinéma</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cave à vin</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Hélipad</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Garage chauffé</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de sport</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Grand terrain</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cheminées</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Chalet gardien</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Studio / Bureau</span></div>
+<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Domotique</span></div>
+</div></div>
+<div class="nav">
+<button class="bp" onclick="go(1)">Retour</button>
+<button class="bn" onclick="go(3)">Continuer →</button>
+</div></div></div>
+<div class="card" id="s3">
+<div class="ch"><div class="cn">Étape 03 / 04</div><div class="ct">Contexte marché</div></div>
+<div class="cb">
+<div class="f"><label>Motivation du vendeur</label>
+<div class="tg" id="tg-motiv">
+<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Vente rapide</button>
+<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Prix optimal</button>
+<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Pas pressé</button>
+<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Succession</button>
+</div></div>
+<div class="f"><label>Niveau de finitions</label>
+<div class="sv" id="fv">Haut de gamme</div>
+<input type="range" id="fin" min="1" max="5" value="4" oninput="upFin(this.value)"/>
+<div class="sl"><span>Standard</span><span>Luxe</span><span>Ultra-luxe</span></div>
+</div>
+<div class="f"><label>Notes internes</label>
+<textarea id="notes" placeholder="Observations, points forts, contraintes..."></textarea>
+</div>
+<div class="nav">
+<button class="bp" onclick="go(2)">Retour</button>
+<button class="bn" onclick="go(4)">Continuer →</button>
+</div></div></div>
+<div class="card" id="s4">
+<div class="ch"><div class="cn">Étape 04 / 04</div><div class="ct">Récapitulatif</div></div>
+<div class="cb">
+<div id="recap"></div>
+<div class="nav">
+<button class="bp" onclick="go(3)">Modifier</button>
+<button class="bn" onclick="calc()" style="background:var(--dark);color:var(--gold)">Calculer l'estimation</button>
+</div></div></div>
 <div id="res">
 <div class="rh">
 <div class="rl">Estimation Douglas Elliman · Megève</div>

@@ -115,6 +115,35 @@ python command_center.py ads "Chalet 480m², ski in/ski out" --platform meta
 
 All Marketing Suite agents use the same prompt-caching pattern (brand context as first cached block) and streaming + adaptive thinking. `AgencyCommandCenter` delegates to `AIMarketingSuite` for all marketing operations; the interactive CLI menu (`command_center.py`) exposes them as options 7–10.
 
+## Council (LLM Council)
+
+A multi-expert deliberation layer (`council/`) inspired by [karpathy/llm-council](https://github.com/karpathy/llm-council). Routes any strategic question through 4 expert personas in 3 stages, then synthesizes with a Chairman.
+
+### Command
+
+```bash
+python command_center.py council "Faut-il baisser le prix du Chalet Étoile ?"
+```
+
+Interactive menu: option 11.
+
+### Architecture
+
+| Component | File | Role |
+|---|---|---|
+| `CouncilMember` | `council/members.py` | Dataclass: name, title, system prompt |
+| `MEMBERS` | `council/members.py` | 4 expert personas (Commercial, Marché, Marketing, Patrimoine) |
+| `CHAIRMAN` | `council/members.py` | Jean-Pierre Moreau — synthesizes all perspectives |
+| `CouncilSession` | `council/session.py` | Orchestrates the 3-stage deliberation |
+
+### 3-Stage Process
+
+1. **Stage 1 — Parallel responses**: all 4 members answer independently via `ThreadPoolExecutor`
+2. **Stage 2 — Peer rankings**: each member reads anonymized responses (A/B/C/D) and ranks them
+3. **Stage 3 — Synthesis**: Chairman reads all responses + rankings and produces final recommendation
+
+All council calls use `claude-opus-4-7` with adaptive thinking and prompt caching on `AGENCY_CONTEXT`.
+
 ## Skills
 
 Reusable skill definitions in `skills/`, sourced from [github.com/anthropics/skills](https://github.com/anthropics/skills). Each skill is a `SKILL.md` file with YAML frontmatter (`name`, `description`) that Claude Code loads when the task matches the trigger condition.

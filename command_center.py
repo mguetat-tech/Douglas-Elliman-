@@ -13,6 +13,7 @@ Usage:
     python command_center.py email "Prospect belge, budget €8-12M..." --steps 4
     python command_center.py pr "Vente record €15M, chalet Mont d'Arbois"
     python command_center.py ads "Chalet 480m², ski in/ski out" --platform meta
+    python command_center.py council "Faut-il baisser le prix du Chalet Étoile ?"
 """
 
 import sys
@@ -80,6 +81,12 @@ Chalet Étoile — Megève, quartier du Jaillet
 Vue panoramique Mont-Blanc — Spa privatif — Piscine intérieure
 Estimation : sur demande — Discrétion assurée — Mandat exclusif Douglas Elliman
 """
+
+EXAMPLE_COUNCIL = (
+    "Le Chalet Étoile (480m², ski in/ski out, €8,5M) est en vente depuis 3 mois "
+    "sans offre sérieuse. Faut-il baisser le prix, changer la stratégie marketing, "
+    "ou cibler un autre profil d'acquéreur ?"
+)
 
 
 def _separator(title: str) -> None:
@@ -153,6 +160,20 @@ def run_ads(center: AgencyCommandCenter, description: str, platform: str = "both
     print(result)
 
 
+def run_council(center: AgencyCommandCenter, question: str) -> None:
+    result = center.convene_council(question)
+    from council.members import MEMBERS, CHAIRMAN
+    for member in MEMBERS:
+        _separator(f"{member.name.upper()} — {member.title}")
+        print(result["responses"][member.name])
+    _separator("ÉVALUATIONS CROISÉES")
+    for member in MEMBERS:
+        print(f"\n── {member.name} ──")
+        print(result["rankings"][member.name])
+    _separator(f"SYNTHÈSE — {CHAIRMAN.name}, {CHAIRMAN.title}")
+    print(result["synthesis"])
+
+
 def interactive_menu(center: AgencyCommandCenter) -> None:
     menu = """
 ╔══════════════════════════════════════════════════════════╗
@@ -172,6 +193,9 @@ def interactive_menu(center: AgencyCommandCenter) -> None:
   8  Séquence email marketing
   9  Communiqué de presse
  10  Copies publicitaires (Meta / Google Ads)
+
+  ── CONSEIL STRATÉGIQUE ──────────────────────────────────
+ 11  Convoquer le conseil (4 experts + Président)
 
   0  Quitter
 
@@ -238,6 +262,11 @@ def interactive_menu(center: AgencyCommandCenter) -> None:
         desc = input("> ").strip() or EXAMPLE_ADS
         platform = input("Plateforme — meta / google / both [both] : ").strip() or "both"
         run_ads(center, desc, platform=platform)
+
+    elif choice == "11":
+        print("\nQuestion stratégique à soumettre au conseil (Entrée vide = exemple) :")
+        question = input("> ").strip() or EXAMPLE_COUNCIL
+        run_council(center, question)
 
     else:
         print("Choix invalide.")
@@ -316,6 +345,10 @@ def main() -> None:
                 remaining = remaining[:idx] + remaining[idx + 2:]
         description = " ".join(remaining) if remaining else EXAMPLE_ADS
         run_ads(center, description, platform=platform)
+
+    elif command == "council":
+        question = " ".join(args[1:]) if len(args) > 1 else EXAMPLE_COUNCIL
+        run_council(center, question)
 
     else:
         print(__doc__)

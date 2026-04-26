@@ -1,6 +1,7 @@
 import anthropic
 from ai_sales_team.team import AISalesTeam
 from ai_marketing_suite.suite import AIMarketingSuite
+from council.session import CouncilSession
 from .agents import MarketAnalyst, CampaignPlanner, DealSourcer, BriefingOfficer
 
 
@@ -12,6 +13,7 @@ class AgencyCommandCenter:
     From ai_sales_team     : ContentStrategist, Copywriter, HashtagSpecialist, LeadQualifier
     From command_center    : MarketAnalyst, CampaignPlanner, DealSourcer, BriefingOfficer
     From ai_marketing_suite: VisualDirector, EmailMarketingWriter, PRWriter, AdCopyWriter
+    From council           : CouncilSession (4 experts + Chairman, 3-stage deliberation)
 
     Entry points
     ────────────
@@ -25,6 +27,7 @@ class AgencyCommandCenter:
     write_email_sequence(context, steps)   Prospect nurture email sequence
     write_press_release(context)           Press release
     write_ads(description, platform)       Meta & Google ad copy
+    convene_council(question)              Multi-expert deliberation + synthesis
     """
 
     def __init__(self) -> None:
@@ -38,6 +41,8 @@ class AgencyCommandCenter:
         self._campaign_planner = CampaignPlanner(client)
         self._deal_sourcer = DealSourcer(client)
         self._briefing_officer = BriefingOfficer(client)
+        # Council
+        self._council = CouncilSession()
 
     # ── Delegation to AI Sales Team ───────────────────────────────────────
 
@@ -88,3 +93,9 @@ class AgencyCommandCenter:
     def write_ads(self, property_description: str, platform: str = "both") -> str:
         """Create paid advertising copy for Meta and/or Google Ads."""
         return self._marketing_suite.write_ads(property_description, platform=platform)
+
+    # ── Council deliberation ───────────────────────────────────────────────
+
+    def convene_council(self, question: str) -> dict:
+        """Run a 3-stage multi-expert council deliberation on any strategic question."""
+        return self._council.deliberate(question)

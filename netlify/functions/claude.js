@@ -29,7 +29,7 @@ exports.handler = async (event) => {
         'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify({ ...body, model: 'claude-3-haiku-20240307' })
+      body: JSON.stringify({ ...body, model: 'claude-haiku-4-5-20251001' })
     });
     const data = await res.json();
     return { statusCode: res.status, headers, body: JSON.stringify(data) };

@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- Page de posts réseaux sociaux – Douglas Elliman Megève -->
+<!-- Auteur : Ruflo | Usage interne -->
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
@@ -6,6 +8,7 @@
   <title>Douglas Elliman · Megève</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
+    /* Palette de couleurs – thème sombre luxe avec accent or */
     :root{--gold:#c9a84c;--gold-dim:#c9a84c33;--bg:#080806;--bg2:#0f0e09;--bg3:#141208;--text:#e8e0d0;--text-dim:#8a7a60;--text-mid:#c8bfa8}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
@@ -42,6 +45,7 @@
     .tip{padding:14px;background:var(--bg3);border-left:2px solid var(--gold-dim)}
     .tip-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
     .tip-text{font-size:12px;color:var(--text-dim);line-height:1.7;font-weight:300}
+    /* Masque les cartes lors du filtrage par plateforme */
     .post-card.hidden{display:none}
   </style>
 </head>
@@ -52,12 +56,15 @@
   <p class="subtitle">Prêts à publier · Instagram & LinkedIn</p>
   <div class="gold-line"></div>
 </header>
+<!-- Barre de filtres : affiche tous les posts ou filtre par plateforme -->
 <div class="filters">
   <button class="filter-btn active" onclick="filterPosts('all',this)">Tous les posts</button>
   <button class="filter-btn" onclick="filterPosts('instagram',this)">📸 Instagram</button>
   <button class="filter-btn" onclick="filterPosts('linkedin',this)">💼 LinkedIn</button>
 </div>
+<!-- Liste des posts – chaque carte contient un post prêt à copier -->
 <div class="posts">
+  <!-- Post Instagram : appel aux propriétaires -->
   <div class="post-card" data-platform="instagram">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">🏔️</span><div><div class="post-title">Appel aux propriétaires</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Acquisition</span></div></div></div>
@@ -78,6 +85,7 @@ Discret, rapide, au juste prix.
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post Instagram : storytelling émotionnel montagne -->
   <div class="post-card" data-platform="instagram">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">❄️</span><div><div class="post-title">Storytelling montagne</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Émotionnel</span></div></div></div>
@@ -100,6 +108,7 @@ Votre bien mérite les bons acheteurs. Nous les connaissons.
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post Instagram : urgence marché, demande internationale -->
   <div class="post-card" data-platform="instagram">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">🔑</span><div><div class="post-title">Urgence marché</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Marché</span></div></div></div>
@@ -120,6 +129,7 @@ Estimation gratuite & confidentielle avec notre équipe Douglas Elliman.
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post Instagram : timing saisonnier, vendre avant la saison -->
   <div class="post-card" data-platform="instagram">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">🌨️</span><div><div class="post-title">Saison & timing</div><div class="post-tags"><span class="tag tag-platform">📸 Instagram</span><span class="tag">· Saisonnalité</span></div></div></div>
@@ -142,6 +152,7 @@ Estimation confidentielle en 48h.
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post LinkedIn : analyse du marché immobilier Megève 2025 -->
   <div class="post-card" data-platform="linkedin">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">📊</span><div><div class="post-title">Analyse marché Megève</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Expertise</span></div></div></div>
@@ -165,6 +176,7 @@ Vous envisagez une cession ? Parlons-en en privé.
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post LinkedIn : appel réseau et biens off-market -->
   <div class="post-card" data-platform="linkedin">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">🤝</span><div><div class="post-title">Appel réseau & off-market</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Réseau</span></div></div></div>
@@ -190,6 +202,7 @@ Douglas Elliman | Megève & Alpes françaises
       <button class="copy-btn" onclick="copyPost(this)">Copier ce post</button>
     </div>
   </div>
+  <!-- Post LinkedIn : différenciation par le réseau international -->
   <div class="post-card" data-platform="linkedin">
     <div class="post-header" onclick="togglePost(this)">
       <div class="post-meta"><span class="post-emoji">🌍</span><div><div class="post-title">Clientèle internationale</div><div class="post-tags"><span class="tag tag-platform">💼 LinkedIn</span><span class="tag">· Différenciation</span></div></div></div>
@@ -226,7 +239,10 @@ Parlons-en.
   </div>
 </div>
 <script>
+  /* Ouvre ou ferme le corps d'un post au clic sur son en-tête */
   function togglePost(h){h.closest('.post-card').classList.toggle('open')}
+
+  /* Filtre les cartes selon la plateforme sélectionnée (all / instagram / linkedin) */
   function filterPosts(p,btn){
     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
@@ -235,6 +251,8 @@ Parlons-en.
       else{c.classList.add('hidden');c.classList.remove('open')}
     })
   }
+
+  /* Copie le texte du post dans le presse-papier et affiche un retour visuel */
   function copyPost(btn){
     navigator.clipboard.writeText(btn.previousElementSibling.textContent).then(()=>{
       btn.textContent='✓ Copié !';btn.classList.add('copied');

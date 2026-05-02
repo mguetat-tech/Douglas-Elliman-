@@ -87,9 +87,9 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
 
 <!-- En-tête -->
 <header>
-  <div class="eyebrow">Douglas Elliman · Megève · Intelligence Artificielle</div>
+  <div class="eyebrow">Douglas Elliman · France · Intelligence Artificielle</div>
   <h1>Assistant Douglas Elliman</h1>
-  <p class="subtitle">Propulsé par Claude · Usage interne · Confidentiel</p>
+  <p class="subtitle">Megève · Paris · Cannes · Saint-Tropez · Usage interne</p>
   <div class="gold-line"></div>
 </header>
 
@@ -123,6 +123,15 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
   <!-- Panneau 1 : Générateur de posts IA -->
   <div class="panel active" id="panel-posts">
     <div class="field">
+      <label>Marché</label>
+      <select id="post-market">
+        <option>Megève & Alpes françaises</option>
+        <option>Paris – Immobilier de prestige</option>
+        <option>Cannes & Côte d'Azur</option>
+        <option>Saint-Tropez & Golfe de Saint-Tropez</option>
+      </select>
+    </div>
+    <div class="field">
       <label>Plateforme</label>
       <select id="post-platform">
         <option>Instagram</option>
@@ -133,11 +142,13 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
       <label>Type de bien</label>
       <select id="post-type">
         <option>Chalet de luxe</option>
-        <option>Appartement ski-in / ski-out</option>
-        <option>Chalet hôtel</option>
+        <option>Appartement de prestige</option>
+        <option>Villa avec piscine</option>
+        <option>Penthouse</option>
+        <option>Hôtel particulier</option>
         <option>Bien off-market</option>
         <option>Terrain premium</option>
-        <option>Propriété avec spa et piscine</option>
+        <option>Propriété avec vue mer</option>
       </select>
     </div>
     <div class="field">
@@ -175,11 +186,22 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
   <!-- Panneau 2 : Analyse d'estimation IA -->
   <div class="panel" id="panel-estimation">
     <div class="field">
+      <label>Marché</label>
+      <select id="est-market">
+        <option>Megève</option>
+        <option>Paris</option>
+        <option>Cannes</option>
+        <option>Saint-Tropez</option>
+      </select>
+    </div>
+    <div class="field">
       <label>Type de bien</label>
       <select id="est-type">
         <option>Chalet</option>
         <option>Appartement</option>
-        <option>Chalet hôtel</option>
+        <option>Villa</option>
+        <option>Penthouse</option>
+        <option>Hôtel particulier</option>
         <option>Terrain</option>
       </select>
     </div>
@@ -194,14 +216,8 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
       </div>
     </div>
     <div class="field">
-      <label>Localisation</label>
-      <select id="est-loc">
-        <option>Mont d'Arbois</option>
-        <option>Rochebrune</option>
-        <option>Centre village</option>
-        <option>Jaillet</option>
-        <option>Périphérie</option>
-      </select>
+      <label>Localisation précise</label>
+      <input type="text" id="est-loc" placeholder="ex : Croisette, Triangle d'or, Mont d'Arbois..."/>
     </div>
     <div class="field">
       <label>Motivation du vendeur</label>
@@ -227,13 +243,18 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6
   <!-- Panneau 3 : Assistant chat immobilier -->
   <div class="panel" id="panel-chat">
     <div class="chat-box" id="chatBox">
-      <div class="msg ai">Bonjour ! Je suis votre assistant immobilier Douglas Elliman Megève, propulsé par Claude.
+      <div class="msg ai">Bonjour ! Je suis votre assistant immobilier Douglas Elliman France, propulsé par Claude.
+
+Je couvre les marchés suivants :
+🏔 Megève & Alpes françaises
+🗼 Paris – Immobilier de prestige
+🌊 Cannes & Côte d'Azur
+⛵ Saint-Tropez & Golfe de Saint-Tropez
 
 Je peux vous aider sur :
-• Le marché immobilier de luxe à Megève
+• Les prix au m² et tendances de chaque marché
 • Les stratégies de prise de mandat et de vente
 • Les profils d'acheteurs internationaux
-• Les prix, tendances et analyses de marché
 • La valorisation des biens d'exception
 • Les arguments face aux objections propriétaires
 
@@ -340,18 +361,21 @@ async function generatePost() {
   const btn = document.getElementById('btn-post');
   btn.disabled = true;
   btn.textContent = 'Génération en cours…';
+  const market   = document.getElementById('post-market').value;
   const platform = document.getElementById('post-platform').value;
   const type     = document.getElementById('post-type').value;
   const goal     = document.getElementById('post-goal').value;
   const tone     = document.getElementById('post-tone').value;
   const details  = document.getElementById('post-details').value;
-  const system = `Tu es un expert en marketing immobilier de luxe pour Douglas Elliman à Megève, dans les Alpes françaises.
-Tu rédiges des posts ${platform} pour un agent immobilier de prestige.
+  const system = `Tu es un expert en marketing immobilier de luxe pour Douglas Elliman, présent sur les marchés suivants : Megève & Alpes françaises, Paris, Cannes & Côte d'Azur, Saint-Tropez.
+Tu rédiges des posts ${platform} pour un agent immobilier de prestige sur le marché : ${market}.
 Ton style est ${tone.toLowerCase()}, sans excès d'émojis, avec un français irréprochable.
+Adapte le ton, les références et les hashtags au marché concerné.
 Retourne uniquement le texte du post, prêt à publier, sans introduction ni explication.`;
-  const prompt = `Rédige un post ${platform} avec l'objectif suivant : ${goal}.
+  const prompt = `Marché : ${market}.
+Rédige un post ${platform} avec l'objectif : ${goal}.
 Type de bien : ${type}. Ton : ${tone}.${details ? '\nDétails : ' + details : ''}
-Termine par des hashtags pertinents.`;
+Termine par des hashtags pertinents au marché.`;
   const result = await callClaude(system, [{role:'user', content:prompt}]).finally(() => {
     btn.disabled = false;
     btn.textContent = 'Générer le post avec IA';
@@ -368,23 +392,24 @@ async function analyzeEstimation() {
   const btn = document.getElementById('btn-est');
   btn.disabled = true;
   btn.textContent = 'Analyse en cours…';
+  const market  = document.getElementById('est-market').value;
   const type    = document.getElementById('est-type').value;
   const surface = document.getElementById('est-surface').value;
   const price   = document.getElementById('est-price').value;
   const loc     = document.getElementById('est-loc').value;
   const motiv   = document.getElementById('est-motiv').value;
   const notes   = document.getElementById('est-notes').value;
-  const system = `Tu es un expert en immobilier de luxe à Megève avec 15 ans d'expérience chez Douglas Elliman.
-Tu analyses les estimations et fournis des recommandations stratégiques précises et actionnables pour l'agent.
-Tu connais parfaitement les prix au m², les tendances du marché alpin, et les profils d'acheteurs internationaux (Paris, Londres, New York, Genève).
+  const system = `Tu es un expert en immobilier de luxe chez Douglas Elliman France, avec 15 ans d'expérience sur les marchés de Megève, Paris, Cannes et Saint-Tropez.
+Tu analyses les estimations et fournis des recommandations stratégiques précises et actionnables.
+Tu connais parfaitement les prix au m², les tendances de chaque marché, et les profils d'acheteurs internationaux (Paris, Londres, New York, Genève, Moyen-Orient).
 Réponds en français, de manière professionnelle, structurée et directement utile sur le terrain.`;
-  const prompt = `Analyse cette estimation :
+  const prompt = `Analyse cette estimation sur le marché de ${market} :
 - Type : ${type} | Surface : ${surface || 'nc'} m² | Prix : ${price ? Number(price).toLocaleString('fr-FR') + ' €' : 'nc'}
-- Localisation : ${loc} | Motivation vendeur : ${motiv}
+- Localisation : ${loc || 'nc'} | Motivation vendeur : ${motiv}
 - Points forts : ${notes || 'non renseignés'}
 
 Fournis :
-1. Positionnement prix (cohérence avec le marché)
+1. Positionnement prix (cohérence avec le marché ${market})
 2. Arguments de vente pour acheteurs internationaux
 3. Stratégie recommandée selon la motivation vendeur
 4. Profil type de l'acheteur potentiel
@@ -411,12 +436,12 @@ async function sendChat() {
   const btn = document.getElementById('btn-chat');
   btn.disabled = true;
   const loader = addMsg('En train de répondre…', 'ai loading');
-  const system = `Tu es l'assistant immobilier expert de Douglas Elliman Megève, propulsé par Douglas Elliman.
+  const system = `Tu es l'assistant immobilier expert de Douglas Elliman France, couvrant les marchés de Megève, Paris, Cannes et Saint-Tropez.
 Tu aides les agents avec des conseils professionnels et concrets sur :
-- Le marché immobilier de luxe à Megève et dans les Alpes françaises
+- Le marché immobilier de luxe à Megève (Alpes), Paris (Triangle d'or, Marais, 16e...), Cannes (Croisette, Super Cannes...) et Saint-Tropez (Les Parcs, Ramatuelle, Pampelonne...)
+- Les prix au m² et tendances de chaque marché en 2025/2026
 - Les stratégies de prise de mandat, de vente et de négociation
-- Les profils et attentes des acheteurs internationaux
-- Les prix, tendances et analyses de marché
+- Les profils d'acheteurs internationaux (Paris, Londres, New York, Genève, Moyen-Orient, Asie)
 - La valorisation et le positionnement des biens d'exception
 - Les réponses aux objections courantes des propriétaires
 Tu réponds en français, de manière professionnelle, précise et directement applicable sur le terrain.`;

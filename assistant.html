@@ -282,35 +282,45 @@ function switchTab(tab, btn) {
   document.getElementById('panel-' + tab).classList.add('active');
 }
 
-/* Appel à l'API Claude depuis le navigateur */
+/* Appel à l'API Claude depuis le navigateur avec timeout de 20 secondes */
 async function callClaude(system, messages) {
   const key = localStorage.getItem('anthropic_key');
   if (!key) {
-    alert('Veuillez d\'abord enregistrer votre clé API Anthropic en haut de la page.');
+    showError('Veuillez enregistrer votre clé API Anthropic en haut de la page.');
     return null;
   }
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-allow-browser': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      system: system,
-      messages: messages
-    })
-  });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    showError('Erreur : ' + (err.error?.message || 'Code ' + res.status));
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-allow-browser': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-haiku-20241022',
+        max_tokens: 1024,
+        system: system,
+        messages: messages
+      })
+    });
+    clearTimeout(timer);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showError('Erreur API : ' + (err.error?.message || 'Code ' + res.status));
+      return null;
+    }
+    const data = await res.json();
+    return data.content[0].text;
+  } catch(e) {
+    clearTimeout(timer);
+    showError(e.name === 'AbortError' ? 'Délai dépassé — vérifiez votre connexion et réessayez.' : 'Erreur réseau : ' + e.message);
     return null;
   }
-  const data = await res.json();
-  return data.content[0].text;
 }
 
 /* Affiche un message d'erreur visible sur la page */
@@ -344,9 +354,10 @@ Retourne uniquement le texte du post, prêt à publier, sans introduction ni exp
   const prompt = `Rédige un post ${platform} avec l'objectif suivant : ${goal}.
 Type de bien : ${type}. Ton : ${tone}.${details ? '\nDétails : ' + details : ''}
 Termine par des hashtags pertinents.`;
-  const result = await callClaude(system, [{role:'user', content:prompt}]);
-  btn.disabled = false;
-  btn.textContent = 'Générer le post avec IA';
+  const result = await callClaude(system, [{role:'user', content:prompt}]).finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Générer le post avec IA';
+  });
   if (result) {
     document.getElementById('text-post').textContent = result;
     document.getElementById('result-post').classList.add('show');
@@ -380,9 +391,10 @@ Fournis :
 3. Stratégie recommandée selon la motivation vendeur
 4. Profil type de l'acheteur potentiel
 5. Points de vigilance ou risques`;
-  const result = await callClaude(system, [{role:'user', content:prompt}]);
-  btn.disabled = false;
-  btn.textContent = 'Analyser avec IA';
+  const result = await callClaude(system, [{role:'user', content:prompt}]).finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Analyser avec IA';
+  });
   if (result) {
     document.getElementById('text-est').textContent = result;
     document.getElementById('result-est').classList.add('show');
@@ -410,9 +422,10 @@ Tu aides les agents avec des conseils professionnels et concrets sur :
 - La valorisation et le positionnement des biens d'exception
 - Les réponses aux objections courantes des propriétaires
 Tu réponds en français, de manière professionnelle, précise et directement applicable sur le terrain.`;
-  const result = await callClaude(system, chatHistory);
-  loader.remove();
-  btn.disabled = false;
+  const result = await callClaude(system, chatHistory).finally(() => {
+    loader.remove();
+    btn.disabled = false;
+  });
   if (result) {
     chatHistory.push({role:'assistant', content:result});
     addMsg(result, 'ai');

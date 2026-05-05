@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Douglas Elliman · Estimation Megève</title>
+<title>Douglas Elliman · Estimation immobilière</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 /* Palette de couleurs – thème clair avec accent or pour usage interne */
@@ -87,7 +87,7 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 <text x="50" y="57" font-family="Georgia,serif" font-size="22" fill="white" text-anchor="middle">DE</text>
 </svg>
 <div class="eyebrow">Douglas Elliman · Megève</div>
-<h1>Outil d'Estimation</h1>
+<h1>Outil d'estimation</h1>
 <p class="sub">Usage interne · Confidentiel</p>
 </header>
 <!-- Barre de progression : 4 étapes (informations, prestations, marché, récapitulatif) -->
@@ -198,7 +198,7 @@ input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
 <circle cx="50" cy="50" r="28" stroke="white" stroke-width="1.5"/>
 <text x="50" y="57" font-family="Georgia,serif" font-size="22" fill="white" text-anchor="middle">DE</text>
 </svg>
-<div class="rl">Estimation Douglas Elliman · Megève</div>
+<div class="rl" id="res-label">Estimation Douglas Elliman</div>
 <div class="rp" id="rp">—</div>
 <div class="rr" id="rr"></div>
 </div>
@@ -264,7 +264,8 @@ function fmt(n){if(n>=1000000)return(n/1000000).toFixed(n%1000000===0?0:2).repla
 
 /* Calcule l'estimation : prix de base × coefficients × bonus prestations × motivation
    La fourchette est arrondie à 50 000 € près (–8 % / +10 % autour de la valeur centrale) */
-function calc(){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||100;D.rooms=parseInt(document.getElementById("rooms").value)||3;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value)||4;let p=(PB[D.loc]||14000)*D.surface;p*=(CT[D.type]||1);p*=(CE[D.etat]||1);p*=(CV[D.vue]||1);p*=CF[D.fin-1];let b=0;D.prestations.forEach(x=>{b+=BP[x]||0;});p*=(1+b);if(D.motiv==="Vente rapide")p*=0.93;if(D.motiv==="Pas pressé")p*=1.05;const lo=Math.round(p*0.92/50000)*50000;const hi=Math.round(p*1.10/50000)*50000;const mid=Math.round(p/50000)*50000;const m2=Math.round(mid/D.surface);document.getElementById("rp").textContent=fmt(mid);document.getElementById("rr").textContent="Fourchette : "+fmt(lo)+" — "+fmt(hi);document.getElementById("rg").innerHTML=[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",D.surface+" m²"],["Prix au m²",fmt(m2)],["Localisation",D.loc||"—"],["Prestations",D.prestations.length+" équipements"]].map(([l,v])=>'<div class="ri"><div class="ril">'+l+'</div><div class="riv">'+v+"</div></div>").join("");const scores=[["Localisation",Math.round(((PB[D.loc]||14000)/22000)*100)],["État du bien",Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],["Vue",Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],["Prestations",Math.min(Math.round(b/0.67*100),100)],["Finitions",Math.round((CF[D.fin-1]-0.80)/0.45*100)]];document.getElementById("bars").innerHTML=scores.map(([l,v])=>'<div class="sr"><div class="sn">'+l+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(5,v)+'%"></div></div><div class="sp">'+v+"%</div></div>").join("");if(D.notes){document.getElementById("nw").style.display="block";document.getElementById("nd").textContent=D.notes;}document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("res").classList.add("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.add("on");window.scrollTo({top:0,behavior:"smooth"});}
+function calc(){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||100;D.rooms=parseInt(document.getElementById("rooms").value)||3;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value)||4;let p=getPB()*D.surface;p*=(CT[D.type]||1);p*=(CE[D.etat]||1);p*=(CV[D.vue]||1);p*=CF[D.fin-1];let b=0;D.prestations.forEach(x=>{b+=BP[x]||0;});p*=(1+b);if(D.motiv==="Vente rapide")p*=0.93;if(D.motiv==="Pas pressé")p*=1.05;const lo=Math.round(p*0.92/50000)*50000;const hi=Math.round(p*1.10/50000)*50000;const mid=Math.round(p/50000)*50000;const m2=Math.round(mid/D.surface);document.getElementById("rp").textContent=fmt(mid);document.getElementById("rr").textContent="Fourchette : "+fmt(lo)+" — "+fmt(hi);document.getElementById("rg").innerHTML=[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",D.surface+" m²"],["Prix au m²",fmt(m2)],["Localisation",D.loc||"—"],["Prestations",D.prestations.length+" équipements"]].map(([l,v])=>'<div class="ri"><div class="ril">'+l+'</div><div class="riv">'+v+"</div></div>").join("");const maxP=Math.max(...Object.values(MARKETS[D.market]?.locs||{1:1}));
+const scores=[["Localisation",Math.round((getPB()/maxP)*100)],["État du bien",Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],["Vue",Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],["Prestations",Math.min(Math.round(b/0.67*100),100)],["Finitions",Math.round((CF[D.fin-1]-0.80)/0.45*100)]];document.getElementById("bars").innerHTML=scores.map(([l,v])=>'<div class="sr"><div class="sn">'+l+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(5,v)+'%"></div></div><div class="sp">'+v+"%</div></div>").join("");if(D.notes){document.getElementById("nw").style.display="block";document.getElementById("nd").textContent=D.notes;}document.getElementById("res-label").textContent="Estimation Douglas Elliman · "+(MARKETS[D.market]?.label||"");document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("res").classList.add("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.add("on");window.scrollTo({top:0,behavior:"smooth"});}
 
 /* Réinitialise entièrement le formulaire et retourne à l'étape 1 */
 function reset(){Object.keys(D).forEach(k=>{if(k==="prestations")D[k]=[];else delete D[k];});document.getElementById("owner").value="";document.getElementById("surface").value="";document.getElementById("rooms").value="";document.getElementById("notes").value="";document.getElementById("fin").value=4;document.getElementById("fv").textContent="Haut de gamme";document.querySelectorAll(".tb").forEach(b=>b.classList.remove("on"));document.querySelectorAll(".ci").forEach(c=>{c.classList.remove("on");c.querySelector(".ck").textContent="";});document.getElementById("res").classList.remove("show");document.getElementById("nw").style.display="none";go(1);}

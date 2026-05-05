@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<!-- Assistant IA Douglas Elliman – Megève, Paris, Cannes, Saint-Tropez -->
+<!-- Auteur : Douglas Elliman | Usage interne uniquement -->
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Douglas Elliman · Assistant IA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* Palette de couleurs – thème sombre luxe avec accent or */
+:root{--gold:#c9a84c;--gold-dim:#c9a84c33;--bg:#080806;--bg2:#0f0e09;--bg3:#141208;--text:#e8e0d0;--text-dim:#8a7a60;--text-mid:#c8bfa8;--border:#c9a84c22}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
+
+/* En-tête */
+header{text-align:center;padding:52px 24px 40px;border-bottom:1px solid var(--gold-dim);background:linear-gradient(180deg,#12100a 0%,var(--bg) 100%)}
+.eyebrow{font-size:9px;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6vw,48px);color:#f0e8d0;letter-spacing:2px;margin-bottom:10px}
+.subtitle{font-size:11px;letter-spacing:2px;color:var(--text-dim)}
+.gold-line{width:40px;height:1px;background:var(--gold);margin:20px auto 0}
+
+/* Liens de navigation */
+.nav-links{text-align:center;padding:20px 16px 0;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
+.nav-link{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s}
+.nav-link:hover{color:var(--gold)}
+
+/* Configuration clé API */
+.api-setup{max-width:660px;margin:28px auto 0;padding:0 16px}
+.api-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;padding:20px}
+.api-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.api-row{display:flex;gap:8px}
+.api-input{flex:1;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Montserrat',sans-serif;font-size:13px}
+.api-input:focus{outline:none;border-color:var(--gold)}
+.api-btn{padding:10px 18px;background:var(--gold);color:var(--bg);border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;font-weight:500}
+.api-status{font-size:10px;color:var(--text-dim);margin-top:8px;letter-spacing:1px}
+.api-status.ok{color:#6dbe3a}
+.api-status.err{color:#e05050}
+
+/* Onglets */
+.tabs{display:flex;justify-content:center;gap:8px;padding:28px 16px 0;flex-wrap:wrap}
+.tab{background:transparent;color:var(--gold);border:1px solid #c9a84c44;padding:10px 22px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;font-family:'Montserrat',sans-serif;border-radius:1px}
+.tab:hover,.tab.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+
+/* Contenu */
+.wrap{max-width:660px;margin:0 auto;padding:24px 16px 60px}
+.panel{display:none}
+.panel.active{display:block}
+
+/* Champs formulaire */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;font-weight:500}
+.field input,.field select,.field textarea{width:100%;padding:11px 15px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Montserrat',sans-serif;font-size:13px;transition:border-color .2s;appearance:none}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--gold)}
+.field textarea{resize:vertical;min-height:80px}
+.field select option{background:var(--bg3);color:var(--text)}
+
+/* Bouton principal */
+.btn-gold{width:100%;padding:14px;background:var(--gold);color:var(--bg);border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:opacity .2s;margin-top:4px}
+.btn-gold:disabled{opacity:.45;cursor:not-allowed}
+
+/* Bloc résultat */
+.result-box{margin-top:20px;display:none}
+.result-box.show{display:block;animation:fadeup .4s ease}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.result-text{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:18px;font-size:13px;line-height:1.9;color:var(--text-mid);white-space:pre-wrap;max-height:380px;overflow-y:auto}
+.copy-btn{width:100%;margin-top:10px;padding:12px;background:transparent;border:1px solid var(--gold);color:var(--gold);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .25s}
+.copy-btn:hover{background:var(--gold);color:var(--bg)}
+.copy-btn.copied{background:#1e3a12;border-color:#6dbe3a;color:#6dbe3a}
+
+/* Interface chat */
+.chat-box{background:var(--bg2);border:1px solid var(--border);border-radius:2px;height:360px;overflow-y:auto;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:86%;padding:12px 16px;border-radius:2px;font-size:13px;line-height:1.8;white-space:pre-wrap}
+.msg.user{background:var(--gold);color:var(--bg);align-self:flex-end;font-weight:500}
+.msg.ai{background:var(--bg3);color:var(--text-mid);align-self:flex-start;border-left:2px solid var(--gold-dim)}
+.msg.loading{color:var(--text-dim);font-style:italic}
+.chat-input-row{display:flex;gap:8px}
+.chat-input{flex:1;padding:12px 15px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Montserrat',sans-serif;font-size:13px}
+.chat-input:focus{outline:none;border-color:var(--gold)}
+.chat-send{padding:12px 20px;background:var(--gold);color:var(--bg);border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;white-space:nowrap;font-weight:500}
+.chat-send:disabled{opacity:.45;cursor:not-allowed}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+</style>
+</head>
+<body>
+
+<!-- En-tête -->
+<header>
+  <div class="eyebrow">Douglas Elliman · France · Intelligence Artificielle</div>
+  <h1>Assistant Douglas Elliman</h1>
+  <p class="subtitle">Megève · Paris · Cannes · Saint-Tropez · Usage interne</p>
+  <div class="gold-line"></div>
+</header>
+
+<!-- Navigation -->
+<div class="nav-links">
+  <a class="nav-link" href="index.html">← Posts réseaux sociaux</a>
+  <a class="nav-link" href="estimation.html">Outil d'estimation →</a>
+</div>
+
+<!-- Clé API Anthropic -->
+<div class="api-setup">
+  <div class="api-box">
+    <div class="api-label">Clé API Anthropic (Claude)</div>
+    <div class="api-row">
+      <input class="api-input" type="password" id="apiKey" placeholder="sk-ant-api03-..."/>
+      <button class="api-btn" onclick="saveKey()">Enregistrer</button>
+    </div>
+    <div class="api-status" id="apiStatus">Entrez votre clé API pour activer l'assistant IA</div>
+  </div>
+</div>
+
+<!-- Onglets des 3 fonctionnalités -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('posts',this)">✍️ Générer posts</button>
+  <button class="tab" onclick="switchTab('estimation',this)">📊 Analyser estimation</button>
+  <button class="tab" onclick="switchTab('chat',this)">💬 Assistant</button>
+</div>
+
+<div class="wrap">
+
+  <!-- Panneau 1 : Générateur de posts IA -->
+  <div class="panel active" id="panel-posts">
+    <div class="field">
+      <label>Marché</label>
+      <select id="post-market">
+        <option>Megève & Alpes françaises</option>
+        <option>Paris – Immobilier de prestige</option>
+        <option>Cannes & Côte d'Azur</option>
+        <option>Saint-Tropez & Golfe de Saint-Tropez</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Plateforme</label>
+      <select id="post-platform">
+        <option>Instagram</option>
+        <option>LinkedIn</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Type de bien</label>
+      <select id="post-type">
+        <option>Chalet de luxe</option>
+        <option>Appartement de prestige</option>
+        <option>Villa avec piscine</option>
+        <option>Penthouse</option>
+        <option>Hôtel particulier</option>
+        <option>Bien off-market</option>
+        <option>Terrain premium</option>
+        <option>Propriété avec vue mer</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Objectif du post</label>
+      <select id="post-goal">
+        <option>Trouver des vendeurs</option>
+        <option>Mettre en valeur un bien</option>
+        <option>Partager une expertise marché</option>
+        <option>Développer le réseau</option>
+        <option>Annoncer une vente réalisée</option>
+        <option>Attirer des acheteurs internationaux</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Ton souhaité</label>
+      <select id="post-tone">
+        <option>Élégant et sobre</option>
+        <option>Émotionnel et inspirant</option>
+        <option>Expert et analytique</option>
+        <option>Direct et percutant</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Détails supplémentaires (optionnel)</label>
+      <textarea id="post-details" placeholder="Ex : chalet 400 m², vue Mont-Blanc, vendu en 3 semaines, acheteur londonien..."></textarea>
+    </div>
+    <button class="btn-gold" id="btn-post" onclick="generatePost()">Générer le post avec IA</button>
+    <div class="result-box" id="result-post">
+      <div class="result-label">Post généré par Claude</div>
+      <div class="result-text" id="text-post"></div>
+      <button class="copy-btn" onclick="copyResult('text-post',this)">Copier le post</button>
+    </div>
+  </div>
+
+  <!-- Panneau 2 : Analyse d'estimation IA -->
+  <div class="panel" id="panel-estimation">
+    <div class="field">
+      <label>Marché</label>
+      <select id="est-market">
+        <option>Megève</option>
+        <option>Paris</option>
+        <option>Cannes</option>
+        <option>Saint-Tropez</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Type de bien</label>
+      <select id="est-type">
+        <option>Chalet</option>
+        <option>Appartement</option>
+        <option>Villa</option>
+        <option>Penthouse</option>
+        <option>Hôtel particulier</option>
+        <option>Terrain</option>
+      </select>
+    </div>
+    <div class="two">
+      <div class="field">
+        <label>Surface (m²)</label>
+        <input type="number" id="est-surface" placeholder="ex : 280"/>
+      </div>
+      <div class="field">
+        <label>Prix estimé (€)</label>
+        <input type="number" id="est-price" placeholder="ex : 4500000"/>
+      </div>
+    </div>
+    <div class="field">
+      <label>Localisation précise</label>
+      <input type="text" id="est-loc" placeholder="ex : Croisette, Triangle d'or, Mont d'Arbois..."/>
+    </div>
+    <div class="field">
+      <label>Motivation du vendeur</label>
+      <select id="est-motiv">
+        <option>Prix optimal</option>
+        <option>Vente rapide</option>
+        <option>Pas pressé</option>
+        <option>Succession</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Points forts du bien</label>
+      <textarea id="est-notes" placeholder="Ex : ski-in/ski-out, piscine intérieure, vue Mont-Blanc, état neuf, hélipad..."></textarea>
+    </div>
+    <button class="btn-gold" id="btn-est" onclick="analyzeEstimation()">Analyser avec IA</button>
+    <div class="result-box" id="result-est">
+      <div class="result-label">Analyse stratégique par Claude</div>
+      <div class="result-text" id="text-est"></div>
+      <button class="copy-btn" onclick="copyResult('text-est',this)">Copier l'analyse</button>
+    </div>
+  </div>
+
+  <!-- Panneau 3 : Assistant chat immobilier -->
+  <div class="panel" id="panel-chat">
+    <div class="chat-box" id="chatBox">
+      <div class="msg ai">Bonjour ! Je suis votre assistant immobilier Douglas Elliman France, propulsé par Claude.
+
+Je couvre les marchés suivants :
+🏔 Megève & Alpes françaises
+🗼 Paris – Immobilier de prestige
+🌊 Cannes & Côte d'Azur
+⛵ Saint-Tropez & Golfe de Saint-Tropez
+
+Je peux vous aider sur :
+• Les prix au m² et tendances de chaque marché
+• Les stratégies de prise de mandat et de vente
+• Les profils d'acheteurs internationaux
+• La valorisation des biens d'exception
+• Les arguments face aux objections propriétaires
+
+Comment puis-je vous aider ?</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" type="text" id="chatInput" placeholder="Posez votre question..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)sendChat()"/>
+      <button class="chat-send" id="btn-chat" onclick="sendChat()">Envoyer</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* Historique du chat pour conserver le contexte de la conversation */
+const chatHistory = [];
+
+/* Charge la clé API depuis localStorage au démarrage de la page */
+function init() {
+  const key = localStorage.getItem('anthropic_key');
+  if (key) {
+    document.getElementById('apiKey').value = key;
+    document.getElementById('apiStatus').textContent = '✓ Clé API enregistrée — assistant activé';
+    document.getElementById('apiStatus').className = 'api-status ok';
+  }
+}
+
+/* Valide et enregistre la clé API dans localStorage */
+function saveKey() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (!key.startsWith('sk-ant-')) {
+    document.getElementById('apiStatus').textContent = '⚠ Format invalide — la clé doit commencer par sk-ant-';
+    document.getElementById('apiStatus').className = 'api-status err';
+    return;
+  }
+  localStorage.setItem('anthropic_key', key);
+  document.getElementById('apiStatus').textContent = '✓ Clé API enregistrée — assistant activé';
+  document.getElementById('apiStatus').className = 'api-status ok';
+}
+
+/* Bascule entre les trois onglets */
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+/* Appel à l'API Claude depuis le navigateur avec timeout de 20 secondes */
+async function callClaude(system, messages) {
+  const key = localStorage.getItem('anthropic_key');
+  if (!key) {
+    showError('Veuillez enregistrer votre clé API Anthropic en haut de la page.');
+    return null;
+  }
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20000);
+  try {
+    const res = await fetch('/api/claude', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': key
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: system,
+        messages: messages
+      })
+    });
+    clearTimeout(timer);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showError('Erreur API : ' + (err.error?.message || 'Code ' + res.status));
+      return null;
+    }
+    const data = await res.json();
+    return data.content[0].text;
+  } catch(e) {
+    clearTimeout(timer);
+    showError(e.name === 'AbortError' ? 'Délai dépassé — vérifiez votre connexion et réessayez.' : 'Erreur réseau : ' + e.message);
+    return null;
+  }
+}
+
+/* Affiche un message d'erreur visible sur la page */
+function showError(msg) {
+  let el = document.getElementById('global-error');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'global-error';
+    el.style.cssText = 'background:#3a1010;border:1px solid #e05050;color:#e05050;padding:12px 16px;border-radius:2px;font-size:12px;letter-spacing:1px;margin-bottom:16px';
+    document.querySelector('.wrap').prepend(el);
+  }
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => { el.style.display = 'none'; }, 6000);
+}
+
+/* Génère un post Instagram ou LinkedIn sur mesure avec Claude */
+async function generatePost() {
+  const btn = document.getElementById('btn-post');
+  btn.disabled = true;
+  btn.textContent = 'Génération en cours…';
+  const market   = document.getElementById('post-market').value;
+  const platform = document.getElementById('post-platform').value;
+  const type     = document.getElementById('post-type').value;
+  const goal     = document.getElementById('post-goal').value;
+  const tone     = document.getElementById('post-tone').value;
+  const details  = document.getElementById('post-details').value;
+  const system = `Tu es un expert en marketing immobilier de luxe pour Douglas Elliman, présent sur les marchés suivants : Megève & Alpes françaises, Paris, Cannes & Côte d'Azur, Saint-Tropez.
+Tu rédiges des posts ${platform} pour un agent immobilier de prestige sur le marché : ${market}.
+Ton style est ${tone.toLowerCase()}, sans excès d'émojis, avec un français irréprochable.
+Adapte le ton, les références et les hashtags au marché concerné.
+Retourne uniquement le texte du post, prêt à publier, sans introduction ni explication.`;
+  const prompt = `Marché : ${market}.
+Rédige un post ${platform} avec l'objectif : ${goal}.
+Type de bien : ${type}. Ton : ${tone}.${details ? '\nDétails : ' + details : ''}
+Termine par des hashtags pertinents au marché.`;
+  const result = await callClaude(system, [{role:'user', content:prompt}]).finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Générer le post avec IA';
+  });
+  if (result) {
+    document.getElementById('text-post').textContent = result;
+    document.getElementById('result-post').classList.add('show');
+    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  }
+}
+
+/* Analyse stratégique d'une estimation avec Claude */
+async function analyzeEstimation() {
+  const btn = document.getElementById('btn-est');
+  btn.disabled = true;
+  btn.textContent = 'Analyse en cours…';
+  const market  = document.getElementById('est-market').value;
+  const type    = document.getElementById('est-type').value;
+  const surface = document.getElementById('est-surface').value;
+  const price   = document.getElementById('est-price').value;
+  const loc     = document.getElementById('est-loc').value;
+  const motiv   = document.getElementById('est-motiv').value;
+  const notes   = document.getElementById('est-notes').value;
+  const system = `Tu es un expert en immobilier de luxe chez Douglas Elliman France, avec 15 ans d'expérience sur les marchés de Megève, Paris, Cannes et Saint-Tropez.
+Tu analyses les estimations et fournis des recommandations stratégiques précises et actionnables.
+Tu connais parfaitement les prix au m², les tendances de chaque marché, et les profils d'acheteurs internationaux (Paris, Londres, New York, Genève, Moyen-Orient).
+Réponds en français, de manière professionnelle, structurée et directement utile sur le terrain.`;
+  const prompt = `Analyse cette estimation sur le marché de ${market} :
+- Type : ${type} | Surface : ${surface || 'nc'} m² | Prix : ${price ? Number(price).toLocaleString('fr-FR') + ' €' : 'nc'}
+- Localisation : ${loc || 'nc'} | Motivation vendeur : ${motiv}
+- Points forts : ${notes || 'non renseignés'}
+
+Fournis :
+1. Positionnement prix (cohérence avec le marché ${market})
+2. Arguments de vente pour acheteurs internationaux
+3. Stratégie recommandée selon la motivation vendeur
+4. Profil type de l'acheteur potentiel
+5. Points de vigilance ou risques`;
+  const result = await callClaude(system, [{role:'user', content:prompt}]).finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Analyser avec IA';
+  });
+  if (result) {
+    document.getElementById('text-est').textContent = result;
+    document.getElementById('result-est').classList.add('show');
+    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+  }
+}
+
+/* Envoie un message dans le chat et obtient la réponse de Claude */
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  addMsg(msg, 'user');
+  chatHistory.push({role:'user', content:msg});
+  const btn = document.getElementById('btn-chat');
+  btn.disabled = true;
+  const loader = addMsg('En train de répondre…', 'ai loading');
+  const system = `Tu es l'assistant immobilier expert de Douglas Elliman France, couvrant les marchés de Megève, Paris, Cannes et Saint-Tropez.
+Tu aides les agents avec des conseils professionnels et concrets sur :
+- Le marché immobilier de luxe à Megève (Alpes), Paris (Triangle d'or, Marais, 16e...), Cannes (Croisette, Super Cannes...) et Saint-Tropez (Les Parcs, Ramatuelle, Pampelonne...)
+- Les prix au m² et tendances de chaque marché en 2025/2026
+- Les stratégies de prise de mandat, de vente et de négociation
+- Les profils d'acheteurs internationaux (Paris, Londres, New York, Genève, Moyen-Orient, Asie)
+- La valorisation et le positionnement des biens d'exception
+- Les réponses aux objections courantes des propriétaires
+Tu réponds en français, de manière professionnelle, précise et directement applicable sur le terrain.`;
+  const result = await callClaude(system, chatHistory).finally(() => {
+    loader.remove();
+    btn.disabled = false;
+  });
+  if (result) {
+    chatHistory.push({role:'assistant', content:result});
+    addMsg(result, 'ai');
+  }
+}
+
+/* Ajoute un message dans la boîte de chat et retourne l'élément créé */
+function addMsg(text, cls) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + cls;
+  div.textContent = text;
+  const box = document.getElementById('chatBox');
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+/* Copie le contenu d'un résultat dans le presse-papier */
+function copyResult(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(() => {
+    btn.textContent = '✓ Copié !';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copier'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+init();
+</script>
+</body>
+</html>

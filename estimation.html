@@ -1,235 +1,381 @@
 <!DOCTYPE html>
 <!-- Outil d'estimation immobilière – Douglas Elliman Megève -->
-<!-- Auteur : Usage interne uniquement -->
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Douglas Elliman · Estimation Megève</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500&family=Josefin+Sans:wght@100;300;400;600&display=swap" rel="stylesheet"/>
 <style>
-/* Palette de couleurs – thème clair avec accent or pour usage interne */
-:root{--gold:#c9a84c;--bg:#f8f6f1;--bg2:#fff;--bg3:#f2ede4;--dark:#1a1610;--text:#2a2218;--text-dim:#8a7a60;--text-mid:#5a4e3a;--border:#e0d8c8}
+:root{--gold:#c9a84c;--gold-dim:#c9a84c33;--gold-faint:#c9a84c12;--gold-mid:#c9a84c55;--bg:#f7f5f0;--bg2:#ffffff;--bg3:#f0ece3;--dark:#100e08;--text:#1e1a12;--text-dim:#8a7a60;--text-mid:#4a4030;--border:#ddd5c0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
-header{background:var(--dark);padding:36px 24px;text-align:center}
-.de-logo{width:72px;height:72px;margin:0 auto 16px;display:block}
-.eyebrow{font-size:9px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:12px}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,40px);font-weight:300;color:#f0e8d0;letter-spacing:2px;margin-bottom:8px}
-.sub{font-size:11px;letter-spacing:2px;color:#8a7a60}
-.prog{display:flex;gap:6px;justify-content:center;padding:16px 24px;background:var(--dark)}
-.ps{height:2px;width:60px;background:#3a3020;border-radius:1px;transition:background .4s}
-.ps.on{background:var(--gold)}
-.wrap{max-width:660px;margin:0 auto;padding:24px 16px 60px}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:3px;margin-bottom:14px;display:none}
-.card.show{display:block;animation:up .4s ease}
-@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.ch{padding:18px 22px;border-bottom:1px solid var(--border);background:var(--bg3)}
-.cn{font-size:9px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
-.ct{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--dark)}
-.cb{padding:22px}
-.f{margin-bottom:18px}
-.f:last-child{margin-bottom:0}
-label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px;font-weight:500}
-input,select,textarea{width:100%;padding:11px 15px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:14px;color:var(--text);background:var(--bg);transition:border-color .2s;appearance:none}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
-textarea{resize:vertical;min-height:75px}
-.tg{display:flex;flex-wrap:wrap;gap:7px}
-.tb{padding:8px 14px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;color:var(--text-mid);background:var(--bg);cursor:pointer;transition:all .2s}
-.tb.on{background:var(--dark);border-color:var(--dark);color:var(--gold)}
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
-.ci{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .2s;background:var(--bg)}
-.ci:hover,.ci.on{border-color:var(--gold)}
-.ci.on{background:#fdf8ee}
-.ck{width:15px;height:15px;border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .2s}
-.ci.on .ck{background:var(--gold);border-color:var(--gold);color:#fff}
-.cl{font-size:12px;color:var(--text-mid)}
-.sv{text-align:center;font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-bottom:8px}
-input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold)}
-.sl{display:flex;justify-content:space-between;margin-top:5px}
-.sl span{font-size:10px;color:var(--text-dim)}
-.nav{display:flex;gap:10px;margin-top:22px}
-.bp{flex:1;padding:13px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:transparent;cursor:pointer}
-.bn{flex:2;padding:13px;border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--dark);background:var(--gold);cursor:pointer;font-weight:500}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-#res{display:none}
-#res.show{display:block;animation:up .5s ease}
-.rh{background:var(--dark);padding:30px 22px;text-align:center;border-radius:3px 3px 0 0}
-.rl{font-size:9px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
-.rp{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,8vw,52px);font-weight:300;color:#f0e8d0}
-.rr{font-size:12px;color:#8a7a60;margin-top:6px;letter-spacing:1px}
-.rb{background:var(--bg2);border:1px solid var(--border);border-top:none;border-radius:0 0 3px 3px;padding:22px}
-.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:22px}
-.ri{padding:13px;background:var(--bg3);border-left:2px solid #c9a84c33}
-.ril{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:3px}
-.riv{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--dark)}
-.st{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px}
-.sr{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.sn{font-size:11px;color:var(--text-mid);width:130px;flex-shrink:0}
-.sbw{flex:1;height:4px;background:var(--border);border-radius:2px}
-.sb{height:100%;border-radius:2px;background:linear-gradient(90deg,#c9a84c44,var(--gold));transition:width 1s}
-.sp{font-size:11px;color:var(--gold);width:34px;text-align:right}
-.ab{display:flex;gap:10px;margin-top:18px}
-.ap{flex:1;padding:13px;border:1px solid var(--gold);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);background:transparent;cursor:pointer}
-.ap:hover{background:var(--gold);color:var(--dark)}
-.ar{flex:1;padding:13px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:transparent;cursor:pointer}
-.disc{font-size:10px;color:var(--text-dim);line-height:1.7;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-style:italic}
-/* En mode impression, masque la navigation et n'affiche que le résultat */
+body{background:var(--bg);color:var(--text);font-family:'Josefin Sans',sans-serif;min-height:100vh;font-weight:300;}
+
+/* === HEADER === */
+header{background:var(--dark);padding:40px 24px 32px;text-align:center;position:relative;overflow:hidden;}
+header::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--gold-faint) 1px,transparent 1px),linear-gradient(90deg,var(--gold-faint) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;
+  mask-image:radial-gradient(ellipse 80% 100% at 50% 0%,black 20%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 100% at 50% 0%,black 20%,transparent 100%);
+}
+.deco-sunburst{display:block;margin:0 auto 20px;position:relative;z-index:1;}
+.eyebrow{font-size:8px;letter-spacing:7px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:300;position:relative;z-index:1;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,40px);font-weight:300;color:#f0e8d0;letter-spacing:4px;margin-bottom:8px;position:relative;z-index:1;}
+.sub{font-size:9px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;position:relative;z-index:1;}
+.deco-rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto;width:200px;position:relative;z-index:1;}
+.deco-rule::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.deco-rule::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);}
+.deco-diamond{color:var(--gold);font-size:8px;line-height:1;}
+.header-link{
+  display:inline-block;font-size:8px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);text-decoration:none;border:1px solid var(--gold-dim);
+  padding:9px 24px;position:relative;transition:all .3s;z-index:1;
+}
+.header-link::before,.header-link::after{
+  content:'';position:absolute;width:6px;height:6px;
+  border-color:var(--gold);border-style:solid;transition:all .3s;
+}
+.header-link::before{top:-2px;left:-2px;border-width:1px 0 0 1px;}
+.header-link::after{bottom:-2px;right:-2px;border-width:0 1px 1px 0;}
+.header-link:hover{background:var(--gold);color:var(--dark);}
+
+/* === PROGRESS BAR (diamond steps) === */
+.prog{display:flex;gap:20px;justify-content:center;padding:20px 24px;background:var(--dark);align-items:center;}
+.prog-step{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.ps{
+  width:10px;height:10px;background:#2a2418;
+  transform:rotate(45deg);transition:background .4s,box-shadow .4s;
+}
+.ps.on{background:var(--gold);box-shadow:0 0 0 2px var(--dark),0 0 0 3px var(--gold-dim);}
+.prog-line{width:32px;height:1px;background:#2a2418;transition:background .4s;margin-top:-5px;}
+.prog-line.on{background:var(--gold-dim);}
+
+/* === WRAP === */
+.wrap{max-width:680px;margin:0 auto;padding:24px 16px 60px}
+
+/* === CARDS === */
+.card{background:var(--bg2);border:1px solid var(--border);margin-bottom:12px;display:none;position:relative;}
+.card.show{display:block;animation:up .35s ease;}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* Corner ornaments */
+.corner-tl{position:absolute;top:-1px;left:-1px;width:10px;height:10px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);pointer-events:none;z-index:2;}
+.corner-br{position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);pointer-events:none;z-index:2;}
+.card-inner{position:absolute;inset:5px;border:1px solid var(--gold-faint);pointer-events:none;z-index:1;}
+
+.ch{padding:18px 22px;border-bottom:1px solid var(--border);background:var(--bg3);}
+.cn{font-size:7px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:4px;font-family:'Josefin Sans',sans-serif;font-weight:300;}
+.ct{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--dark);font-weight:300;letter-spacing:1px;}
+.cb{padding:22px;}
+
+/* Fields */
+.f{margin-bottom:18px;}
+.f:last-child{margin-bottom:0;}
+label{display:block;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;font-weight:400;font-family:'Josefin Sans',sans-serif;}
+input,select,textarea{
+  width:100%;padding:11px 15px;border:1px solid var(--border);
+  font-family:'Josefin Sans',sans-serif;font-size:13px;color:var(--text);
+  background:var(--bg);transition:border-color .2s;appearance:none;font-weight:300;
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);}
+textarea{resize:vertical;min-height:75px;line-height:1.8;}
+
+/* Toggle buttons */
+.tg{display:flex;flex-wrap:wrap;gap:6px;}
+.tb{
+  padding:9px 16px;border:1px solid var(--border);
+  font-family:'Josefin Sans',sans-serif;font-size:10px;color:var(--text-mid);
+  background:var(--bg);cursor:pointer;transition:all .2s;font-weight:300;letter-spacing:.5px;
+}
+.tb.on{background:var(--dark);border-color:var(--dark);color:var(--gold);font-weight:400;}
+
+/* Checkboxes */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;}
+.ci{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid var(--border);cursor:pointer;transition:all .2s;background:var(--bg);}
+.ci:hover,.ci.on{border-color:var(--gold);}
+.ci.on{background:#fdf8ee;}
+.ck{width:14px;height:14px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;transition:all .2s;}
+.ci.on .ck{background:var(--gold);border-color:var(--gold);color:#fff;}
+.cl{font-size:11px;color:var(--text-mid);font-family:'Josefin Sans',sans-serif;font-weight:300;}
+
+/* Range / slider */
+.sv{
+  text-align:center;font-family:'Cormorant Garamond',serif;
+  font-size:22px;color:var(--gold);margin-bottom:10px;font-weight:300;letter-spacing:1px;
+}
+input[type=range]{height:3px;border:none;padding:0;accent-color:var(--gold);background:transparent;}
+.sl{display:flex;justify-content:space-between;margin-top:5px;}
+.sl span{font-size:9px;color:var(--text-dim);font-family:'Josefin Sans',sans-serif;font-weight:300;letter-spacing:1px;}
+
+/* Navigation */
+.nav{display:flex;gap:10px;margin-top:22px;}
+.bp{
+  flex:1;padding:13px;border:1px solid var(--border);
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-dim);background:transparent;cursor:pointer;transition:all .2s;
+}
+.bp:hover{border-color:var(--gold-mid);color:var(--gold);}
+.bn{
+  flex:2;padding:13px;border:none;font-family:'Josefin Sans',sans-serif;
+  font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--dark);background:var(--gold);cursor:pointer;font-weight:600;
+  position:relative;transition:opacity .2s;
+}
+.bn::before{content:'';position:absolute;inset:3px;border:1px solid rgba(16,14,8,0.12);pointer-events:none;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* === RESULT === */
+#res{display:none;}
+#res.show{display:block;animation:up .5s ease;}
+
+.rh{
+  background:var(--dark);padding:36px 24px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.rh::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--gold-faint) 1px,transparent 1px),linear-gradient(90deg,var(--gold-faint) 1px,transparent 1px);
+  background-size:32px 32px;pointer-events:none;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 30%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 30%,transparent 100%);
+}
+.rh-inner{position:relative;z-index:1;}
+.rl{font-size:7px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-family:'Josefin Sans',sans-serif;font-weight:300;}
+.rp{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,8vw,56px);font-weight:300;color:#f0e8d0;letter-spacing:3px;}
+.rr{font-size:10px;color:var(--text-dim);margin-top:8px;letter-spacing:2px;font-family:'Josefin Sans',sans-serif;font-weight:300;}
+.res-deco-rule{display:flex;align-items:center;justify-content:center;gap:12px;margin:16px auto 0;width:160px;}
+.res-deco-rule::before{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim));}
+.res-deco-rule::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--gold-dim),transparent);}
+
+.rb{
+  background:var(--bg2);border:1px solid var(--border);
+  border-top:none;padding:24px;position:relative;
+}
+.rb::before{content:'';position:absolute;inset:5px;border:1px solid var(--gold-faint);pointer-events:none;}
+
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-bottom:22px;position:relative;z-index:1;}
+.ri{padding:13px;background:var(--bg3);border-left:2px solid var(--gold-dim);}
+.ril{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;font-family:'Josefin Sans',sans-serif;font-weight:300;}
+.riv{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--dark);font-weight:300;}
+
+.st{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;font-family:'Josefin Sans',sans-serif;font-weight:300;position:relative;z-index:1;}
+.sr{display:flex;align-items:center;gap:10px;margin-bottom:8px;position:relative;z-index:1;}
+.sn{font-size:10px;color:var(--text-mid);width:130px;flex-shrink:0;font-family:'Josefin Sans',sans-serif;font-weight:300;}
+.sbw{flex:1;height:3px;background:var(--border);}
+.sb{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));transition:width 1s;}
+.sp{font-size:10px;color:var(--gold);width:34px;text-align:right;font-family:'Josefin Sans',sans-serif;}
+
+.ab{display:flex;gap:8px;margin-top:18px;position:relative;z-index:1;}
+.ap{
+  flex:1;padding:13px;border:1px solid var(--gold);
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);background:transparent;cursor:pointer;transition:all .2s;
+}
+.ap:hover{background:var(--gold);color:var(--dark);}
+.ar{
+  flex:1;padding:13px;border:1px solid var(--border);
+  font-family:'Josefin Sans',sans-serif;font-size:8px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-dim);background:transparent;cursor:pointer;transition:all .2s;
+}
+.ar:hover{border-color:var(--gold-mid);color:var(--gold);}
+.disc{font-size:9px;color:var(--text-dim);line-height:1.8;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-style:italic;font-family:'Josefin Sans',sans-serif;font-weight:300;position:relative;z-index:1;}
+
 @media print{header,.prog,.ab,.card{display:none!important}#res{display:block!important}}
 </style>
 </head>
 <body>
 <header>
-<svg class="de-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="50" cy="50" r="48" stroke="white" stroke-width="2.5"/>
-<circle cx="50" cy="50" r="38" stroke="white" stroke-width="1.5"/>
-<circle cx="50" cy="50" r="28" stroke="white" stroke-width="1.5"/>
-<text x="50" y="57" font-family="Georgia,serif" font-size="22" fill="white" text-anchor="middle">DE</text>
-</svg>
-<div class="eyebrow">Douglas Elliman · Megève</div>
-<h1>Outil d'Estimation</h1>
-<p class="sub">Usage interne · Confidentiel</p>
-  <div style="margin-top:20px">
-    <a href="assistant.html" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid #c9a84c44;padding:8px 20px;border-radius:1px">✨ Assistant IA</a>
-  </div>
+  <svg class="deco-sunburst" width="90" height="46" viewBox="0 0 180 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#c9a84c" opacity="0.4">
+      <line x1="90" y1="92" x2="0" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="20" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="40" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="60" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="80" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="90" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="100" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="120" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="140" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="160" y2="2" stroke-width="0.6"/>
+      <line x1="90" y1="92" x2="180" y2="2" stroke-width="0.6"/>
+      <path d="M 4 92 A 86 86 0 0 1 176 92" stroke-width="0.5" fill="none"/>
+      <path d="M 22 92 A 68 68 0 0 1 158 92" stroke-width="0.5" fill="none"/>
+      <path d="M 42 92 A 48 48 0 0 1 138 92" stroke-width="0.5" fill="none"/>
+    </g>
+  </svg>
+  <div class="eyebrow">Douglas Elliman · Megève</div>
+  <h1>Outil d'Estimation</h1>
+  <p class="sub">Usage interne · Confidentiel</p>
+  <div class="deco-rule"><span class="deco-diamond">◆</span></div>
+  <a href="assistant.html" class="header-link">✦ Assistant IA</a>
 </header>
-<!-- Barre de progression : 4 étapes (informations, prestations, marché, récapitulatif) -->
+
+<!-- Diamond progress steps -->
 <div class="prog">
-<div class="ps on" id="ps1"></div>
-<div class="ps" id="ps2"></div>
-<div class="ps" id="ps3"></div>
-<div class="ps" id="ps4"></div>
+  <div class="ps on" id="ps1"></div>
+  <div class="prog-line on" id="pl1"></div>
+  <div class="ps" id="ps2"></div>
+  <div class="prog-line" id="pl2"></div>
+  <div class="ps" id="ps3"></div>
+  <div class="prog-line" id="pl3"></div>
+  <div class="ps" id="ps4"></div>
 </div>
+
 <div class="wrap">
 <div class="card show" id="s1">
-<div class="ch"><div class="cn">Étape 01 / 04</div><div class="ct">Informations générales</div></div>
-<div class="cb">
-<div class="f"><label>Nom du propriétaire</label><input type="text" id="owner" placeholder="M. / Mme ..."/></div>
-<div class="f"><label>Type de bien</label>
-<div class="tg" id="tg-type">
-<button class="tb" onclick="tog('tg-type',this,'type')">Chalet</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Appartement</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Chalet hôtel</button>
-<button class="tb" onclick="tog('tg-type',this,'type')">Terrain</button>
-</div></div>
-<div class="two">
-<div class="f"><label>Surface (m²)</label><input type="number" id="surface" placeholder="ex: 280"/></div>
-<div class="f"><label>Chambres</label><input type="number" id="rooms" placeholder="ex: 6"/></div>
-</div>
-<div class="f"><label>Marché</label>
-<div class="tg" id="tg-market">
-<button class="tb on" onclick="setMarket(this,'megeve')">Megève</button>
-<button class="tb" onclick="setMarket(this,'paris')">Paris</button>
-<button class="tb" onclick="setMarket(this,'cannes')">Cannes</button>
-<button class="tb" onclick="setMarket(this,'sttropez')">Saint-Tropez</button>
-</div></div>
-<div class="f"><label>Localisation</label>
-<div class="tg" id="tg-loc"></div></div>
-<div class="nav"><button class="bn" onclick="go(2)">Continuer →</button></div>
-</div></div>
-<div class="card" id="s2">
-<div class="ch"><div class="cn">Étape 02 / 04</div><div class="ct">Prestations et équipements</div></div>
-<div class="cb">
-<div class="f"><label>État général</label>
-<div class="tg" id="tg-etat">
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Neuf / Récent</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Très bon état</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">Bon état</button>
-<button class="tb" onclick="tog('tg-etat',this,'etat')">À rénover</button>
-</div></div>
-<div class="f"><label>Vue</label>
-<div class="tg" id="tg-vue">
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Mont-Blanc</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue montagne</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue village</button>
-<button class="tb" onclick="tog('tg-vue',this,'vue')">Vue limitée</button>
-</div></div>
-<div class="f"><label>Prestations incluses</label>
-<div class="cg">
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Ski-in / Ski-out</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Piscine intérieure</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Spa / Hammam</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de cinéma</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cave à vin</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Hélipad</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Garage chauffé</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de sport</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Grand terrain</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cheminées</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Chalet gardien</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Studio / Bureau</span></div>
-<div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Domotique</span></div>
-</div></div>
-<div class="nav">
-<button class="bp" onclick="go(1)">Retour</button>
-<button class="bn" onclick="go(3)">Continuer →</button>
-</div></div></div>
-<div class="card" id="s3">
-<div class="ch"><div class="cn">Étape 03 / 04</div><div class="ct">Contexte marché</div></div>
-<div class="cb">
-<div class="f"><label>Motivation du vendeur</label>
-<div class="tg" id="tg-motiv">
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Vente rapide</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Prix optimal</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Pas pressé</button>
-<button class="tb" onclick="tog('tg-motiv',this,'motiv')">Succession</button>
-</div></div>
-<div class="f"><label>Niveau de finitions</label>
-<div class="sv" id="fv">Haut de gamme</div>
-<input type="range" id="fin" min="1" max="5" value="4" oninput="upFin(this.value)"/>
-<div class="sl"><span>Standard</span><span>Luxe</span><span>Ultra-luxe</span></div>
-</div>
-<div class="f"><label>Notes internes</label>
-<textarea id="notes" placeholder="Observations, points forts, contraintes..."></textarea>
-</div>
-<div class="nav">
-<button class="bp" onclick="go(2)">Retour</button>
-<button class="bn" onclick="go(4)">Continuer →</button>
-</div></div></div>
-<div class="card" id="s4">
-<div class="ch"><div class="cn">Étape 04 / 04</div><div class="ct">Récapitulatif</div></div>
-<div class="cb">
-<div id="recap"></div>
-<div class="nav">
-<button class="bp" onclick="go(3)">Modifier</button>
-<button class="bn" onclick="calc()" style="background:var(--dark);color:var(--gold)">Calculer l'estimation</button>
-</div></div></div>
-<div id="res">
-<div class="rh">
-<svg class="de-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="50" cy="50" r="48" stroke="white" stroke-width="2.5"/>
-<circle cx="50" cy="50" r="38" stroke="white" stroke-width="1.5"/>
-<circle cx="50" cy="50" r="28" stroke="white" stroke-width="1.5"/>
-<text x="50" y="57" font-family="Georgia,serif" font-size="22" fill="white" text-anchor="middle">DE</text>
-</svg>
-<div class="rl">Estimation Douglas Elliman · Megève</div>
-<div class="rp" id="rp">—</div>
-<div class="rr" id="rr"></div>
-</div>
-<div class="rb">
-<div class="rg" id="rg"></div>
-<div style="margin-bottom:20px">
-<div class="st">Analyse des facteurs de valeur</div>
-<div id="bars"></div>
-</div>
-<div id="nw" style="display:none;margin-bottom:18px">
-<div class="st">Notes internes</div>
-<div id="nd" style="font-size:13px;color:var(--text-mid);line-height:1.8;padding:13px;background:var(--bg3);border-left:2px solid #c9a84c33"></div>
-</div>
-<div class="ab">
-<button class="ap" onclick="window.print()">Imprimer / PDF</button>
-<button class="ar" onclick="reset()">Nouvelle estimation</button>
-</div>
-<div class="disc">Cette estimation est établie par Douglas Elliman sur la base des informations fournies et des données de marché (Megève, Paris, Cannes, Saint-Tropez). Elle ne constitue pas une valeur vénale officielle et reste confidentielle.</div>
-</div></div>
+  <div class="corner-tl"></div><div class="corner-br"></div><div class="card-inner"></div>
+  <div class="ch"><div class="cn">Étape 01 / 04</div><div class="ct">Informations générales</div></div>
+  <div class="cb">
+    <div class="f"><label>Nom du propriétaire</label><input type="text" id="owner" placeholder="M. / Mme ..."/></div>
+    <div class="f"><label>Type de bien</label>
+      <div class="tg" id="tg-type">
+        <button class="tb" onclick="tog('tg-type',this,'type')">Chalet</button>
+        <button class="tb" onclick="tog('tg-type',this,'type')">Appartement</button>
+        <button class="tb" onclick="tog('tg-type',this,'type')">Chalet hôtel</button>
+        <button class="tb" onclick="tog('tg-type',this,'type')">Terrain</button>
+      </div>
+    </div>
+    <div class="two">
+      <div class="f"><label>Surface (m²)</label><input type="number" id="surface" placeholder="ex: 280"/></div>
+      <div class="f"><label>Chambres</label><input type="number" id="rooms" placeholder="ex: 6"/></div>
+    </div>
+    <div class="f"><label>Marché</label>
+      <div class="tg" id="tg-market">
+        <button class="tb on" onclick="setMarket(this,'megeve')">Megève</button>
+        <button class="tb" onclick="setMarket(this,'paris')">Paris</button>
+        <button class="tb" onclick="setMarket(this,'cannes')">Cannes</button>
+        <button class="tb" onclick="setMarket(this,'sttropez')">Saint-Tropez</button>
+      </div>
+    </div>
+    <div class="f"><label>Localisation</label>
+      <div class="tg" id="tg-loc"></div>
+    </div>
+    <div class="nav"><button class="bn" onclick="go(2)">Continuer →</button></div>
+  </div>
 </div>
 
+<div class="card" id="s2">
+  <div class="corner-tl"></div><div class="corner-br"></div><div class="card-inner"></div>
+  <div class="ch"><div class="cn">Étape 02 / 04</div><div class="ct">Prestations et équipements</div></div>
+  <div class="cb">
+    <div class="f"><label>État général</label>
+      <div class="tg" id="tg-etat">
+        <button class="tb" onclick="tog('tg-etat',this,'etat')">Neuf / Récent</button>
+        <button class="tb" onclick="tog('tg-etat',this,'etat')">Très bon état</button>
+        <button class="tb" onclick="tog('tg-etat',this,'etat')">Bon état</button>
+        <button class="tb" onclick="tog('tg-etat',this,'etat')">À rénover</button>
+      </div>
+    </div>
+    <div class="f"><label>Vue</label>
+      <div class="tg" id="tg-vue">
+        <button class="tb" onclick="tog('tg-vue',this,'vue')">Mont-Blanc</button>
+        <button class="tb" onclick="tog('tg-vue',this,'vue')">Vue montagne</button>
+        <button class="tb" onclick="tog('tg-vue',this,'vue')">Vue village</button>
+        <button class="tb" onclick="tog('tg-vue',this,'vue')">Vue limitée</button>
+      </div>
+    </div>
+    <div class="f"><label>Prestations incluses</label>
+      <div class="cg">
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Ski-in / Ski-out</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Piscine intérieure</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Spa / Hammam</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de cinéma</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cave à vin</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Hélipad</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Garage chauffé</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Salle de sport</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Grand terrain</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Cheminées</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Chalet gardien</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Studio / Bureau</span></div>
+        <div class="ci" onclick="chk(this)"><div class="ck"></div><span class="cl">Domotique</span></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="bp" onclick="go(1)">Retour</button>
+      <button class="bn" onclick="go(3)">Continuer →</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="s3">
+  <div class="corner-tl"></div><div class="corner-br"></div><div class="card-inner"></div>
+  <div class="ch"><div class="cn">Étape 03 / 04</div><div class="ct">Contexte marché</div></div>
+  <div class="cb">
+    <div class="f"><label>Motivation du vendeur</label>
+      <div class="tg" id="tg-motiv">
+        <button class="tb" onclick="tog('tg-motiv',this,'motiv')">Vente rapide</button>
+        <button class="tb" onclick="tog('tg-motiv',this,'motiv')">Prix optimal</button>
+        <button class="tb" onclick="tog('tg-motiv',this,'motiv')">Pas pressé</button>
+        <button class="tb" onclick="tog('tg-motiv',this,'motiv')">Succession</button>
+      </div>
+    </div>
+    <div class="f"><label>Niveau de finitions</label>
+      <div class="sv" id="fv">Haut de gamme</div>
+      <input type="range" id="fin" min="1" max="5" value="4" oninput="upFin(this.value)"/>
+      <div class="sl"><span>Standard</span><span>Luxe</span><span>Ultra-luxe</span></div>
+    </div>
+    <div class="f"><label>Notes internes</label>
+      <textarea id="notes" placeholder="Observations, points forts, contraintes..."></textarea>
+    </div>
+    <div class="nav">
+      <button class="bp" onclick="go(2)">Retour</button>
+      <button class="bn" onclick="go(4)">Continuer →</button>
+    </div>
+  </div>
+</div>
+
+<div class="card" id="s4">
+  <div class="corner-tl"></div><div class="corner-br"></div><div class="card-inner"></div>
+  <div class="ch"><div class="cn">Étape 04 / 04</div><div class="ct">Récapitulatif</div></div>
+  <div class="cb">
+    <div id="recap"></div>
+    <div class="nav">
+      <button class="bp" onclick="go(3)">Modifier</button>
+      <button class="bn" onclick="calc()" style="background:var(--dark);color:var(--gold)">Calculer l'estimation</button>
+    </div>
+  </div>
+</div>
+
+<div id="res">
+  <div class="rh">
+    <div class="rh-inner">
+      <svg width="60" height="60" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 16px;display:block;">
+        <circle cx="100" cy="100" r="94" stroke="#c9a84c" stroke-width="6"/>
+        <circle cx="100" cy="100" r="76" stroke="#c9a84c" stroke-width="4"/>
+        <circle cx="100" cy="100" r="60" stroke="#c9a84c" stroke-width="2"/>
+        <path d="M 42 65 L 42 135 L 68 135 Q 104 135 104 100 Q 104 65 68 65 Z M 55 78 L 66 78 Q 90 78 90 100 Q 90 122 66 122 L 55 122 Z" fill="#c9a84c"/>
+        <path d="M 112 65 L 112 135 L 156 135 L 156 122 L 125 122 L 125 107 L 152 107 L 152 93 L 125 93 L 125 78 L 156 78 L 156 65 Z" fill="#c9a84c"/>
+      </svg>
+      <div class="rl">Estimation Douglas Elliman · Megève</div>
+      <div class="rp" id="rp">—</div>
+      <div class="rr" id="rr"></div>
+      <div class="res-deco-rule"><span class="deco-diamond">◆</span></div>
+    </div>
+  </div>
+  <div class="rb">
+    <div class="rg" id="rg"></div>
+    <div style="margin-bottom:20px;position:relative;z-index:1;">
+      <div class="st">◆ Analyse des facteurs de valeur</div>
+      <div id="bars"></div>
+    </div>
+    <div id="nw" style="display:none;margin-bottom:18px;position:relative;z-index:1;">
+      <div class="st">Notes internes</div>
+      <div id="nd" style="font-size:12px;color:var(--text-mid);line-height:1.9;padding:14px;background:var(--bg3);border-left:2px solid var(--gold-dim);font-family:'Josefin Sans',sans-serif;font-weight:300;"></div>
+    </div>
+    <div class="ab">
+      <button class="ap" onclick="window.print()">Imprimer / PDF</button>
+      <button class="ar" onclick="reset()">Nouvelle estimation</button>
+    </div>
+    <div class="disc">Cette estimation est établie par Douglas Elliman sur la base des informations fournies et des données de marché (Megève, Paris, Cannes, Saint-Tropez). Elle ne constitue pas une valeur vénale officielle et reste confidentielle.</div>
+  </div>
+</div>
+</div>
 
 <script>
-/* Objet global qui stocke toutes les données saisies par l'utilisateur */
 const D={prestations:[],market:'megeve'};
 
-/* Localisations et prix de base au m² par marché (€/m²) */
 const MARKETS={
   megeve:{
     label:'Megève',
@@ -249,10 +395,8 @@ const MARKETS={
   }
 };
 
-/* Retourne le prix de base du secteur sélectionné selon le marché actif */
 function getPB(){return MARKETS[D.market]?.locs[D.loc]||Object.values(MARKETS[D.market]?.locs||{})[0]||14000;}
 
-/* Change le marché actif et met à jour les boutons de localisation */
 function setMarket(btn,market){
   document.querySelectorAll('#tg-market .tb').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
@@ -262,54 +406,47 @@ function setMarket(btn,market){
   document.getElementById('tg-loc').innerHTML=Object.keys(locs).map(l=>`<button class="tb" onclick="tog('tg-loc',this,'loc')">${l}</button>`).join('');
 }
 
-/* Initialise les boutons de localisation pour Megève au démarrage */
 setMarket(document.querySelector('#tg-market .tb'),'megeve');
 
-/* Coefficient multiplicateur selon le type de bien */
 const CT={"Chalet":1.15,"Appartement":0.90,"Chalet hôtel":1.30,"Terrain":0.35};
-
-/* Coefficient selon l'état général du bien */
 const CE={"Neuf / Récent":1.20,"Très bon état":1.05,"Bon état":0.95,"À rénover":0.75};
-
-/* Coefficient selon la qualité de la vue */
 const CV={"Mont-Blanc":1.25,"Vue montagne":1.10,"Vue village":1.00,"Vue limitée":0.90};
-
-/* Bonus de valeur (en %) pour chaque prestation sélectionnée */
 const BP={"Ski-in / Ski-out":0.18,"Piscine intérieure":0.10,"Spa / Hammam":0.07,"Salle de cinéma":0.05,"Cave à vin":0.04,"Hélipad":0.08,"Garage chauffé":0.03,"Salle de sport":0.03,"Grand terrain":0.06,"Cheminées":0.02,"Chalet gardien":0.05,"Studio / Bureau":0.03,"Domotique":0.03};
-
-/* Coefficients de finitions, du niveau Standard (0.80) à Ultra-luxe (1.25) */
 const CF=[0.80,0.90,1.00,1.10,1.25];
-
-/* Libellés correspondant aux niveaux de finitions */
 const FL=["Standard","Correct","Bon","Haut de gamme","Ultra-luxe"];
 
-/* Gère la sélection exclusive dans un groupe de boutons toggle */
 function tog(gid,btn,key){document.querySelectorAll("#"+gid+" .tb").forEach(b=>b.classList.remove("on"));btn.classList.add("on");D[key]=btn.textContent.trim();}
 
-/* Ajoute ou retire une prestation de la liste sélectionnée */
 function chk(el){el.classList.toggle("on");el.querySelector(".ck").textContent=el.classList.contains("on")?"✓":"";const lb=el.querySelector(".cl").textContent;if(el.classList.contains("on")){if(!D.prestations.includes(lb))D.prestations.push(lb);}else{D.prestations=D.prestations.filter(p=>p!==lb);}}
 
-/* Met à jour l'affichage du niveau de finitions lors du déplacement du curseur */
 function upFin(v){document.getElementById("fv").textContent=FL[v-1];D.fin=parseInt(v);}
 
-/* Navigue vers une étape du formulaire et met à jour la barre de progression */
-function go(step){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||0;D.rooms=parseInt(document.getElementById("rooms").value)||0;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value);if(step===4)buildRecap();document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("s"+step).classList.add("show");document.getElementById("res").classList.remove("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.toggle("on",i<=step);window.scrollTo({top:0,behavior:"smooth"});}
+function go(step){
+  D.owner=document.getElementById("owner").value;
+  D.surface=parseInt(document.getElementById("surface").value)||0;
+  D.rooms=parseInt(document.getElementById("rooms").value)||0;
+  D.notes=document.getElementById("notes").value;
+  D.fin=parseInt(document.getElementById("fin").value);
+  if(step===4)buildRecap();
+  document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));
+  document.getElementById("s"+step).classList.add("show");
+  document.getElementById("res").classList.remove("show");
+  for(let i=1;i<=4;i++){
+    document.getElementById("ps"+i).classList.toggle("on",i<=step);
+    if(i<4)document.getElementById("pl"+i).classList.toggle("on",i<step);
+  }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
-/* Génère le tableau récapitulatif avant calcul (étape 4) */
-function buildRecap(){const p=D.prestations.length;document.getElementById("recap").innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">'+[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",(D.surface||"—")+" m²"],["Localisation",D.loc||"—"],["Vue",D.vue||"—"],["Prestations",p+" sélectionnée"+(p>1?"s":"")]].map(([l,v])=>'<div style="padding:11px;background:var(--bg3);border-left:2px solid #c9a84c33"><div style="font-size:9px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px">'+l+'</div><div style="font-family:Cormorant Garamond,serif;font-size:16px">'+v+"</div></div>").join("")+"</div>";}
+function buildRecap(){const p=D.prestations.length;document.getElementById("recap").innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",(D.surface||"—")+" m²"],["Localisation",D.loc||"—"],["Vue",D.vue||"—"],["Prestations",p+" sélectionnée"+(p>1?"s":"")]].map(([l,v])=>'<div style="padding:11px;background:var(--bg3);border-left:2px solid var(--gold-dim)"><div style="font-size:8px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px;font-family:Josefin Sans,sans-serif;">'+l+'</div><div style="font-family:Cormorant Garamond,serif;font-size:16px;font-weight:300;">'+v+"</div></div>").join("")+"</div>";}
 
-/* Formate un montant en euros : M€ au-dessus d'un million, sinon format FR */
 function fmt(n){if(n>=1000000)return(n/1000000).toFixed(n%1000000===0?0:2).replace(".",",")+' M€';return new Intl.NumberFormat("fr-FR").format(n)+" €";}
 
-/* Calcule l'estimation : prix de base × coefficients × bonus prestations × motivation
-   La fourchette est arrondie à 50 000 € près (–8 % / +10 % autour de la valeur centrale) */
 function calc(){D.owner=document.getElementById("owner").value;D.surface=parseInt(document.getElementById("surface").value)||100;D.rooms=parseInt(document.getElementById("rooms").value)||3;D.notes=document.getElementById("notes").value;D.fin=parseInt(document.getElementById("fin").value)||4;let p=getPB()*D.surface;p*=(CT[D.type]||1);p*=(CE[D.etat]||1);p*=(CV[D.vue]||1);p*=CF[D.fin-1];let b=0;D.prestations.forEach(x=>{b+=BP[x]||0;});p*=(1+b);if(D.motiv==="Vente rapide")p*=0.93;if(D.motiv==="Pas pressé")p*=1.05;const lo=Math.round(p*0.92/50000)*50000;const hi=Math.round(p*1.10/50000)*50000;const mid=Math.round(p/50000)*50000;const m2=Math.round(mid/D.surface);document.getElementById("rp").textContent=fmt(mid);document.getElementById("rr").textContent="Fourchette : "+fmt(lo)+" — "+fmt(hi);document.getElementById("rg").innerHTML=[["Propriétaire",D.owner||"—"],["Type",D.type||"—"],["Surface",D.surface+" m²"],["Prix au m²",fmt(m2)],["Localisation",D.loc||"—"],["Prestations",D.prestations.length+" équipements"]].map(([l,v])=>'<div class="ri"><div class="ril">'+l+'</div><div class="riv">'+v+"</div></div>").join("");const maxP=Math.max(...Object.values(MARKETS[D.market]?.locs||{1:1}));
-const scores=[["Localisation",Math.round((getPB()/maxP)*100)],["État du bien",Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],["Vue",Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],["Prestations",Math.min(Math.round(b/0.67*100),100)],["Finitions",Math.round((CF[D.fin-1]-0.80)/0.45*100)]];document.getElementById("bars").innerHTML=scores.map(([l,v])=>'<div class="sr"><div class="sn">'+l+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(5,v)+'%"></div></div><div class="sp">'+v+"%</div></div>").join("");if(D.notes){document.getElementById("nw").style.display="block";document.getElementById("nd").textContent=D.notes;}document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("res").classList.add("show");for(let i=1;i<=4;i++)document.getElementById("ps"+i).classList.add("on");window.scrollTo({top:0,behavior:"smooth"});}
+const scores=[["Localisation",Math.round((getPB()/maxP)*100)],["État du bien",Math.round(((CE[D.etat]||1)-0.75)/0.45*100)],["Vue",Math.round(((CV[D.vue]||1)-0.90)/0.35*100)],["Prestations",Math.min(Math.round(b/0.67*100),100)],["Finitions",Math.round((CF[D.fin-1]-0.80)/0.45*100)]];document.getElementById("bars").innerHTML=scores.map(([l,v])=>'<div class="sr"><div class="sn">'+l+'</div><div class="sbw"><div class="sb" style="width:'+Math.max(5,v)+'%"></div></div><div class="sp">'+v+"%</div></div>").join("");if(D.notes){document.getElementById("nw").style.display="block";document.getElementById("nd").textContent=D.notes;}document.querySelectorAll(".card").forEach(s=>s.classList.remove("show"));document.getElementById("res").classList.add("show");for(let i=1;i<=4;i++){document.getElementById("ps"+i).classList.add("on");if(i<4)document.getElementById("pl"+i).classList.add("on");}window.scrollTo({top:0,behavior:"smooth"});}
 
-/* Réinitialise entièrement le formulaire et retourne à l'étape 1 */
 function reset(){Object.keys(D).forEach(k=>{if(k==="prestations")D[k]=[];else delete D[k];});document.getElementById("owner").value="";document.getElementById("surface").value="";document.getElementById("rooms").value="";document.getElementById("notes").value="";document.getElementById("fin").value=4;document.getElementById("fv").textContent="Haut de gamme";document.querySelectorAll(".tb").forEach(b=>b.classList.remove("on"));document.querySelectorAll(".ci").forEach(c=>{c.classList.remove("on");c.querySelector(".ck").textContent="";});document.getElementById("res").classList.remove("show");document.getElementById("nw").style.display="none";go(1);}
 
-/* Initialise l'affichage du niveau de finitions par défaut (niveau 4 = Haut de gamme) */
 upFin(4);
 </script>
 </body>

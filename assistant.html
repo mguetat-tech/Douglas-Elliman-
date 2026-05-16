@@ -110,6 +110,7 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
   <button class="tab active" onclick="switchTab('posts',this)" id="tab-posts">✍️ Générer posts</button>
   <button class="tab" onclick="switchTab('estimation',this)" id="tab-estim">📊 Analyser estimation</button>
   <button class="tab" onclick="switchTab('chat',this)" id="tab-chat">💬 Assistant</button>
+  <button class="tab" onclick="switchTab('fitness',this)" id="tab-fitness">🏋️ Coach Fitness</button>
 </div>
 
 <div class="wrap">
@@ -200,6 +201,70 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
     </div>
   </div>
 
+  <!-- FITNESS -->
+
+  <div class="panel" id="panel-fitness">
+    <div class="two">
+      <div class="field"><label id="el-lbl-flv">Niveau actuel</label>
+        <select id="fit-level">
+          <option value="débutant" id="fit-lvl-beg">Débutant</option>
+          <option value="intermédiaire" id="fit-lvl-mid">Intermédiaire</option>
+          <option value="avancé" id="fit-lvl-adv">Avancé</option>
+        </select>
+      </div>
+      <div class="field"><label id="el-lbl-fgoal">Objectif</label>
+        <select id="fit-goal">
+          <option id="fit-g1">Perdre du poids</option>
+          <option id="fit-g2">Prendre du muscle</option>
+          <option id="fit-g3">Améliorer l'endurance</option>
+          <option id="fit-g4">Rester en forme</option>
+          <option id="fit-g5">Augmenter la force</option>
+          <option id="fit-g6">Réduire le stress</option>
+        </select>
+      </div>
+    </div>
+    <div class="two">
+      <div class="field"><label id="el-lbl-fsess">Séances / semaine</label>
+        <select id="fit-sessions">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="field"><label id="el-lbl-fdur">Durée par séance</label>
+        <select id="fit-duration">
+          <option value="30 minutes">30 min</option>
+          <option value="45 minutes" selected>45 min</option>
+          <option value="1 heure">1 h</option>
+          <option value="1h30">1 h 30</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label id="el-lbl-fequip">Matériel disponible</label>
+      <select id="fit-equip">
+        <option id="fit-e1">Aucun (poids du corps)</option>
+        <option id="fit-e2">Haltères uniquement</option>
+        <option id="fit-e3">Bandes de résistance</option>
+        <option id="fit-e4">Salle de sport complète</option>
+        <option id="fit-e5">Home gym (haltères + barre)</option>
+      </select>
+    </div>
+    <div class="field"><label id="el-lbl-fconstr">Contraintes / blessures (optionnel)</label>
+      <textarea id="fit-constraints" placeholder="Ex : douleur genou droit, pas de sauts, travail sédentaire..."></textarea>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:4px">
+      <button class="btn-gold" id="btn-fit" onclick="generateFitness()" style="flex:1">🏋️ Générer mon programme</button>
+      <button class="btn-gold" id="btn-roadmap" onclick="generateRoadmap()" style="flex:1;background:var(--bg4);border:1px solid var(--gold);color:var(--gold)">🗺️ Feuille de route</button>
+    </div>
+    <div class="result-box" id="result-fit">
+      <div class="result-label" id="el-rl-fit">Programme généré par votre coach IA</div>
+      <div class="result-text" id="text-fit"></div>
+      <button class="btn-outline" id="btn-cp-fit" onclick="copyResult('text-fit',this)">Copier le programme</button>
+      <button class="btn-outline" onclick="generateFitness()" style="margin-top:6px" id="btn-regen-fit">↺ Générer une variante</button>
+    </div>
+  </div>
+
   <!-- CHAT -->
 
   <div class="panel" id="panel-chat">
@@ -287,13 +352,21 @@ var T = {
     subtitle:'Megève · Monaco · Côte d\'Azur · Paris · Courchevel · Usage interne',
     navPosts:'← Posts réseaux sociaux', navEstim:'Outil d\'estimation →',
     sec:'Connexion sécurisée via Netlify Functions — clé API jamais exposée.',
-    tabPosts:'✍️ Générer posts', tabEstim:'📊 Analyser estimation', tabChat:'💬 Assistant',
+    tabPosts:'✍️ Générer posts', tabEstim:'📊 Analyser estimation', tabChat:'💬 Assistant', tabFit:'🏋️ Coach Fitness',
     lm1:'Marché', lm2:'Marché', lpf:'Plateforme', lpl:'Langue du post', ltp:'Type de bien',
     lgl:'Objectif', ltn:'Ton', ldt:'Détails (optionnel)', ltp2:'Type', lmv:'Motivation vendeur',
     lpr:'Prix estimé (€)', llc:'Localisation précise', lst:'Points forts',
     btnPost:'✨ Générer le post avec IA', rlPost:'Post généré par Claude',
     cpPost:'Copier le post', regen:'↺ Regénérer une variante',
     btnEst:'📊 Analyser avec IA', rlEst:'Analyse stratégique par Claude', cpEst:'Copier l\'analyse',
+    lflv:'Niveau actuel', lfgoal:'Objectif', lfsess:'Séances / semaine', lfdur:'Durée par séance',
+    lfequip:'Matériel disponible', lfconstr:'Contraintes / blessures (optionnel)',
+    btnFit:'🏋️ Générer mon programme', rlFit:'Programme généré par votre coach IA',
+    cpFit:'Copier le programme', regenFit:'↺ Générer une variante',
+    fgoals:['Perdre du poids','Prendre du muscle','Améliorer l\'endurance','Rester en forme','Augmenter la force','Réduire le stress'],
+    flevels:['Débutant','Intermédiaire','Avancé'],
+    fequips:['Aucun (poids du corps)','Haltères uniquement','Bandes de résistance','Salle de sport complète','Home gym (haltères + barre)'],
+    fconstrPh:'Ex : douleur genou droit, pas de sauts, travail sédentaire...',
     send:'Envoyer', chatPh:'Posez votre question...', processing:'En cours…', analysing:'Analyse en cours…',
     copied:'✓ Copié !', errNet:'Erreur réseau : ',
     welcome:'Bonjour ! Je suis votre assistant Douglas Elliman v2.3.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nJe peux vous aider sur :\n• Prix au m² par secteur\n• Profils acheteurs UHNWI\n• Réponses aux objections propriétaires\n• Stratégies mandat et off-market\n\nCliquez sur une suggestion ou posez votre question directement.',
@@ -309,13 +382,21 @@ var T = {
     subtitle:'Megève · Monaco · French Riviera · Paris · Courchevel · Internal use',
     navPosts:'← Social media posts', navEstim:'Valuation tool →',
     sec:'Secure connection via Netlify Functions — API key never exposed.',
-    tabPosts:'✍️ Generate posts', tabEstim:'📊 Analyse valuation', tabChat:'💬 Assistant',
+    tabPosts:'✍️ Generate posts', tabEstim:'📊 Analyse valuation', tabChat:'💬 Assistant', tabFit:'🏋️ Fitness Coach',
     lm1:'Market', lm2:'Market', lpf:'Platform', lpl:'Post language', ltp:'Property type',
     lgl:'Objective', ltn:'Tone', ldt:'Details (optional)', ltp2:'Type', lmv:'Seller motivation',
     lpr:'Estimated price (€)', llc:'Precise location', lst:'Property highlights',
     btnPost:'✨ Generate post with AI', rlPost:'Post generated by Claude',
     cpPost:'Copy post', regen:'↺ Regenerate variant',
     btnEst:'📊 Analyse with AI', rlEst:'Strategic analysis by Claude', cpEst:'Copy analysis',
+    lflv:'Current level', lfgoal:'Goal', lfsess:'Sessions / week', lfdur:'Session duration',
+    lfequip:'Available equipment', lfconstr:'Constraints / injuries (optional)',
+    btnFit:'🏋️ Generate my programme', rlFit:'Programme generated by your AI coach',
+    cpFit:'Copy programme', regenFit:'↺ Generate a variant',
+    fgoals:['Lose weight','Build muscle','Improve endurance','Stay in shape','Increase strength','Reduce stress'],
+    flevels:['Beginner','Intermediate','Advanced'],
+    fequips:['None (bodyweight)','Dumbbells only','Resistance bands','Full gym','Home gym (dumbbells + barbell)'],
+    fconstrPh:'E.g.: right knee pain, no jumping, sedentary job...',
     send:'Send', chatPh:'Ask your question...', processing:'Processing…', analysing:'Analysing…',
     copied:'✓ Copied!', errNet:'Network error: ',
     welcome:'Hello! I am your Douglas Elliman AI assistant v2.3.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nI can help you with:\n• Price per m² by sector\n• UHNWI buyer profiles\n• Handling seller objections\n• Mandate and off-market strategies\n\nClick a suggestion or ask your question directly.',
@@ -347,8 +428,22 @@ function setLang(lang, btn) {
     'el-lbl-tp2':'ltp2','el-lbl-mv':'lmv','el-lbl-pr':'lpr','el-lbl-lc':'llc',
     'el-lbl-st':'lst','btn-post':'btnPost','el-rl-post':'rlPost',
     'btn-cp-post':'cpPost','btn-regen':'regen','btn-est':'btnEst',
-    'el-rl-est':'rlEst','btn-cp-est':'cpEst','btn-chat':'send'
+    'el-rl-est':'rlEst','btn-cp-est':'cpEst','btn-chat':'send',
+    'tab-fitness':'tabFit','el-lbl-flv':'lflv','el-lbl-fgoal':'lfgoal',
+    'el-lbl-fsess':'lfsess','el-lbl-fdur':'lfdur','el-lbl-fequip':'lfequip',
+    'el-lbl-fconstr':'lfconstr','btn-fit':'btnFit','el-rl-fit':'rlFit',
+    'btn-cp-fit':'cpFit','btn-regen-fit':'regenFit'
   };
+  /* Update fitness select options */
+  var t = T[lang];
+  var fgoalSel = document.getElementById('fit-goal');
+  if (fgoalSel) for (var i=0; i<fgoalSel.options.length; i++) fgoalSel.options[i].text = t.fgoals[i]||fgoalSel.options[i].text;
+  var fequipSel = document.getElementById('fit-equip');
+  if (fequipSel) for (var j=0; j<fequipSel.options.length; j++) fequipSel.options[j].text = t.fequips[j]||fequipSel.options[j].text;
+  var flvlSel = document.getElementById('fit-level');
+  if (flvlSel) for (var k=0; k<flvlSel.options.length; k++) flvlSel.options[k].text = t.flevels[k]||flvlSel.options[k].text;
+  var fconstrEl = document.getElementById('fit-constraints');
+  if (fconstrEl) fconstrEl.placeholder = t.fconstrPh;
   for (var id in ids) {
     var el = document.getElementById(id);
     if (el) el.textContent = t[ids[id]];
@@ -543,6 +638,107 @@ function analyzeEstimation() {
     isFetching = false;
     btn.disabled = false;
     btn.textContent = T[LANG].btnEst;
+  });
+}
+
+/* =============================================
+   COACH FITNESS
+============================================= */
+function getFitnessParams() {
+  return {
+    level:    document.getElementById('fit-level').value,
+    goal:     document.getElementById('fit-goal').value,
+    sessions: document.getElementById('fit-sessions').value,
+    duration: document.getElementById('fit-duration').value,
+    equip:    document.getElementById('fit-equip').value,
+    constr:   (document.getElementById('fit-constraints').value || '').trim()
+  };
+}
+
+function generateFitness() {
+  if (isFetching) return;
+  var p = getFitnessParams();
+  var btn = document.getElementById('btn-fit');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var sys = 'Tu es un entraîneur personnel certifié (NSCA-CPT, NASM) qui conçoit des programmes de remise en forme'
+    +' fondés sur la science pour de vraies personnes avec de vrais emplois du temps.'
+    +' Tu adaptes chaque programme à l\'objectif, au niveau et au matériel disponible.'
+    +' Tes programmes sont structurés, progressifs et immédiatement applicables.'
+    +' Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+
+  var prompt = 'Crée un programme d\'entraînement hebdomadaire complet pour :\n'
+    +'- Niveau : '+p.level+'\n'
+    +'- Objectif : '+p.goal+'\n'
+    +'- Fréquence : '+p.sessions+' séances/semaine de '+p.duration+'\n'
+    +'- Matériel : '+p.equip+'\n'
+    +(p.constr ? '- Contraintes : '+p.constr+'\n' : '')
+    +'\nStructure la réponse ainsi :\n'
+    +'1) Principe directeur du programme\n'
+    +'2) Planning hebdomadaire (détail de chaque séance : exercices, séries, répétitions, repos)\n'
+    +'3) Conseils de récupération et nutrition\n'
+    +'4) Indicateurs de progression à surveiller\n'
+    +'5) Ajustements si une séance est manquée';
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnFit || '🏋️ Générer mon programme';
+  });
+}
+
+function generateRoadmap() {
+  if (isFetching) return;
+  var p = getFitnessParams();
+  var btn = document.getElementById('btn-roadmap');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var sys = 'Tu es un entraîneur personnel certifié (NSCA-CPT, NASM) spécialisé dans la périodisation'
+    +' et la planification à long terme. Tu conçois des feuilles de route progressives fondées sur la science'
+    +' avec des phases claires, des objectifs mesurables et des indicateurs de progression.'
+    +' Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+
+  var prompt = 'Crée une feuille de route de remise en forme structurée sur 12 semaines pour :\n'
+    +'- Niveau : '+p.level+'\n'
+    +'- Objectif final : '+p.goal+'\n'
+    +'- Fréquence : '+p.sessions+' séances/semaine de '+p.duration+'\n'
+    +'- Matériel : '+p.equip+'\n'
+    +(p.constr ? '- Contraintes : '+p.constr+'\n' : '')
+    +'\nStructure la feuille de route en 3 phases :\n\n'
+    +'PHASE 1 – Condition physique de base (semaines 1-4) :\n'
+    +'- Objectifs de la phase\n'
+    +'- Type de séances et intensité\n'
+    +'- Indicateurs de réussite hebdomadaires\n\n'
+    +'PHASE 2 – Développement de la force (semaines 5-8) :\n'
+    +'- Objectifs de la phase\n'
+    +'- Progression par rapport à la phase 1\n'
+    +'- Indicateurs de réussite hebdomadaires\n\n'
+    +'PHASE 3 – Endurance et performance maximale (semaines 9-12) :\n'
+    +'- Objectifs de la phase\n'
+    +'- Intensité et complexité accrues\n'
+    +'- Test final et indicateurs de réussite\n\n'
+    +'Conclus avec :\n'
+    +'- Comment évaluer la progression globale\n'
+    +'- Prochaines étapes après les 12 semaines';
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = '🗺️ Feuille de route';
   });
 }
 

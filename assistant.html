@@ -257,6 +257,30 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
       <button class="btn-gold" id="btn-fit" onclick="generateFitness()" style="flex:1">🏋️ Générer mon programme</button>
       <button class="btn-gold" id="btn-roadmap" onclick="generateRoadmap()" style="flex:1;background:var(--bg4);border:1px solid var(--gold);color:var(--gold)">🗺️ Feuille de route</button>
     </div>
+
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500" id="el-snack-title">🥗 Idées Snacks Protéinés</div>
+      <div class="two">
+        <div class="field"><label id="el-lbl-sdiet">Régime alimentaire</label>
+          <select id="snack-diet">
+            <option id="snack-d1">Aucune restriction</option>
+            <option id="snack-d2">Végétarien</option>
+            <option id="snack-d3">Végétalien / Vegan</option>
+            <option id="snack-d4">Sans gluten</option>
+            <option id="snack-d5">Sans lactose</option>
+          </select>
+        </div>
+        <div class="field"><label id="el-lbl-sflavor">Préférence de goût</label>
+          <select id="snack-flavor">
+            <option id="snack-f1">Indifférent</option>
+            <option id="snack-f2">Plutôt sucré</option>
+            <option id="snack-f3">Plutôt salé</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-gold" id="btn-snack" onclick="generateSnacks()" style="margin-top:4px">🥗 Générer 10 idées snacks</button>
+    </div>
+
     <div class="result-box" id="result-fit">
       <div class="result-label" id="el-rl-fit">Programme généré par votre coach IA</div>
       <div class="result-text" id="text-fit"></div>
@@ -367,6 +391,11 @@ var T = {
     flevels:['Débutant','Intermédiaire','Avancé'],
     fequips:['Aucun (poids du corps)','Haltères uniquement','Bandes de résistance','Salle de sport complète','Home gym (haltères + barre)'],
     fconstrPh:'Ex : douleur genou droit, pas de sauts, travail sédentaire...',
+    snackTitle:'🥗 Idées Snacks Protéinés',
+    lsdiet:'Régime alimentaire', lsflavor:'Préférence de goût',
+    btnSnack:'🥗 Générer 10 idées snacks',
+    sdietOpts:['Aucune restriction','Végétarien','Végétalien / Vegan','Sans gluten','Sans lactose'],
+    sflavorOpts:['Indifférent','Plutôt sucré','Plutôt salé'],
     send:'Envoyer', chatPh:'Posez votre question...', processing:'En cours…', analysing:'Analyse en cours…',
     copied:'✓ Copié !', errNet:'Erreur réseau : ',
     welcome:'Bonjour ! Je suis votre assistant Douglas Elliman v2.3.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nJe peux vous aider sur :\n• Prix au m² par secteur\n• Profils acheteurs UHNWI\n• Réponses aux objections propriétaires\n• Stratégies mandat et off-market\n\nCliquez sur une suggestion ou posez votre question directement.',
@@ -397,6 +426,11 @@ var T = {
     flevels:['Beginner','Intermediate','Advanced'],
     fequips:['None (bodyweight)','Dumbbells only','Resistance bands','Full gym','Home gym (dumbbells + barbell)'],
     fconstrPh:'E.g.: right knee pain, no jumping, sedentary job...',
+    snackTitle:'🥗 High-Protein Snack Ideas',
+    lsdiet:'Dietary preference', lsflavor:'Taste preference',
+    btnSnack:'🥗 Generate 10 snack ideas',
+    sdietOpts:['No restriction','Vegetarian','Vegan','Gluten-free','Lactose-free'],
+    sflavorOpts:['No preference','Mostly sweet','Mostly savoury'],
     send:'Send', chatPh:'Ask your question...', processing:'Processing…', analysing:'Analysing…',
     copied:'✓ Copied!', errNet:'Network error: ',
     welcome:'Hello! I am your Douglas Elliman AI assistant v2.3.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nI can help you with:\n• Price per m² by sector\n• UHNWI buyer profiles\n• Handling seller objections\n• Mandate and off-market strategies\n\nClick a suggestion or ask your question directly.',
@@ -444,6 +478,18 @@ function setLang(lang, btn) {
   if (flvlSel) for (var k=0; k<flvlSel.options.length; k++) flvlSel.options[k].text = t.flevels[k]||flvlSel.options[k].text;
   var fconstrEl = document.getElementById('fit-constraints');
   if (fconstrEl) fconstrEl.placeholder = t.fconstrPh;
+  var snackTitleEl = document.getElementById('el-snack-title');
+  if (snackTitleEl) snackTitleEl.textContent = t.snackTitle;
+  var sdietSel = document.getElementById('snack-diet');
+  if (sdietSel) for (var sd=0; sd<sdietSel.options.length; sd++) sdietSel.options[sd].text = t.sdietOpts[sd]||sdietSel.options[sd].text;
+  var sflavorSel = document.getElementById('snack-flavor');
+  if (sflavorSel) for (var sf=0; sf<sflavorSel.options.length; sf++) sflavorSel.options[sf].text = t.sflavorOpts[sf]||sflavorSel.options[sf].text;
+  var btnSnackEl = document.getElementById('btn-snack');
+  if (btnSnackEl) btnSnackEl.textContent = t.btnSnack;
+  var lblSdietEl = document.getElementById('el-lbl-sdiet');
+  if (lblSdietEl) lblSdietEl.textContent = t.lsdiet;
+  var lblSflavorEl = document.getElementById('el-lbl-sflavor');
+  if (lblSflavorEl) lblSflavorEl.textContent = t.lsflavor;
   for (var id in ids) {
     var el = document.getElementById(id);
     if (el) el.textContent = t[ids[id]];
@@ -739,6 +785,58 @@ function generateRoadmap() {
     isFetching = false;
     btn.disabled = false;
     btn.textContent = '🗺️ Feuille de route';
+  });
+}
+
+/* =============================================
+   SNACKS PROTÉINÉS
+============================================= */
+function generateSnacks() {
+  if (isFetching) return;
+  var diet   = document.getElementById('snack-diet').value;
+  var flavor = document.getElementById('snack-flavor').value;
+  var goal   = document.getElementById('fit-goal').value;
+  var btn    = document.getElementById('btn-snack');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var sys = 'Tu es un nutritionniste du sport et diététicien certifié.'
+    +' Tu recommandes des snacks riches en protéines, pratiques et savoureux'
+    +' pour des personnes actives qui veulent atteindre leurs objectifs fitness.'
+    +' Tes recommandations sont concrètes : produits trouvables en supermarché'
+    +' ou recettes ultra-rapides (< 5 min). Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+
+  var isFr = LANG === 'fr';
+  var prompt = (isFr
+    ? 'Donne-moi exactement 10 idées de snacks riches en protéines en dessous de 200 kcal.\n'
+    : 'Give me exactly 10 high-protein snack ideas under 200 kcal.\n')
+    +(isFr ? 'Objectif fitness : ' : 'Fitness goal: ')+goal+'\n'
+    +(isFr ? 'Régime : ' : 'Diet: ')+diet+'\n'
+    +(isFr ? 'Préférence de goût : ' : 'Taste preference: ')+flavor+'\n\n'
+    +(isFr
+      ? 'Pour chaque snack, indique :\n'
+        +'- Nom du snack\n'
+        +'- ✅ À acheter tout prêt OU ⚡ Préparation rapide (< 5 min)\n'
+        +'- Protéines (g) / Calories (kcal)\n'
+        +'- 1 phrase de description et où trouver / comment préparer\n\n'
+        +'Varie les textures et saveurs. Mix sucré/salé si pas de préférence.'
+      : 'For each snack, include:\n'
+        +'- Snack name\n'
+        +'- ✅ Ready to buy OR ⚡ Quick prep (< 5 min)\n'
+        +'- Protein (g) / Calories (kcal)\n'
+        +'- 1-line description and where to find / how to make\n\n'
+        +'Vary textures and flavours. Mix sweet/savoury if no preference stated.');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnSnack || '🥗 Générer 10 idées snacks';
   });
 }
 

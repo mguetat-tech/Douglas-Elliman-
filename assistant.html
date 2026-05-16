@@ -281,6 +281,93 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
       <button class="btn-gold" id="btn-snack" onclick="generateSnacks()" style="margin-top:4px">🥗 Générer 10 idées snacks</button>
     </div>
 
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500" id="el-meal-title">🍽️ Plan Alimentaire 7 Jours</div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:12px;line-height:1.6" id="el-meal-sub">Entrez vos 5 aliments préférés — je construis un plan riche en protéines, &lt; 30 min de cuisine par repas.</div>
+      <div class="field"><label id="el-lbl-mfoods">Vos 5 aliments préférés</label>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="text" id="meal-f1" placeholder="Ex : poulet" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300"/>
+          <input type="text" id="meal-f2" placeholder="Ex : œufs" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300"/>
+          <input type="text" id="meal-f3" placeholder="Ex : riz basmati" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300"/>
+          <input type="text" id="meal-f4" placeholder="Ex : avocat" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300"/>
+          <input type="text" id="meal-f5" placeholder="Ex : fromage blanc" style="width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300"/>
+        </div>
+      </div>
+      <div class="two" style="margin-top:10px">
+        <div class="field"><label id="el-lbl-mcal">Calories / jour (optionnel)</label>
+          <input type="number" id="meal-cal" placeholder="Ex : 2000"/>
+        </div>
+        <div class="field"><label id="el-lbl-mprot">Protéines / jour (g)</label>
+          <input type="number" id="meal-prot" placeholder="Ex : 150"/>
+        </div>
+      </div>
+      <button class="btn-gold" id="btn-meal" onclick="generateMealPlan()" style="margin-top:4px">🍽️ Générer mon plan 7 jours</button>
+    </div>
+
+    <!-- FORM AUDIT -->
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500" id="el-audit-title">🔍 Audit Biomécanique</div>
+      <div class="field"><label id="el-lbl-apain">Douleur / gêne ressentie</label>
+        <input type="text" id="audit-pain" placeholder="Ex : douleur au bas du dos, genou qui craque..."/>
+      </div>
+      <div class="field"><label id="el-lbl-aexo">Exercice concerné</label>
+        <input type="text" id="audit-exo" placeholder="Ex : squat, soulevé de terre, développé couché..."/>
+      </div>
+      <button class="btn-gold" id="btn-audit" onclick="generateFormAudit()" style="margin-top:4px">🔍 Analyser ma technique</button>
+    </div>
+
+    <!-- METABOLIC FINISHER -->
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500" id="el-meta-title">⚡ Finisher Métabolique 15 min</div>
+      <div class="two">
+        <div class="field"><label id="el-lbl-mtype">Format</label>
+          <select id="meta-type">
+            <option value="EMOM">EMOM</option>
+            <option value="Tabata">Tabata</option>
+            <option value="AMRAP">AMRAP</option>
+          </select>
+        </div>
+        <div class="field"><label id="el-lbl-mequip">Matériel</label>
+          <select id="meta-equip">
+            <option id="meta-e1">Aucun (poids du corps)</option>
+            <option id="meta-e2">Haltères</option>
+            <option id="meta-e3">Kettlebell</option>
+            <option id="meta-e4">Corde à sauter</option>
+            <option id="meta-e5">Salle complète</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-gold" id="btn-meta" onclick="generateFinisher()" style="margin-top:4px">⚡ Générer mon finisher</button>
+    </div>
+
+    <!-- 90-DAY ACCOUNTABILITY -->
+    <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+      <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;font-weight:500" id="el-acc-title">📈 Suivi Coach 90 Jours</div>
+      <div class="two">
+        <div class="field"><label id="el-lbl-acw">Semaine actuelle</label>
+          <input type="number" id="acc-week" placeholder="Ex : 4" min="1" max="90"/>
+        </div>
+        <div class="field"><label id="el-lbl-acgoaldate">Date objectif</label>
+          <input type="date" id="acc-goaldate"/>
+        </div>
+      </div>
+      <div class="two">
+        <div class="field"><label id="el-lbl-acweight">Poids actuel (kg)</label>
+          <input type="number" id="acc-weight" placeholder="Ex : 82.5" step="0.1"/>
+        </div>
+        <div class="field"><label id="el-lbl-acgoalw">Poids cible (kg)</label>
+          <input type="number" id="acc-goalweight" placeholder="Ex : 75" step="0.1"/>
+        </div>
+      </div>
+      <div class="field"><label id="el-lbl-acstrength">Performances de force (optionnel)</label>
+        <textarea id="acc-strength" placeholder="Ex : Squat 80kg×5, Développé 60kg×8, Soulevé 100kg×5..."></textarea>
+      </div>
+      <div class="field"><label id="el-lbl-acnotes">Notes de la semaine (optionnel)</label>
+        <textarea id="acc-notes" placeholder="Ex : fatigue élevée, appétit réduit, 2 séances manquées..."></textarea>
+      </div>
+      <button class="btn-gold" id="btn-acc" onclick="generateAccountability()" style="margin-top:4px">📈 Analyser ma progression</button>
+    </div>
+
     <div class="result-box" id="result-fit">
       <div class="result-label" id="el-rl-fit">Programme généré par votre coach IA</div>
       <div class="result-text" id="text-fit"></div>
@@ -396,6 +483,27 @@ var T = {
     btnSnack:'🥗 Générer 10 idées snacks',
     sdietOpts:['Aucune restriction','Végétarien','Végétalien / Vegan','Sans gluten','Sans lactose'],
     sflavorOpts:['Indifférent','Plutôt sucré','Plutôt salé'],
+    mealTitle:'🍽️ Plan Alimentaire 7 Jours',
+    mealSub:'Entrez vos 5 aliments préférés — je construis un plan riche en protéines, < 30 min de cuisine par repas.',
+    lmfoods:'Vos 5 aliments préférés', lmcal:'Calories / jour (optionnel)', lmprot:'Protéines / jour (g)',
+    btnMeal:'🍽️ Générer mon plan 7 jours',
+    mfPhs:['Ex : poulet','Ex : œufs','Ex : riz basmati','Ex : avocat','Ex : fromage blanc'],
+    auditTitle:'🔍 Audit Biomécanique',
+    lapain:'Douleur / gêne ressentie', laexo:'Exercice concerné',
+    btnAudit:'🔍 Analyser ma technique',
+    auditPainPh:'Ex : douleur au bas du dos, genou qui craque...',
+    auditExoPh:'Ex : squat, soulevé de terre, développé couché...',
+    metaTitle:'⚡ Finisher Métabolique 15 min',
+    lmtype:'Format', lmequip2:'Matériel',
+    btnMeta:'⚡ Générer mon finisher',
+    metaEquips:['Aucun (poids du corps)','Haltères','Kettlebell','Corde à sauter','Salle complète'],
+    accTitle:'📈 Suivi Coach 90 Jours',
+    lacw:'Semaine actuelle', lacgoaldate:'Date objectif',
+    lacweight:'Poids actuel (kg)', lacgoalw:'Poids cible (kg)',
+    lacstrength:'Performances de force (optionnel)', lacnotes:'Notes de la semaine (optionnel)',
+    btnAcc:'📈 Analyser ma progression',
+    accStrPh:'Ex : Squat 80kg×5, Développé 60kg×8, Soulevé 100kg×5...',
+    accNotesPh:'Ex : fatigue élevée, appétit réduit, 2 séances manquées...',
     send:'Envoyer', chatPh:'Posez votre question...', processing:'En cours…', analysing:'Analyse en cours…',
     copied:'✓ Copié !', errNet:'Erreur réseau : ',
     welcome:'Bonjour ! Je suis votre assistant Douglas Elliman v2.3.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nJe peux vous aider sur :\n• Prix au m² par secteur\n• Profils acheteurs UHNWI\n• Réponses aux objections propriétaires\n• Stratégies mandat et off-market\n\nCliquez sur une suggestion ou posez votre question directement.',
@@ -431,6 +539,27 @@ var T = {
     btnSnack:'🥗 Generate 10 snack ideas',
     sdietOpts:['No restriction','Vegetarian','Vegan','Gluten-free','Lactose-free'],
     sflavorOpts:['No preference','Mostly sweet','Mostly savoury'],
+    mealTitle:'🍽️ 7-Day Meal Plan',
+    mealSub:'Enter your 5 favourite foods — I\'ll build a high-protein plan, < 30 min cooking per meal.',
+    lmfoods:'Your 5 favourite foods', lmcal:'Calories / day (optional)', lmprot:'Protein / day (g)',
+    btnMeal:'🍽️ Generate my 7-day plan',
+    mfPhs:['E.g.: chicken','E.g.: eggs','E.g.: basmati rice','E.g.: avocado','E.g.: Greek yogurt'],
+    auditTitle:'🔍 Biomechanics Audit',
+    lapain:'Pain / discomfort felt', laexo:'Exercise concerned',
+    btnAudit:'🔍 Analyse my technique',
+    auditPainPh:'E.g.: lower back pain, clicking knee...',
+    auditExoPh:'E.g.: squat, deadlift, bench press...',
+    metaTitle:'⚡ 15-Min Metabolic Finisher',
+    lmtype:'Format', lmequip2:'Equipment',
+    btnMeta:'⚡ Generate my finisher',
+    metaEquips:['None (bodyweight)','Dumbbells','Kettlebell','Jump rope','Full gym'],
+    accTitle:'📈 90-Day Coach Check-In',
+    lacw:'Current week', lacgoaldate:'Goal date',
+    lacweight:'Current weight (kg)', lacgoalw:'Target weight (kg)',
+    lacstrength:'Strength numbers (optional)', lacnotes:'Week notes (optional)',
+    btnAcc:'📈 Analyse my progress',
+    accStrPh:'E.g.: Squat 80kg×5, Bench 60kg×8, Deadlift 100kg×5...',
+    accNotesPh:'E.g.: high fatigue, low appetite, missed 2 sessions...',
     send:'Send', chatPh:'Ask your question...', processing:'Processing…', analysing:'Analysing…',
     copied:'✓ Copied!', errNet:'Network error: ',
     welcome:'Hello! I am your Douglas Elliman AI assistant v2.3.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nI can help you with:\n• Price per m² by sector\n• UHNWI buyer profiles\n• Handling seller objections\n• Mandate and off-market strategies\n\nClick a suggestion or ask your question directly.',
@@ -490,6 +619,61 @@ function setLang(lang, btn) {
   if (lblSdietEl) lblSdietEl.textContent = t.lsdiet;
   var lblSflavorEl = document.getElementById('el-lbl-sflavor');
   if (lblSflavorEl) lblSflavorEl.textContent = t.lsflavor;
+  var mealTitleEl = document.getElementById('el-meal-title');
+  if (mealTitleEl) mealTitleEl.textContent = t.mealTitle;
+  var mealSubEl = document.getElementById('el-meal-sub');
+  if (mealSubEl) mealSubEl.textContent = t.mealSub;
+  var lblMfEl = document.getElementById('el-lbl-mfoods');
+  if (lblMfEl) lblMfEl.textContent = t.lmfoods;
+  var lblMcEl = document.getElementById('el-lbl-mcal');
+  if (lblMcEl) lblMcEl.textContent = t.lmcal;
+  var lblMpEl = document.getElementById('el-lbl-mprot');
+  if (lblMpEl) lblMpEl.textContent = t.lmprot;
+  var btnMealEl = document.getElementById('btn-meal');
+  if (btnMealEl) btnMealEl.textContent = t.btnMeal;
+  if (t.mfPhs) { for (var mf=1; mf<=5; mf++) { var mfi = document.getElementById('meal-f'+mf); if (mfi) mfi.placeholder = t.mfPhs[mf-1]||''; } }
+  var auditTitleEl = document.getElementById('el-audit-title');
+  if (auditTitleEl) auditTitleEl.textContent = t.auditTitle;
+  var lblApainEl = document.getElementById('el-lbl-apain');
+  if (lblApainEl) lblApainEl.textContent = t.lapain;
+  var lblAexoEl = document.getElementById('el-lbl-aexo');
+  if (lblAexoEl) lblAexoEl.textContent = t.laexo;
+  var auditPainEl = document.getElementById('audit-pain');
+  if (auditPainEl) auditPainEl.placeholder = t.auditPainPh;
+  var auditExoEl = document.getElementById('audit-exo');
+  if (auditExoEl) auditExoEl.placeholder = t.auditExoPh;
+  var btnAuditEl = document.getElementById('btn-audit');
+  if (btnAuditEl) btnAuditEl.textContent = t.btnAudit;
+  var metaTitleEl = document.getElementById('el-meta-title');
+  if (metaTitleEl) metaTitleEl.textContent = t.metaTitle;
+  var lblMtypeEl = document.getElementById('el-lbl-mtype');
+  if (lblMtypeEl) lblMtypeEl.textContent = t.lmtype;
+  var lblMequip2El = document.getElementById('el-lbl-mequip');
+  if (lblMequip2El) lblMequip2El.textContent = t.lmequip2;
+  var metaEquipSel = document.getElementById('meta-equip');
+  if (metaEquipSel && t.metaEquips) for (var me=0; me<metaEquipSel.options.length; me++) metaEquipSel.options[me].text = t.metaEquips[me]||metaEquipSel.options[me].text;
+  var btnMetaEl = document.getElementById('btn-meta');
+  if (btnMetaEl) btnMetaEl.textContent = t.btnMeta;
+  var accTitleEl = document.getElementById('el-acc-title');
+  if (accTitleEl) accTitleEl.textContent = t.accTitle;
+  var lblAccwEl = document.getElementById('el-lbl-acw');
+  if (lblAccwEl) lblAccwEl.textContent = t.lacw;
+  var lblAccGdEl = document.getElementById('el-lbl-acgoaldate');
+  if (lblAccGdEl) lblAccGdEl.textContent = t.lacgoaldate;
+  var lblAccWtEl = document.getElementById('el-lbl-acweight');
+  if (lblAccWtEl) lblAccWtEl.textContent = t.lacweight;
+  var lblAccGwEl = document.getElementById('el-lbl-acgoalw');
+  if (lblAccGwEl) lblAccGwEl.textContent = t.lacgoalw;
+  var lblAccStEl = document.getElementById('el-lbl-acstrength');
+  if (lblAccStEl) lblAccStEl.textContent = t.lacstrength;
+  var lblAccNtEl = document.getElementById('el-lbl-acnotes');
+  if (lblAccNtEl) lblAccNtEl.textContent = t.lacnotes;
+  var btnAccEl = document.getElementById('btn-acc');
+  if (btnAccEl) btnAccEl.textContent = t.btnAcc;
+  var accStrEl = document.getElementById('acc-strength');
+  if (accStrEl) accStrEl.placeholder = t.accStrPh;
+  var accNotesEl = document.getElementById('acc-notes');
+  if (accNotesEl) accNotesEl.placeholder = t.accNotesPh;
   for (var id in ids) {
     var el = document.getElementById(id);
     if (el) el.textContent = t[ids[id]];
@@ -785,6 +969,261 @@ function generateRoadmap() {
     isFetching = false;
     btn.disabled = false;
     btn.textContent = '🗺️ Feuille de route';
+  });
+}
+
+/* =============================================
+   PLAN ALIMENTAIRE 7 JOURS
+============================================= */
+function generateMealPlan() {
+  if (isFetching) return;
+  var foods = [];
+  for (var i=1; i<=5; i++) {
+    var v = (document.getElementById('meal-f'+i).value||'').trim();
+    if (v) foods.push(v);
+  }
+  if (foods.length < 1) {
+    showError(LANG==='fr' ? 'Entrez au moins un aliment favori.' : 'Enter at least one favourite food.');
+    return;
+  }
+  var cal   = (document.getElementById('meal-cal').value||'').trim();
+  var prot  = (document.getElementById('meal-prot').value||'').trim();
+  var goal  = document.getElementById('fit-goal').value;
+  var diet  = document.getElementById('snack-diet').value;
+  var btn   = document.getElementById('btn-meal');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var isFr = LANG === 'fr';
+  var sys = (isFr
+    ? 'Tu es un nutritionniste du sport et chef cuisinier spécialisé en repas rapides et sains.'
+      +' Tu crées des plans alimentaires sur-mesure, riches en protéines, savoureux et réalisables en 30 minutes max.'
+      +' Tes plans sont structurés, précis en macros et incluent toujours une liste de snacks rapides.'
+    : 'You are a sports nutritionist and chef specialising in quick, healthy meals.'
+      +' You create personalised, high-protein meal plans that are tasty and take max 30 minutes to cook.'
+      +' Your plans are structured, macro-precise and always include a grab-and-go snack list.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr
+    ? 'Crée un plan alimentaire complet sur 7 jours en utilisant principalement ces aliments :\n'
+    : 'Create a complete 7-day meal plan using mainly these foods:\n')
+    +foods.map(function(f,idx){return (idx+1)+'. '+f;}).join('\n')+'\n\n'
+    +(isFr ? 'Objectif fitness : ' : 'Fitness goal: ')+goal+'\n'
+    +(diet && diet !== 'Aucune restriction' && diet !== 'No restriction' ? (isFr?'Régime : ':'Diet: ')+diet+'\n' : '')
+    +(cal  ? (isFr?'Objectif calorique : ':'Calorie target: ')+cal+' kcal/jour\n' : '')
+    +(prot ? (isFr?'Objectif protéines : ':'Protein target: ')+prot+' g/jour\n' : '')
+    +'\n'+(isFr
+      ? 'Structure le plan ainsi :\n\n'
+        +'📅 LUNDI → DIMANCHE\n'
+        +'Pour chaque jour : Petit-déjeuner / Déjeuner / Dîner\n'
+        +'— Nom du repas, ingrédients clés, temps de préparation, protéines (g) + calories (kcal)\n\n'
+        +'🚀 LISTE SNACKS GRAB-AND-GO (5 options)\n'
+        +'Pour chaque snack : nom, protéines (g), calories, ✅ prêt-à-acheter ou ⚡ < 5 min\n\n'
+        +'📊 RÉCAPITULATIF MACROS\n'
+        +'Moyenne journalière : protéines / glucides / lipides / calories'
+      : 'Structure the plan as follows:\n\n'
+        +'📅 MONDAY → SUNDAY\n'
+        +'For each day: Breakfast / Lunch / Dinner\n'
+        +'— Meal name, key ingredients, prep time, protein (g) + calories (kcal)\n\n'
+        +'🚀 GRAB-AND-GO SNACK LIST (5 options)\n'
+        +'For each snack: name, protein (g), calories, ✅ ready to buy or ⚡ < 5 min\n\n'
+        +'📊 MACRO SUMMARY\n'
+        +'Daily average: protein / carbs / fat / calories');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnMeal || '🍽️ Générer mon plan 7 jours';
+  });
+}
+
+/* =============================================
+   AUDIT BIOMÉCANIQUE
+============================================= */
+function generateFormAudit() {
+  if (isFetching) return;
+  var pain = (document.getElementById('audit-pain').value||'').trim();
+  var exo  = (document.getElementById('audit-exo').value||'').trim();
+  if (!pain || !exo) {
+    showError(LANG==='fr' ? 'Renseignez la douleur et l\'exercice.' : 'Please fill in both pain and exercise fields.');
+    return;
+  }
+  var btn = document.getElementById('btn-audit');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var isFr = LANG === 'fr';
+  var sys = (isFr
+    ? 'Tu es un kinésithérapeute du sport et coach certifié NSCA spécialisé en biomécanique et correction du mouvement.'
+      +' Tu identifies les erreurs techniques courantes, les déséquilibres musculaires et proposes des corrections et exercices de mobilité ciblés.'
+    : 'You are a sports physiotherapist and NSCA-certified coach specialising in biomechanics and movement correction.'
+      +' You identify common technical errors, muscular imbalances, and provide targeted corrections and mobility drills.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr
+    ? 'Je ressens '+pain+' quand j\'effectue : '+exo+'.\n\n'
+      +'Donne-moi :\n'
+      +'1) Les 3 points de rupture de forme ("Form Breakdown") les plus courants sur cet exercice qui peuvent causer cette douleur\n'
+      +'   — Pour chaque point : description du défaut, muscles concernés, conséquences à long terme\n\n'
+      +'2) 2 exercices de mobilité à effectuer AVANT la série pour activer les bons muscles et corriger le mouvement\n'
+      +'   — Pour chaque exercice : nom, durée/répétitions, muscles ciblés, instructions précises\n\n'
+      +'3) 1 conseil de sécurité immédiat (doit-il arrêter ou peut-il continuer à s\'entraîner ?)'
+    : 'I feel '+pain+' when I perform: '+exo+'.\n\n'
+      +'Give me:\n'
+      +'1) The 3 most common Form Breakdown points for this exercise that can cause this pain\n'
+      +'   — For each: description of the fault, muscles involved, long-term consequences\n\n'
+      +'2) 2 mobility drills to do BEFORE your set to activate the right muscles and correct the movement\n'
+      +'   — For each: name, duration/reps, muscles targeted, precise instructions\n\n'
+      +'3) 1 immediate safety recommendation (should they stop or can they continue training?)');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnAudit || '🔍 Analyser ma technique';
+  });
+}
+
+/* =============================================
+   FINISHER MÉTABOLIQUE
+============================================= */
+function generateFinisher() {
+  if (isFetching) return;
+  var format = document.getElementById('meta-type').value;
+  var equip  = document.getElementById('meta-equip').value;
+  var goal   = document.getElementById('fit-goal').value;
+  var level  = document.getElementById('fit-level').value;
+  var btn    = document.getElementById('btn-meta');
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var isFr = LANG === 'fr';
+  var sys = (isFr
+    ? 'Tu es un coach certifié NSCA-CSCS spécialisé en conditionnement métabolique et perte de graisse.'
+      +' Tu conçois des finishers courts et intenses qui maximisent la dépense calorique post-entraînement (EPOC) sur 24h.'
+      +' Tes programmes sont précis, chronométrés et immédiatement applicables.'
+    : 'You are an NSCA-CSCS certified coach specialising in metabolic conditioning and fat loss.'
+      +' You design short, intense finishers that maximise post-workout calorie burn (EPOC) for 24 hours.'
+      +' Your programmes are precise, timed and immediately actionable.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr
+    ? 'Conçois un finisher métabolique de 15 minutes en format '+format+'.\n\n'
+      +'Contexte :\n'
+      +'- Objectif : '+goal+' (préserver le muscle, brûler les graisses)\n'
+      +'- Niveau : '+level+'\n'
+      +'- Matériel : '+equip+'\n\n'
+      +'Structure :\n'
+      +'1) Explication du protocole '+format+' (durée travail / repos, rounds)\n'
+      +'2) Échauffement rapide 2 min\n'
+      +'3) Le finisher complet (exercices, ordre, timing précis)\n'
+      +'4) Pourquoi ce protocole spike le métabolisme sur 24h (EPOC)\n'
+      +'5) Variante plus facile et variante plus difficile'
+    : 'Design a 15-minute metabolic finisher in '+format+' format.\n\n'
+      +'Context:\n'
+      +'- Goal: '+goal+' (preserve muscle, burn fat)\n'
+      +'- Level: '+level+'\n'
+      +'- Equipment: '+equip+'\n\n'
+      +'Structure:\n'
+      +'1) '+format+' protocol explanation (work/rest duration, rounds)\n'
+      +'2) Quick 2-min warm-up\n'
+      +'3) Full finisher (exercises, order, precise timing)\n'
+      +'4) Why this protocol spikes metabolism for 24h (EPOC)\n'
+      +'5) Easier and harder variant');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnMeta || '⚡ Générer mon finisher';
+  });
+}
+
+/* =============================================
+   SUIVI COACH 90 JOURS
+============================================= */
+function generateAccountability() {
+  if (isFetching) return;
+  var week       = (document.getElementById('acc-week').value||'').trim();
+  var goalDate   = (document.getElementById('acc-goaldate').value||'').trim();
+  var weight     = (document.getElementById('acc-weight').value||'').trim();
+  var goalWeight = (document.getElementById('acc-goalweight').value||'').trim();
+  var strength   = (document.getElementById('acc-strength').value||'').trim();
+  var notes      = (document.getElementById('acc-notes').value||'').trim();
+  var btn        = document.getElementById('btn-acc');
+  var isFr       = LANG === 'fr';
+
+  if (!weight || !goalWeight) {
+    showError(isFr ? 'Renseignez votre poids actuel et votre poids cible.' : 'Please enter your current and target weight.');
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = T[LANG].processing;
+  isFetching = true;
+  showError(null);
+
+  var sys = (isFr
+    ? 'Tu es un coach sportif de haut niveau spécialisé dans le suivi à long terme, la périodisation nutritionnelle et la gestion des plateaux.'
+      +' Tu analyses les données hebdomadaires de tes athlètes et prescris des ajustements précis : refeed, déficit calorique, déload.'
+      +' Tu es direct, factuel et bienveillant. Tes recommandations sont basées sur la science (TDEE, EPOC, adaptations métaboliques).'
+    : 'You are a high-level sports coach specialising in long-term tracking, nutritional periodisation and plateau management.'
+      +' You analyse weekly athlete data and prescribe precise adjustments: refeed, calorie deficit, deload.'
+      +' You are direct, factual and supportive. Your recommendations are science-based (TDEE, EPOC, metabolic adaptations).')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr ? 'CHECK-IN SEMAINE ' : 'WEEK CHECK-IN ')+(week||'?')+'\n\n'
+    +(isFr ? 'Données :' : 'Data:')+'\n'
+    +'- '+(isFr?'Poids actuel : ':'Current weight: ')+weight+' kg\n'
+    +'- '+(isFr?'Poids cible : ':'Target weight: ')+goalWeight+' kg\n'
+    +(goalDate ? '- '+(isFr?'Date objectif : ':'Goal date: ')+goalDate+'\n' : '')
+    +(strength ? '- '+(isFr?'Performances de force : ':'Strength numbers: ')+strength+'\n' : '')
+    +(notes    ? '- '+(isFr?'Notes : ':'Notes: ')+notes+'\n' : '')
+    +'\n'+(isFr
+      ? 'En tant que mon head coach, analyse mes données et dis-moi :\n\n'
+        +'1) 📊 ANALYSE DE PROGRESSION\n'
+        +'   — Rythme de perte/prise vs objectif, tendance de force\n\n'
+        +'2) 🔧 PRESCRIPTION DE LA SEMAINE\n'
+        +'   — Dois-je faire un Refeed (et pourquoi) ou accentuer le déficit ?\n'
+        +'   — Ajustement calorique précis recommandé\n\n'
+        +'3) ⚠️ SIGNAUX D\'ALARME\n'
+        +'   — Points de vigilance basés sur mes données\n\n'
+        +'4) 🎯 OBJECTIF SEMAINE PROCHAINE\n'
+        +'   — 3 actions concrètes pour la semaine à venir'
+      : 'As my head coach, analyse my data and tell me:\n\n'
+        +'1) 📊 PROGRESS ANALYSIS\n'
+        +'   — Loss/gain rate vs goal, strength trend\n\n'
+        +'2) 🔧 THIS WEEK\'S PRESCRIPTION\n'
+        +'   — Should I Refeed (and why) or increase deficit?\n'
+        +'   — Precise calorie adjustment recommended\n\n'
+        +'3) ⚠️ WARNING SIGNALS\n'
+        +'   — Red flags based on my data\n\n'
+        +'4) 🎯 NEXT WEEK\'S TARGET\n'
+        +'   — 3 concrete actions for the week ahead');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    document.getElementById('text-fit').textContent = text;
+    document.getElementById('result-fit').style.display = 'block';
+    document.getElementById('result-fit').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnAcc || '📈 Analyser ma progression';
   });
 }
 

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>AI Fitness Coach</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --a:#FF3D00;--a2:#FF6B00;--a3:rgba(255,61,0,.12);--a4:rgba(255,61,0,.25);
+  --bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--bg4:#222;
+  --tx:#fff;--tx2:#bbb;--tx3:#666;
+  --green:#00E676;--red:#FF1744;
+  --nav:64px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{background:var(--bg2);border-bottom:2px solid var(--a);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:200}
+.logo{font-family:'Oswald',sans-serif;font-size:18px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lang-sw{display:flex;border:1px solid var(--a4);border-radius:3px;overflow:hidden}
+.lang-b{background:transparent;color:var(--a);border:none;padding:5px 11px;font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:background .2s}
+.lang-b.active{background:var(--a);color:#fff}
+
+/* ── PROFILE STRIP ── */
+.profile-strip{background:var(--bg2);border-bottom:1px solid var(--a3);padding:10px 16px;display:flex;gap:10px;align-items:flex-end;flex-wrap:nowrap;position:sticky;top:52px;z-index:190}
+.pf{flex:1;min-width:0}
+.pf label{display:block;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;font-weight:600}
+.pf input{width:100%;padding:7px 10px;background:var(--bg3);border:1px solid var(--a3);border-radius:3px;color:var(--tx);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;-webkit-appearance:none}
+.pf input:focus{outline:none;border-color:var(--a)}
+.bmi-badge{flex-shrink:0;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:3px;letter-spacing:1px;white-space:nowrap;align-self:flex-end;display:none}
+
+/* ── ERROR ── */
+.error-bar{background:#1a0808;border:1px solid var(--red);color:var(--red);padding:10px 14px;border-radius:3px;font-size:11px;line-height:1.6;margin-bottom:14px;display:none}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:var(--bg2);border-top:2px solid var(--a);display:flex;z-index:200}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:transparent;border:none;color:var(--tx3);cursor:pointer;font-family:'Inter',sans-serif;font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 4px;transition:color .2s}
+.nav-icon{font-size:20px;line-height:1}
+.nav-btn.active{color:var(--a)}
+
+/* ── CONTENT ── */
+.content{padding:16px 16px calc(var(--nav) + 20px);max-width:580px;margin:0 auto}
+.panel{display:none}
+.panel.active{display:block}
+
+/* ── SECTION HEADERS ── */
+.sec-hd{margin-bottom:18px}
+.sec-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;text-transform:uppercase;line-height:1.1;margin-bottom:4px}
+.sec-title span{color:var(--a)}
+.sec-sub{font-size:12px;color:var(--tx3);line-height:1.6}
+hr.div{border:none;border-top:1px solid var(--a3);margin:22px 0}
+
+/* ── FORMS ── */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:6px;font-weight:600}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--a3);border-radius:3px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;font-weight:400;-webkit-appearance:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--a)}
+.field textarea{resize:vertical;min-height:72px;line-height:1.7}
+.field select option{background:var(--bg3)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* ── CHIP SELECTOR (format EMOM/Tabata/AMRAP) ── */
+.chip-row{display:flex;gap:8px;margin-bottom:4px}
+.chip{flex:1;padding:11px 6px;border:1px solid var(--a3);border-radius:3px;background:var(--bg3);color:var(--tx3);font-family:'Oswald',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;text-align:center;cursor:pointer;transition:all .2s}
+.chip.on{background:var(--a);border-color:var(--a);color:#fff}
+
+/* ── FOOD LIST ── */
+.food-list{display:flex;flex-direction:column;gap:7px}
+.food-item{display:flex;align-items:center;gap:10px}
+.food-num{font-family:'Oswald',sans-serif;font-size:18px;color:var(--a);font-weight:700;width:18px;flex-shrink:0;line-height:1}
+.food-inp{flex:1;padding:10px 14px;background:var(--bg3);border:1px solid var(--a3);border-radius:3px;color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;-webkit-appearance:none}
+.food-inp:focus{outline:none;border-color:var(--a)}
+
+/* ── BUTTONS ── */
+.btn{width:100%;padding:14px;border:none;border-radius:3px;font-family:'Oswald',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity .2s}
+.btn-fire{background:linear-gradient(135deg,var(--a),var(--a2));color:#fff}
+.btn-fire:disabled{opacity:.4;cursor:not-allowed}
+.btn-outline{background:transparent;border:1px solid var(--a);color:var(--a);margin-top:8px;font-size:12px;padding:11px}
+.btn-outline:hover{background:var(--a);color:#fff}
+.btn-outline:disabled{opacity:.4;cursor:not-allowed}
+.btn-row{display:flex;gap:8px;margin-top:6px}
+.btn-row .btn{margin-top:0}
+
+/* ── RESULT ── */
+.result-box{margin-top:18px;display:none}
+.result-box.show{display:block}
+.result-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:8px;font-weight:600}
+.result-text{background:var(--bg3);border:1px solid var(--a3);border-left:3px solid var(--a);border-radius:3px;padding:16px;font-size:13px;line-height:1.9;color:var(--tx2);white-space:pre-wrap;max-height:500px;overflow-y:auto;font-weight:300}
+.btn-copy{width:100%;margin-top:8px;padding:10px;background:var(--bg3);border:1px solid var(--a3);color:var(--tx3);border-radius:3px;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.btn-copy.ok{background:#0a2010;border-color:var(--green);color:var(--green)}
+
+/* ── STAT ROW (90-day) ── */
+.stat-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.stat{background:var(--bg3);border:1px solid var(--a3);border-radius:3px;padding:10px 14px;flex:1;min-width:80px}
+.stat-val{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--a);line-height:1}
+.stat-key{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-top:3px;font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo" id="el-logo">AI Fitness Coach</div>
+  <div class="lang-sw">
+    <button class="lang-b active" onclick="setLang('fr',this)">FR</button>
+    <button class="lang-b" onclick="setLang('en',this)">EN</button>
+  </div>
+</header>
+
+<!-- ── PROFILE STRIP ── -->
+<div class="profile-strip">
+  <div class="pf"><label id="el-lbl-age">Âge</label><input type="number" id="p-age" placeholder="53" min="15" max="99" oninput="calcBmi()"/></div>
+  <div class="pf"><label id="el-lbl-ht">Taille cm</label><input type="number" id="p-ht" placeholder="183" min="140" max="220" oninput="calcBmi()"/></div>
+  <div class="pf"><label id="el-lbl-wt">Poids kg</label><input type="number" id="p-wt" placeholder="94" min="30" max="300" step=".1" oninput="calcBmi()"/></div>
+  <div class="bmi-badge" id="bmi-badge">IMC —</div>
+</div>
+
+<!-- ── CONTENT ── -->
+<div class="content">
+<div class="error-bar" id="error-bar"></div>
+
+<!-- ════════════════════════════════
+     PANEL 1 · PROGRAMME
+════════════════════════════════ -->
+<div class="panel active" id="panel-prog">
+  <div class="sec-hd">
+    <div class="sec-title" id="el-prog-title">Mon <span>Programme</span></div>
+    <div class="sec-sub" id="el-prog-sub">Programme hebdomadaire + feuille de route 12 semaines</div>
+  </div>
+
+  <div class="two">
+    <div class="field"><label id="el-lbl-lv">Niveau</label>
+      <select id="lv">
+        <option value="débutant" id="lv1">Débutant</option>
+        <option value="intermédiaire" id="lv2">Intermédiaire</option>
+        <option value="avancé" id="lv3">Avancé</option>
+      </select>
+    </div>
+    <div class="field"><label id="el-lbl-gl">Objectif</label>
+      <select id="gl">
+        <option id="g1">Perdre du poids</option>
+        <option id="g2">Prendre du muscle</option>
+        <option id="g3">Améliorer l'endurance</option>
+        <option id="g4">Rester en forme</option>
+        <option id="g5">Augmenter la force</option>
+        <option id="g6">Réduire le stress</option>
+      </select>
+    </div>
+  </div>
+  <div class="two">
+    <div class="field"><label id="el-lbl-se">Séances / sem.</label>
+      <select id="se"><option>2</option><option selected>3</option><option>4</option><option>5</option></select>
+    </div>
+    <div class="field"><label id="el-lbl-du">Durée</label>
+      <select id="du">
+        <option value="30 min">30 min</option>
+        <option value="45 min" selected>45 min</option>
+        <option value="1 h">1 h</option>
+        <option value="1 h 30">1 h 30</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label id="el-lbl-eq">Matériel</label>
+    <select id="eq">
+      <option id="e1">Aucun (poids du corps)</option>
+      <option id="e2">Haltères uniquement</option>
+      <option id="e3">Bandes de résistance</option>
+      <option id="e4">Salle de sport complète</option>
+      <option id="e5">Home gym (haltères + barre)</option>
+    </select>
+  </div>
+  <div class="field"><label id="el-lbl-cn">Contraintes / blessures</label>
+    <textarea id="cn" id="el-cn-ph"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-fire" id="btn-prog" onclick="genProg()">🏋️ <span id="el-btn-prog">Programme</span></button>
+    <button class="btn btn-outline" id="btn-road" onclick="genRoadmap()" style="margin-top:0">🗺️ <span id="el-btn-road">Roadmap</span></button>
+  </div>
+
+  <div class="result-box" id="res-prog">
+    <div class="result-lbl" id="el-rl-prog">Votre programme</div>
+    <div class="result-text" id="txt-prog"></div>
+    <button class="btn-copy" onclick="copyResult('txt-prog',this)" id="el-cp-prog">Copier</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PANEL 2 · NUTRITION
+════════════════════════════════ -->
+<div class="panel" id="panel-nut">
+  <div class="sec-hd">
+    <div class="sec-title" id="el-nut-title">Ma <span>Nutrition</span></div>
+    <div class="sec-sub" id="el-nut-sub">Plan alimentaire 7 jours + idées snacks protéinés</div>
+  </div>
+
+  <!-- 7-DAY PLAN -->
+  <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-weight:600" id="el-meal-lbl">🍽️ Plan 7 Jours</div>
+  <div class="field"><label id="el-lbl-mf">Vos 5 aliments préférés</label>
+    <div class="food-list">
+      <div class="food-item"><div class="food-num">1</div><input class="food-inp" id="mf1" placeholder="Ex : poulet"/></div>
+      <div class="food-item"><div class="food-num">2</div><input class="food-inp" id="mf2" placeholder="Ex : œufs"/></div>
+      <div class="food-item"><div class="food-num">3</div><input class="food-inp" id="mf3" placeholder="Ex : riz basmati"/></div>
+      <div class="food-item"><div class="food-num">4</div><input class="food-inp" id="mf4" placeholder="Ex : avocat"/></div>
+      <div class="food-item"><div class="food-num">5</div><input class="food-inp" id="mf5" placeholder="Ex : fromage blanc"/></div>
+    </div>
+  </div>
+  <div class="two">
+    <div class="field"><label id="el-lbl-mc">Kcal / jour</label><input type="number" id="mc" placeholder="Ex : 2000"/></div>
+    <div class="field"><label id="el-lbl-mp">Protéines (g)</label><input type="number" id="mp" placeholder="Ex : 150"/></div>
+  </div>
+  <div class="two">
+    <div class="field"><label id="el-lbl-md">Régime</label>
+      <select id="md">
+        <option id="md1">Aucune restriction</option>
+        <option id="md2">Végétarien</option>
+        <option id="md3">Vegan</option>
+        <option id="md4">Sans gluten</option>
+        <option id="md5">Sans lactose</option>
+      </select>
+    </div>
+    <div class="field"><label id="el-lbl-mfl">Goût</label>
+      <select id="mfl">
+        <option id="mfl1">Indifférent</option>
+        <option id="mfl2">Plutôt sucré</option>
+        <option id="mfl3">Plutôt salé</option>
+      </select>
+    </div>
+  </div>
+  <button class="btn btn-fire" id="btn-meal" onclick="genMeal()">🍽️ <span id="el-btn-meal">Plan 7 jours</span></button>
+
+  <hr class="div"/>
+
+  <!-- SNACKS -->
+  <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-weight:600" id="el-snack-lbl">🥗 Snacks Protéinés</div>
+  <button class="btn btn-outline" id="btn-snack" onclick="genSnacks()" style="margin-top:0">🥗 <span id="el-btn-snack">10 idées snacks</span></button>
+
+  <div class="result-box" id="res-nut">
+    <div class="result-lbl" id="el-rl-nut">Votre plan nutrition</div>
+    <div class="result-text" id="txt-nut"></div>
+    <button class="btn-copy" onclick="copyResult('txt-nut',this)" id="el-cp-nut">Copier</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PANEL 3 · PERFORMANCE
+════════════════════════════════ -->
+<div class="panel" id="panel-perf">
+  <div class="sec-hd">
+    <div class="sec-title" id="el-perf-title">Ma <span>Performance</span></div>
+    <div class="sec-sub" id="el-perf-sub">Audit biomécanique + finisher métabolique 15 min</div>
+  </div>
+
+  <!-- FORM AUDIT -->
+  <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-weight:600" id="el-audit-lbl">🔍 Audit Biomécanique</div>
+  <div class="field"><label id="el-lbl-ap">Douleur / gêne</label>
+    <input type="text" id="ap" placeholder="Ex : douleur genou, bas du dos..."/>
+  </div>
+  <div class="field"><label id="el-lbl-ae">Exercice concerné</label>
+    <input type="text" id="ae" placeholder="Ex : squat, soulevé de terre..."/>
+  </div>
+  <button class="btn btn-fire" id="btn-audit" onclick="genAudit()">🔍 <span id="el-btn-audit">Analyser ma technique</span></button>
+
+  <hr class="div"/>
+
+  <!-- FINISHER -->
+  <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--a);margin-bottom:10px;font-weight:600" id="el-fin-lbl">⚡ Finisher 15 min</div>
+  <div class="field"><label id="el-lbl-fmt">Format</label>
+    <div class="chip-row">
+      <div class="chip on" onclick="selFmt(this,'EMOM')">EMOM</div>
+      <div class="chip" onclick="selFmt(this,'Tabata')">Tabata</div>
+      <div class="chip" onclick="selFmt(this,'AMRAP')">AMRAP</div>
+    </div>
+    <input type="hidden" id="fmt" value="EMOM"/>
+  </div>
+  <div class="field"><label id="el-lbl-feq">Matériel</label>
+    <select id="feq">
+      <option id="feq1">Aucun (poids du corps)</option>
+      <option id="feq2">Haltères</option>
+      <option id="feq3">Kettlebell</option>
+      <option id="feq4">Corde à sauter</option>
+      <option id="feq5">Salle complète</option>
+    </select>
+  </div>
+  <button class="btn btn-fire" id="btn-fin" onclick="genFinisher()">⚡ <span id="el-btn-fin">Générer mon finisher</span></button>
+
+  <div class="result-box" id="res-perf">
+    <div class="result-lbl" id="el-rl-perf">Résultat</div>
+    <div class="result-text" id="txt-perf"></div>
+    <button class="btn-copy" onclick="copyResult('txt-perf',this)" id="el-cp-perf">Copier</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PANEL 4 · COACH
+════════════════════════════════ -->
+<div class="panel" id="panel-coach">
+  <div class="sec-hd">
+    <div class="sec-title" id="el-coach-title">Mon <span>Coach</span></div>
+    <div class="sec-sub" id="el-coach-sub">Check-in hebdomadaire · Analyse refeed / déficit · Objectif 90 jours</div>
+  </div>
+
+  <div class="stat-row" id="stat-row">
+    <div class="stat"><div class="stat-val" id="stat-bmi">—</div><div class="stat-key">IMC</div></div>
+    <div class="stat"><div class="stat-val" id="stat-wt">—</div><div class="stat-key" id="el-sk-wt">Poids</div></div>
+    <div class="stat"><div class="stat-val" id="stat-age">—</div><div class="stat-key" id="el-sk-age">Âge</div></div>
+  </div>
+
+  <div class="two">
+    <div class="field"><label id="el-lbl-cw">Semaine</label><input type="number" id="cw" placeholder="Ex : 4" min="1" max="90"/></div>
+    <div class="field"><label id="el-lbl-cgd">Date objectif</label><input type="date" id="cgd"/></div>
+  </div>
+  <div class="two">
+    <div class="field"><label id="el-lbl-cwt">Poids actuel (kg)</label><input type="number" id="cwt" placeholder="Ex : 82.5" step=".1"/></div>
+    <div class="field"><label id="el-lbl-cgw">Poids cible (kg)</label><input type="number" id="cgw" placeholder="Ex : 75" step=".1"/></div>
+  </div>
+  <div class="field"><label id="el-lbl-cst">Performances de force</label>
+    <textarea id="cst" placeholder="Ex : Squat 80kg×5, Développé 60kg×8..."></textarea>
+  </div>
+  <div class="field"><label id="el-lbl-cno">Notes de la semaine</label>
+    <textarea id="cno" placeholder="Ex : fatigue élevée, 2 séances manquées..."></textarea>
+  </div>
+  <button class="btn btn-fire" id="btn-coach" onclick="genCoach()">📈 <span id="el-btn-coach">Analyser ma progression</span></button>
+
+  <div class="result-box" id="res-coach">
+    <div class="result-lbl" id="el-rl-coach">Rapport de votre coach</div>
+    <div class="result-text" id="txt-coach"></div>
+    <button class="btn-copy" onclick="copyResult('txt-coach',this)" id="el-cp-coach">Copier</button>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- ── BOTTOM NAV ── -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="switchPanel('prog',this)" id="nb-prog">
+    <div class="nav-icon">🏋️</div><span id="el-nb-prog">Programme</span>
+  </button>
+  <button class="nav-btn" onclick="switchPanel('nut',this)" id="nb-nut">
+    <div class="nav-icon">🍽️</div><span id="el-nb-nut">Nutrition</span>
+  </button>
+  <button class="nav-btn" onclick="switchPanel('perf',this)" id="nb-perf">
+    <div class="nav-icon">⚡</div><span id="el-nb-perf">Performance</span>
+  </button>
+  <button class="nav-btn" onclick="switchPanel('coach',this)" id="nb-coach">
+    <div class="nav-icon">📈</div><span id="el-nb-coach">Coach</span>
+  </button>
+</nav>
+
+<script>
+/* ── GLOBALS ── */
+var LANG = 'fr';
+var isBusy = false;
+
+/* ── API ── */
+function apiUrl() {
+  return window.location.protocol + '//' + window.location.host + '/.netlify/functions/claude';
+}
+
+function apiCall(system, messages, onOk, onDone) {
+  var payload = JSON.stringify({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 2000,
+    system: system,
+    messages: messages.map(function(m){ return { role: ''+m.role, content: ''+m.content }; })
+  });
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', apiUrl(), true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.timeout = 45000;
+  xhr.onload = function() {
+    onDone && onDone();
+    if (xhr.status === 200) {
+      try {
+        var d = JSON.parse(xhr.responseText);
+        if (d && d.content && d.content[0] && d.content[0].text) { onOk(d.content[0].text); return; }
+        showErr(LANG==='fr' ? 'Réponse vide.' : 'Empty response.');
+      } catch(e) { showErr('Parse error: '+e.message); }
+    } else {
+      try { var er = JSON.parse(xhr.responseText); showErr((er.error && er.error.message) || 'HTTP '+xhr.status); }
+      catch(e) { showErr('HTTP '+xhr.status); }
+    }
+  };
+  xhr.onerror  = function(){ onDone&&onDone(); showErr(LANG==='fr'?'Erreur réseau.':'Network error.'); };
+  xhr.ontimeout= function(){ onDone&&onDone(); showErr(LANG==='fr'?'Délai dépassé.':'Timeout.'); };
+  xhr.send(payload);
+}
+
+/* ── PROFILE / BMI ── */
+function profile() {
+  return {
+    age: (document.getElementById('p-age').value||'').trim(),
+    ht:  (document.getElementById('p-ht').value||'').trim(),
+    wt:  (document.getElementById('p-wt').value||'').trim()
+  };
+}
+
+function calcBmi() {
+  var p = profile();
+  var badge = document.getElementById('bmi-badge');
+  var sAge  = document.getElementById('stat-age');
+  var sWt   = document.getElementById('stat-wt');
+  var sBmi  = document.getElementById('stat-bmi');
+  if (sAge) sAge.textContent = p.age || '—';
+  if (sWt)  sWt.textContent  = p.wt  ? p.wt+' kg' : '—';
+  if (p.ht && p.wt) {
+    var bmi = (parseFloat(p.wt) / Math.pow(parseFloat(p.ht)/100, 2)).toFixed(1);
+    badge.textContent = 'IMC '+bmi;
+    badge.style.display = 'block';
+    if (sBmi) sBmi.textContent = bmi;
+  } else {
+    badge.style.display = 'none';
+    if (sBmi) sBmi.textContent = '—';
+  }
+}
+
+function bioStr(isFr) {
+  var p = profile();
+  var parts = [];
+  if (p.age) parts.push((isFr?'Âge : ':'Age: ')+p.age+' ans');
+  if (p.ht)  parts.push((isFr?'Taille : ':'Height: ')+p.ht+' cm');
+  if (p.wt)  parts.push((isFr?'Poids : ':'Weight: ')+p.wt+' kg');
+  if (p.ht && p.wt) {
+    var bmi = (parseFloat(p.wt)/Math.pow(parseFloat(p.ht)/100,2)).toFixed(1);
+    parts.push('IMC : '+bmi);
+  }
+  return parts.length ? parts.join(' | ') : null;
+}
+
+function fitCtx() {
+  return {
+    lv: document.getElementById('lv').value,
+    gl: document.getElementById('gl').value,
+    se: document.getElementById('se').value,
+    du: document.getElementById('du').value,
+    eq: document.getElementById('eq').value,
+    cn: (document.getElementById('cn').value||'').trim()
+  };
+}
+
+/* ── UI HELPERS ── */
+function switchPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function selFmt(el, val) {
+  document.querySelectorAll('.chip').forEach(function(c){ c.classList.remove('on'); });
+  el.classList.add('on');
+  document.getElementById('fmt').value = val;
+}
+
+function showErr(msg) {
+  var b = document.getElementById('error-bar');
+  if (!msg) { b.style.display='none'; return; }
+  b.textContent = msg; b.style.display='block';
+  setTimeout(function(){ b.style.display='none'; }, 8000);
+}
+
+function showResult(boxId, lblId, textId, text, label) {
+  document.getElementById(textId).textContent = text;
+  document.getElementById(lblId).textContent  = label;
+  var box = document.getElementById(boxId);
+  box.style.display = 'block';
+  box.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+function setBtn(id, disabled, text) {
+  var b = document.getElementById(id);
+  b.disabled = disabled;
+  var sp = b.querySelector('span');
+  if (sp && text) sp.textContent = text;
+}
+
+function copyResult(id, btn) {
+  var text = document.getElementById(id).textContent || '';
+  var orig = btn.textContent;
+  var done = function() {
+    btn.textContent = LANG==='fr' ? '✓ Copié !' : '✓ Copied!';
+    btn.classList.add('ok');
+    setTimeout(function(){ btn.textContent=orig; btn.classList.remove('ok'); }, 2500);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(function(){ fallCopy(text); done(); });
+  } else { fallCopy(text); done(); }
+}
+
+function fallCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ── TEXTS ── */
+var T = {
+  fr: {
+    lage:'Âge', lht:'Taille cm', lwt:'Poids kg',
+    progTitle:'Mon Programme', progSub:'Programme hebdomadaire + feuille de route 12 semaines',
+    llv:'Niveau', lgl:'Objectif', lse:'Séances / sem.', ldu:'Durée', leq:'Matériel', lcn:'Contraintes / blessures',
+    lvOpts:['Débutant','Intermédiaire','Avancé'],
+    glOpts:['Perdre du poids','Prendre du muscle','Améliorer l\'endurance','Rester en forme','Augmenter la force','Réduire le stress'],
+    eqOpts:['Aucun (poids du corps)','Haltères uniquement','Bandes de résistance','Salle de sport complète','Home gym (haltères + barre)'],
+    cnPh:'Ex : douleur genou, pas de sauts...',
+    btnProg:'Programme', btnRoad:'Roadmap',
+    rlProg:'Votre programme', cpBtn:'Copier',
+    nutTitle:'Ma Nutrition', nutSub:'Plan alimentaire 7 jours + idées snacks protéinés',
+    mealLbl:'🍽️ Plan 7 Jours', snackLbl:'🥗 Snacks Protéinés',
+    lmf:'Vos 5 aliments préférés', lmc:'Kcal / jour', lmp:'Protéines (g)',
+    lmd:'Régime', lmfl:'Goût',
+    mdOpts:['Aucune restriction','Végétarien','Vegan','Sans gluten','Sans lactose'],
+    mflOpts:['Indifférent','Plutôt sucré','Plutôt salé'],
+    mfPh:['Ex : poulet','Ex : œufs','Ex : riz basmati','Ex : avocat','Ex : fromage blanc'],
+    btnMeal:'Plan 7 jours', btnSnack:'10 idées snacks',
+    rlNut:'Votre plan nutrition',
+    perfTitle:'Ma Performance', perfSub:'Audit biomécanique + finisher métabolique 15 min',
+    auditLbl:'🔍 Audit Biomécanique', finLbl:'⚡ Finisher 15 min',
+    lap:'Douleur / gêne', lae:'Exercice concerné',
+    apPh:'Ex : douleur genou, bas du dos...', aePh:'Ex : squat, soulevé de terre...',
+    lfmt:'Format', lfeq:'Matériel',
+    feqOpts:['Aucun (poids du corps)','Haltères','Kettlebell','Corde à sauter','Salle complète'],
+    btnAudit:'Analyser ma technique', btnFin:'Générer mon finisher',
+    rlPerf:'Résultat',
+    coachTitle:'Mon Coach', coachSub:'Check-in hebdomadaire · Analyse refeed / déficit · Objectif 90 jours',
+    lcw:'Semaine', lcgd:'Date objectif', lcwt:'Poids actuel (kg)', lcgw:'Poids cible (kg)',
+    lcst:'Performances de force', lcno:'Notes de la semaine',
+    cstPh:'Ex : Squat 80kg×5, Développé 60kg×8...',
+    cnoPh:'Ex : fatigue élevée, 2 séances manquées...',
+    btnCoach:'Analyser ma progression', rlCoach:'Rapport de votre coach',
+    skWt:'Poids', skAge:'Âge',
+    nbProg:'Programme', nbNut:'Nutrition', nbPerf:'Performance', nbCoach:'Coach',
+    processing:'En cours…'
+  },
+  en: {
+    lage:'Age', lht:'Height cm', lwt:'Weight kg',
+    progTitle:'My Programme', progSub:'Weekly workout plan + 12-week roadmap',
+    llv:'Level', lgl:'Goal', lse:'Sessions / wk', ldu:'Duration', leq:'Equipment', lcn:'Constraints / injuries',
+    lvOpts:['Beginner','Intermediate','Advanced'],
+    glOpts:['Lose weight','Build muscle','Improve endurance','Stay in shape','Increase strength','Reduce stress'],
+    eqOpts:['None (bodyweight)','Dumbbells only','Resistance bands','Full gym','Home gym (dumbbells + barbell)'],
+    cnPh:'E.g.: knee pain, no jumping...',
+    btnProg:'Programme', btnRoad:'Roadmap',
+    rlProg:'Your programme', cpBtn:'Copy',
+    nutTitle:'My Nutrition', nutSub:'7-day meal plan + high-protein snack ideas',
+    mealLbl:'🍽️ 7-Day Plan', snackLbl:'🥗 High-Protein Snacks',
+    lmf:'Your 5 favourite foods', lmc:'Kcal / day', lmp:'Protein (g)',
+    lmd:'Diet', lmfl:'Taste',
+    mdOpts:['No restriction','Vegetarian','Vegan','Gluten-free','Lactose-free'],
+    mflOpts:['No preference','Mostly sweet','Mostly savoury'],
+    mfPh:['E.g.: chicken','E.g.: eggs','E.g.: basmati rice','E.g.: avocado','E.g.: Greek yogurt'],
+    btnMeal:'7-day plan', btnSnack:'10 snack ideas',
+    rlNut:'Your nutrition plan',
+    perfTitle:'My Performance', perfSub:'Biomechanics audit + 15-min metabolic finisher',
+    auditLbl:'🔍 Biomechanics Audit', finLbl:'⚡ 15-Min Finisher',
+    lap:'Pain / discomfort', lae:'Exercise concerned',
+    apPh:'E.g.: knee pain, lower back...', aePh:'E.g.: squat, deadlift...',
+    lfmt:'Format', lfeq:'Equipment',
+    feqOpts:['None (bodyweight)','Dumbbells','Kettlebell','Jump rope','Full gym'],
+    btnAudit:'Analyse my technique', btnFin:'Generate my finisher',
+    rlPerf:'Result',
+    coachTitle:'My Coach', coachSub:'Weekly check-in · Refeed / deficit analysis · 90-day goal',
+    lcw:'Week', lcgd:'Goal date', lcwt:'Current weight (kg)', lcgw:'Target weight (kg)',
+    lcst:'Strength numbers', lcno:'Week notes',
+    cstPh:'E.g.: Squat 80kg×5, Bench 60kg×8...',
+    cnoPh:'E.g.: high fatigue, missed 2 sessions...',
+    btnCoach:'Analyse my progress', rlCoach:'Your coach report',
+    skWt:'Weight', skAge:'Age',
+    nbProg:'Programme', nbNut:'Nutrition', nbPerf:'Performance', nbCoach:'Coach',
+    processing:'Loading…'
+  }
+};
+
+/* ── LANG ── */
+function setLang(lang, btn) {
+  LANG = lang;
+  document.getElementById('html-root').lang = lang;
+  document.querySelectorAll('.lang-b').forEach(function(b){ b.classList.toggle('active', b.textContent.trim().toLowerCase()===lang); });
+  applyT();
+}
+
+function applyT() {
+  var t = T[LANG];
+  function txt(id, v) { var el=document.getElementById(id); if (el) el.textContent = v; }
+  function ph(id, v)  { var el=document.getElementById(id); if (el) el.placeholder = v; }
+  function opts(selId, arr) {
+    var sel = document.getElementById(selId);
+    if (!sel) return;
+    for (var i=0; i<sel.options.length && i<arr.length; i++) sel.options[i].text = arr[i];
+  }
+  txt('el-lbl-age',t.lage); txt('el-lbl-ht',t.lht); txt('el-lbl-wt',t.lwt);
+  txt('el-prog-title','Mon '); // kept as template
+  txt('el-prog-sub',t.progSub);
+  txt('el-lbl-lv',t.llv); txt('el-lbl-gl',t.lgl); txt('el-lbl-se',t.lse); txt('el-lbl-du',t.ldu); txt('el-lbl-eq',t.leq); txt('el-lbl-cn',t.lcn);
+  opts('lv',t.lvOpts); opts('gl',t.glOpts); opts('eq',t.eqOpts);
+  ph('cn',t.cnPh);
+  txt('el-btn-prog',t.btnProg); txt('el-btn-road',t.btnRoad); txt('el-rl-prog',t.rlProg);
+  txt('el-nut-sub',t.nutSub); txt('el-meal-lbl',t.mealLbl); txt('el-snack-lbl',t.snackLbl);
+  txt('el-lbl-mf',t.lmf); txt('el-lbl-mc',t.lmc); txt('el-lbl-mp',t.lmp); txt('el-lbl-md',t.lmd); txt('el-lbl-mfl',t.lmfl);
+  opts('md',t.mdOpts); opts('mfl',t.mflOpts);
+  for (var i=1; i<=5; i++) ph('mf'+i, t.mfPh[i-1]||'');
+  txt('el-btn-meal',t.btnMeal); txt('el-btn-snack',t.btnSnack); txt('el-rl-nut',t.rlNut);
+  txt('el-perf-sub',t.perfSub); txt('el-audit-lbl',t.auditLbl); txt('el-fin-lbl',t.finLbl);
+  txt('el-lbl-ap',t.lap); txt('el-lbl-ae',t.lae); ph('ap',t.apPh); ph('ae',t.aePh);
+  txt('el-lbl-fmt',t.lfmt); txt('el-lbl-feq',t.lfeq); opts('feq',t.feqOpts);
+  txt('el-btn-audit',t.btnAudit); txt('el-btn-fin',t.btnFin); txt('el-rl-perf',t.rlPerf);
+  txt('el-coach-sub',t.coachSub);
+  txt('el-lbl-cw',t.lcw); txt('el-lbl-cgd',t.lcgd); txt('el-lbl-cwt',t.lcwt); txt('el-lbl-cgw',t.lcgw);
+  txt('el-lbl-cst',t.lcst); txt('el-lbl-cno',t.lcno);
+  ph('cst',t.cstPh); ph('cno',t.cnoPh);
+  txt('el-btn-coach',t.btnCoach); txt('el-rl-coach',t.rlCoach);
+  txt('el-sk-wt',t.skWt); txt('el-sk-age',t.skAge);
+  txt('el-nb-prog',t.nbProg); txt('el-nb-nut',t.nbNut); txt('el-nb-perf',t.nbPerf); txt('el-nb-coach',t.nbCoach);
+  document.querySelectorAll('.btn-copy').forEach(function(b){ b.textContent = t.cpBtn; });
+}
+
+/* ── PROGRAMME ── */
+function genProg() {
+  if (isBusy) return;
+  var p = fitCtx(); var bio = bioStr(true);
+  var btn = 'btn-prog';
+  isBusy = true; setBtn(btn, true, T[LANG].processing); showErr(null);
+
+  var sys = 'Tu es un entraîneur personnel certifié NSCA-CPT spécialiste en programmation de force et conditionnement.'
+    +' Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+  var prompt = (LANG==='fr'
+    ? 'Crée un programme d\'entraînement hebdomadaire complet :\n'
+    : 'Create a complete weekly workout programme:\n')
+    +(bio ? '- Profil : '+bio+'\n' : '')
+    +'- Niveau : '+p.lv+' | Objectif : '+p.gl+'\n'
+    +'- '+p.se+' séances/sem. de '+p.du+' | Matériel : '+p.eq+'\n'
+    +(p.cn ? '- Contraintes : '+p.cn+'\n' : '')
+    +'\n'+(LANG==='fr'
+      ? '1) Principe directeur\n2) Planning (exercices, séries×reps, repos)\n3) Conseils récupération\n4) Indicateurs de progression'
+      : '1) Core principle\n2) Schedule (exercises, sets×reps, rest)\n3) Recovery tips\n4) Progress markers');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-prog','el-rl-prog','txt-prog', text, T[LANG].rlProg);
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnProg); });
+}
+
+function genRoadmap() {
+  if (isBusy) return;
+  var p = fitCtx(); var bio = bioStr(true);
+  var btn = 'btn-road';
+  isBusy = true; setBtn(btn, true, T[LANG].processing); showErr(null);
+
+  var sys = 'Tu es un coach certifié NSCA-CSCS expert en périodisation et planification à long terme.'
+    +' Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+  var prompt = (LANG==='fr'
+    ? 'Crée une feuille de route 12 semaines en 3 phases :\n'
+    : 'Create a 12-week roadmap in 3 phases:\n')
+    +(bio ? '- Profil : '+bio+'\n' : '')
+    +'- Niveau : '+p.lv+' | Objectif : '+p.gl+'\n'
+    +'- '+p.se+' séances/sem. de '+p.du+' | Matériel : '+p.eq+'\n'
+    +(p.cn ? '- Contraintes : '+p.cn+'\n' : '')
+    +'\n'+(LANG==='fr'
+      ? 'Phase 1 (sem 1-4) : Condition de base\nPhase 2 (sem 5-8) : Développement de la force\nPhase 3 (sem 9-12) : Performance maximale\n\nPour chaque phase : objectifs, type de séances, indicateurs de réussite hebdomadaires.\nConclure avec : évaluation finale + prochaines étapes.'
+      : 'Phase 1 (wk 1-4): Base fitness\nPhase 2 (wk 5-8): Strength development\nPhase 3 (wk 9-12): Peak performance\n\nFor each phase: goals, session types, weekly success markers.\nConclude with: final assessment + next steps.');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-prog','el-rl-prog','txt-prog', text, LANG==='fr'?'Votre feuille de route':'Your roadmap');
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnRoad); });
+}
+
+/* ── NUTRITION ── */
+function genMeal() {
+  if (isBusy) return;
+  var foods = [];
+  for (var i=1; i<=5; i++) { var v=(document.getElementById('mf'+i).value||'').trim(); if(v) foods.push(v); }
+  if (!foods.length) { showErr(LANG==='fr'?'Entrez au moins un aliment.':'Enter at least one food.'); return; }
+  var cal  = (document.getElementById('mc').value||'').trim();
+  var prot = (document.getElementById('mp').value||'').trim();
+  var diet = document.getElementById('md').value;
+  var fl   = document.getElementById('mfl').value;
+  var goal = document.getElementById('gl').value;
+  var bio  = bioStr(LANG==='fr');
+  var btn  = 'btn-meal';
+  isBusy=true; setBtn(btn,true,T[LANG].processing); showErr(null);
+
+  var sys = (LANG==='fr'
+    ? 'Tu es un nutritionniste du sport et chef cuisinier spécialisé en repas rapides et sains. Max 30 min de préparation par repas.'
+    : 'You are a sports nutritionist and chef specialising in quick healthy meals. Max 30 min prep per meal.')
+    +' Réponds en '+(LANG==='fr'?'français':'anglais')+'.';
+
+  var isFr = LANG==='fr';
+  var prompt = (isFr?'Plan alimentaire 7 jours avec ces aliments :\n':'7-day meal plan using these foods:\n')
+    +foods.map(function(f,i){return (i+1)+'. '+f;}).join('\n')+'\n\n'
+    +(bio?'Profil : '+bio+'\n':'')
+    +'Objectif : '+goal+'\n'
+    +(diet&&diet!=='Aucune restriction'&&diet!=='No restriction'?'Régime : '+diet+'\n':'')
+    +(cal?'Calories : '+cal+' kcal/j\n':'')+(prot?'Protéines : '+prot+' g/j\n':'')
+    +'\n'+(isFr
+      ? 'Format :\n📅 LUN→DIM : Petit-déjeuner / Déjeuner / Dîner (nom, ingrédients, prep, protéines+calories)\n🚀 SNACKS GRAB-AND-GO (5 options : ✅ prêt ou ⚡ <5 min)\n📊 RÉCAP MACROS journalier moyen'
+      : 'Format:\n📅 MON→SUN: Breakfast / Lunch / Dinner (name, ingredients, prep, protein+calories)\n🚀 GRAB-AND-GO SNACKS (5: ✅ ready or ⚡ <5 min)\n📊 DAILY MACRO SUMMARY');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-nut','el-rl-nut','txt-nut', text, T[LANG].rlNut);
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnMeal); });
+}
+
+function genSnacks() {
+  if (isBusy) return;
+  var diet = document.getElementById('md').value;
+  var fl   = document.getElementById('mfl').value;
+  var goal = document.getElementById('gl').value;
+  var btn  = 'btn-snack';
+  isBusy=true; setBtn(btn,true,T[LANG].processing); showErr(null);
+
+  var isFr = LANG==='fr';
+  var sys = (isFr
+    ? 'Tu es un nutritionniste du sport. Tu recommandes des snacks riches en protéines, pratiques, trouvables en supermarché ou ultra-rapides (<5 min).'
+    : 'You are a sports nutritionist. You recommend high-protein snacks that are practical, found in supermarkets or ultra-quick (<5 min).')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr?'10 snacks protéinés < 200 kcal :\n':'10 high-protein snacks under 200 kcal:\n')
+    +'Objectif : '+goal+'\n'
+    +(diet&&diet!=='Aucune restriction'&&diet!=='No restriction'?'Régime : '+diet+'\n':'')
+    +'Goût : '+fl+'\n\n'
+    +(isFr
+      ? 'Pour chaque : nom | ✅ prêt-à-acheter ou ⚡ <5 min | protéines (g) / calories | où trouver / comment faire'
+      : 'For each: name | ✅ ready to buy or ⚡ <5 min | protein (g) / calories | where to find / how to make');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-nut','el-rl-nut','txt-nut', text, LANG==='fr'?'Vos idées snacks':'Your snack ideas');
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnSnack); });
+}
+
+/* ── PERFORMANCE ── */
+function genAudit() {
+  if (isBusy) return;
+  var pain = (document.getElementById('ap').value||'').trim();
+  var exo  = (document.getElementById('ae').value||'').trim();
+  if (!pain||!exo) { showErr(LANG==='fr'?'Renseignez la douleur et l\'exercice.':'Fill in both fields.'); return; }
+  var btn = 'btn-audit';
+  isBusy=true; setBtn(btn,true,T[LANG].processing); showErr(null);
+
+  var isFr = LANG==='fr';
+  var sys = (isFr
+    ? 'Tu es un kinésithérapeute du sport et coach NSCA spécialisé en biomécanique et correction du mouvement.'
+    : 'You are a sports physio and NSCA coach specialising in biomechanics and movement correction.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr
+    ? 'Je ressens '+pain+' sur : '+exo+'.\n\n'
+      +'1) Les 3 points de rupture de forme les plus courants (défaut, muscles, conséquences)\n'
+      +'2) 2 drills de mobilité pré-série (nom, durée/reps, muscles ciblés, instructions)\n'
+      +'3) Recommandation de sécurité immédiate'
+    : 'I feel '+pain+' on: '+exo+'.\n\n'
+      +'1) The 3 most common form breakdown points (fault, muscles, consequences)\n'
+      +'2) 2 pre-set mobility drills (name, duration/reps, muscles, instructions)\n'
+      +'3) Immediate safety recommendation');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-perf','el-rl-perf','txt-perf', text, LANG==='fr'?'Votre audit technique':'Your technique audit');
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnAudit); });
+}
+
+function genFinisher() {
+  if (isBusy) return;
+  var fmt  = document.getElementById('fmt').value;
+  var feq  = document.getElementById('feq').value;
+  var goal = document.getElementById('gl').value;
+  var lv   = document.getElementById('lv').value;
+  var bio  = bioStr(LANG==='fr');
+  var btn  = 'btn-fin';
+  isBusy=true; setBtn(btn,true,T[LANG].processing); showErr(null);
+
+  var isFr = LANG==='fr';
+  var sys = (isFr
+    ? 'Tu es un coach NSCA-CSCS spécialisé en conditionnement métabolique et perte de graisse via l\'EPOC.'
+    : 'You are an NSCA-CSCS coach specialising in metabolic conditioning and fat loss via EPOC.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr
+    ? 'Finisher métabolique 15 min en '+fmt+'.\n'+(bio?'Profil : '+bio+'\n':'')+'Niveau : '+lv+' | Objectif : '+goal+' | Matériel : '+feq+'\n\n'
+      +'1) Protocole '+fmt+' (travail/repos/rounds)\n2) Échauffement 2 min\n3) Finisher complet chronométré\n4) Mécanisme EPOC 24h\n5) Variante facile + variante difficile'
+    : '15-min metabolic finisher in '+fmt+'.\n'+(bio?'Profile: '+bio+'\n':'')+'Level: '+lv+' | Goal: '+goal+' | Equipment: '+feq+'\n\n'
+      +'1) '+fmt+' protocol (work/rest/rounds)\n2) 2-min warm-up\n3) Full timed finisher\n4) EPOC 24h mechanism\n5) Easier + harder variant');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-perf','el-rl-perf','txt-perf', text, LANG==='fr'?'Votre finisher '+fmt:'Your '+fmt+' finisher');
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnFin); });
+}
+
+/* ── COACH ── */
+function genCoach() {
+  if (isBusy) return;
+  var wt  = (document.getElementById('cwt').value||'').trim();
+  var gw  = (document.getElementById('cgw').value||'').trim();
+  if (!wt||!gw) { showErr(LANG==='fr'?'Entrez poids actuel et poids cible.':'Enter current and target weight.'); return; }
+  var wk  = (document.getElementById('cw').value||'?').trim();
+  var gd  = (document.getElementById('cgd').value||'').trim();
+  var st  = (document.getElementById('cst').value||'').trim();
+  var no  = (document.getElementById('cno').value||'').trim();
+  var bio = bioStr(LANG==='fr');
+  var btn = 'btn-coach';
+  isBusy=true; setBtn(btn,true,T[LANG].processing); showErr(null);
+
+  var isFr = LANG==='fr';
+  var sys = (isFr
+    ? 'Tu es un coach sportif de haut niveau spécialisé en suivi à long terme, périodisation nutritionnelle et gestion des plateaux. Tu es direct, factuel et bienveillant.'
+    : 'You are a high-level sports coach specialising in long-term tracking, nutritional periodisation and plateau management. You are direct, factual and supportive.')
+    +' Réponds en '+(isFr?'français':'anglais')+'.';
+
+  var prompt = (isFr?'CHECK-IN SEMAINE ':'WEEK CHECK-IN ')+wk+'\n\n'
+    +(bio?'Profil : '+bio+'\n':'')
+    +'Poids actuel : '+wt+' kg | Poids cible : '+gw+' kg\n'
+    +(gd?'Date objectif : '+gd+'\n':'')
+    +(st?'Force : '+st+'\n':'')+(no?'Notes : '+no+'\n':'')
+    +'\n'+(isFr
+      ? '1) 📊 ANALYSE DE PROGRESSION (rythme vs objectif, tendance force)\n2) 🔧 PRESCRIPTION (refeed ou déficit ? ajustement calorique précis)\n3) ⚠️ SIGNAUX D\'ALARME (points de vigilance)\n4) 🎯 OBJECTIF SEMAINE PROCHAINE (3 actions concrètes)'
+      : '1) 📊 PROGRESS ANALYSIS (rate vs goal, strength trend)\n2) 🔧 PRESCRIPTION (refeed or deficit? precise calorie adjustment)\n3) ⚠️ WARNING SIGNALS (red flags)\n4) 🎯 NEXT WEEK\'S TARGET (3 concrete actions)');
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    showResult('res-coach','el-rl-coach','txt-coach', text, T[LANG].rlCoach);
+  }, function() { isBusy=false; setBtn(btn,false,T[LANG].btnCoach); });
+}
+
+/* ── INIT ── */
+calcBmi();
+applyT();
+
+/* Section title spans kept dynamic */
+document.getElementById('el-prog-title').innerHTML = (LANG==='fr'?'Mon ':'My ')+'<span>Programme</span>';
+document.getElementById('el-nut-title').innerHTML  = (LANG==='fr'?'Ma ':'My ')+'<span>Nutrition</span>';
+document.getElementById('el-perf-title').innerHTML = (LANG==='fr'?'Ma ':'My ')+'<span>Performance</span>';
+document.getElementById('el-coach-title').innerHTML= (LANG==='fr'?'Mon ':'My ')+'<span>Coach</span>';
+</script>
+</body>
+</html>

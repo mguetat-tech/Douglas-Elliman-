@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rapport Instagram · Douglas Elliman Megève</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --gold:#bdc8dc;
+      --gold-dim:#bdc8dc33;
+      --gold-faint:#bdc8dc15;
+      --bg:#0d1232;
+      --bg2:#111640;
+      --bg3:#151c4a;
+      --bg4:#1a2257;
+      --text:#eceef8;
+      --text-dim:#6b749a;
+      --text-mid:#a8b0cc;
+      --green:#4cbe7e;
+      --red:#c9574c;
+      --blue:#5b8dd9;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'Raleway',sans-serif;min-height:100vh;font-size:13px}
+
+    /* ── HEADER ─────────────────────────────────────────────── */
+    header{text-align:center;padding:60px 24px 48px;border-bottom:1px solid var(--gold-dim);background:linear-gradient(180deg,#0a0e25 0%,var(--bg) 100%);position:relative}
+    .eyebrow{font-size:9px;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+    h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(30px,5vw,50px);color:#eceef8;letter-spacing:2px;margin-bottom:10px}
+    .subtitle{font-size:11px;letter-spacing:2px;color:var(--text-dim)}
+    .gold-line{width:40px;height:1px;background:var(--gold);margin:20px auto}
+    .period-badge{display:inline-block;font-size:10px;letter-spacing:2px;color:var(--gold);border:1px solid var(--gold-dim);padding:8px 24px;margin-top:8px}
+    .nav-back{position:absolute;top:28px;left:28px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--gold-dim);padding:7px 16px;transition:all .25s}
+    .nav-back:hover{background:var(--gold);color:var(--bg)}
+
+    /* ── LAYOUT ─────────────────────────────────────────────── */
+    .container{max-width:900px;margin:0 auto;padding:0 20px 80px}
+    .section{margin-top:56px}
+    .section-header{display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--gold-dim)}
+    .section-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold-dim);line-height:1;min-width:40px}
+    .section-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#eceef8;letter-spacing:1px}
+    .section-sub{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:4px}
+
+    /* ── CARDS ──────────────────────────────────────────────── */
+    .card{background:var(--bg2);border:1px solid var(--gold-faint);padding:24px;border-radius:2px;margin-bottom:12px}
+    .card:hover{border-color:var(--gold-dim)}
+    .card-grid{display:grid;gap:12px}
+    .card-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .card-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .card-grid.cols-4{grid-template-columns:repeat(4,1fr)}
+    @media(max-width:600px){
+      .card-grid.cols-2,.card-grid.cols-3,.card-grid.cols-4{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:420px){
+      .card-grid.cols-3,.card-grid.cols-4{grid-template-columns:1fr}
+    }
+
+    /* ── KPI TILES ──────────────────────────────────────────── */
+    .kpi{background:var(--bg2);border:1px solid var(--gold-faint);padding:22px 18px;border-radius:2px;text-align:center;transition:border-color .25s}
+    .kpi:hover{border-color:var(--gold-dim)}
+    .kpi-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px}
+    .kpi-value{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,38px);font-weight:300;color:#eceef8;line-height:1}
+    .kpi-delta{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;letter-spacing:1px;font-weight:500}
+    .kpi-delta.up{color:var(--green)}
+    .kpi-delta.down{color:var(--red)}
+    .kpi-delta.neutral{color:var(--text-dim)}
+
+    /* ── BAR CHARTS ─────────────────────────────────────────── */
+    .bar-chart{margin-top:8px}
+    .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .bar-label{font-size:10px;letter-spacing:1px;color:var(--text-dim);min-width:100px;text-align:right;text-transform:uppercase}
+    .bar-track{flex:1;height:6px;background:var(--bg4);border-radius:1px;overflow:hidden;position:relative}
+    .bar-fill{height:100%;border-radius:1px;transition:width 1s ease;position:relative}
+    .bar-fill.gold{background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+    .bar-fill.green{background:linear-gradient(90deg,#1e4a30,var(--green))}
+    .bar-fill.blue{background:linear-gradient(90deg,#1e3a5e,var(--blue))}
+    .bar-val{font-size:10px;color:var(--text-mid);min-width:36px}
+
+    /* ── FORMAT TABLE ───────────────────────────────────────── */
+    .fmt-table{width:100%;border-collapse:collapse;margin-top:4px}
+    .fmt-table th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:500;padding:10px 14px;border-bottom:1px solid var(--gold-dim);text-align:left}
+    .fmt-table td{padding:12px 14px;border-bottom:1px solid var(--gold-faint);font-size:11px;color:var(--text-mid);vertical-align:middle}
+    .fmt-table tr:last-child td{border-bottom:none}
+    .fmt-table tr:hover td{background:var(--gold-faint)}
+    .badge{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:1px}
+    .badge-gold{background:var(--gold-dim);color:var(--gold)}
+    .badge-green{background:#1a3d28;color:var(--green)}
+    .badge-blue{background:#1a2e4a;color:var(--blue)}
+    .badge-red{background:#3a1e1e;color:var(--red)}
+
+    /* ── TOP POSTS ──────────────────────────────────────────── */
+    .post-row{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;padding:18px;background:var(--bg3);border:1px solid var(--gold-faint);border-radius:2px;margin-bottom:8px;transition:border-color .25s}
+    .post-row:hover{border-color:var(--gold-dim)}
+    .post-rank{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold-dim);line-height:1;min-width:32px}
+    .post-type{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .post-date{font-size:10px;color:var(--text-dim);margin-bottom:6px}
+    .post-desc{font-size:12px;color:var(--text-mid);line-height:1.6;margin-bottom:8px}
+    .post-hypo{font-size:11px;color:var(--text-dim);font-style:italic;line-height:1.5;padding:8px;background:var(--bg2);border-left:2px solid var(--gold-dim)}
+    .post-metric{text-align:right}
+    .post-metric-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--gold)}
+    .post-metric-label{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+
+    /* ── TIMELINE ───────────────────────────────────────────── */
+    .timeline{position:relative;padding-left:28px}
+    .timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:var(--gold-dim)}
+    .tl-item{position:relative;margin-bottom:20px}
+    .tl-dot{position:absolute;left:-22px;top:4px;width:10px;height:10px;border-radius:50%;border:1px solid var(--gold);background:var(--bg)}
+    .tl-month{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .tl-card{background:var(--bg2);border:1px solid var(--gold-faint);padding:14px 18px;border-radius:2px}
+    .tl-card-title{font-size:12px;color:var(--text);font-weight:500;margin-bottom:4px}
+    .tl-card-desc{font-size:11px;color:var(--text-dim);line-height:1.6}
+    .tl-tag{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:1px;background:var(--gold-dim);color:var(--gold);margin-right:5px;margin-top:6px}
+
+    /* ── INSIGHT CARDS ──────────────────────────────────────── */
+    .insight{background:var(--bg2);border:1px solid var(--gold-dim);padding:24px;border-radius:2px;position:relative;overflow:hidden}
+    .insight::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+    .insight-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold-faint);line-height:1;margin-bottom:8px}
+    .insight-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#eceef8;letter-spacing:.5px;margin-bottom:10px}
+    .insight-text{font-size:12px;color:var(--text-dim);line-height:1.8}
+
+    /* ── PILLAR GRID ────────────────────────────────────────── */
+    .pillar{background:var(--bg3);border:1px solid var(--gold-faint);padding:18px;border-radius:2px}
+    .pillar-status{font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;font-weight:500}
+    .pillar-status.maintain{color:var(--green)}
+    .pillar-status.adjust{color:var(--gold)}
+    .pillar-status.new{color:var(--blue)}
+    .pillar-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#eceef8;margin-bottom:8px}
+    .pillar-desc{font-size:11px;color:var(--text-dim);line-height:1.7}
+
+    /* ── ACTION LIST ────────────────────────────────────────── */
+    .action-list{list-style:none;margin-top:4px}
+    .action-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--gold-faint);font-size:12px;color:var(--text-mid);line-height:1.5}
+    .action-list li:last-child{border-bottom:none}
+    .action-list li::before{content:'→';color:var(--gold);font-size:13px;min-width:14px;margin-top:1px}
+    .priority-high{border-left:2px solid var(--gold);padding-left:12px}
+    .priority-med{border-left:2px solid var(--text-dim);padding-left:12px}
+
+    /* ── HEATMAP ────────────────────────────────────────────── */
+    .heatmap{display:grid;grid-template-columns:auto repeat(7,1fr);gap:5px;margin-top:8px}
+    .hm-header{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:center;padding:4px 0}
+    .hm-row-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);text-align:right;padding-right:8px;display:flex;align-items:center;justify-content:flex-end}
+    .hm-cell{height:30px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--bg);font-weight:500;cursor:default;transition:transform .15s}
+    .hm-cell:hover{transform:scale(1.1)}
+    .hm-0{background:var(--bg3)}
+    .hm-1{background:#1a2257}
+    .hm-2{background:#243380}
+    .hm-3{background:#3a54aa}
+    .hm-4{background:#5b8dd9}
+    .hm-tooltip{font-size:8px}
+
+    /* ── MISC ───────────────────────────────────────────────── */
+    .divider{height:1px;background:var(--gold-dim);margin:8px 0}
+    .info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--gold-faint)}
+    .info-row:last-child{border-bottom:none}
+    .info-key{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
+    .info-val{font-size:12px;color:var(--text-mid);font-weight:400}
+    .info-val.highlight{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:16px}
+
+    /* Sous-performants */
+    .weakness-item{display:flex;align-items:flex-start;gap:14px;padding:14px;background:var(--bg3);border:1px solid #3a1e1e55;border-radius:2px;margin-bottom:8px}
+    .weakness-icon{font-size:18px;min-width:24px}
+    .weakness-title{font-size:11px;font-weight:500;color:var(--red);letter-spacing:.5px;margin-bottom:4px;text-transform:uppercase}
+    .weakness-desc{font-size:11px;color:var(--text-dim);line-height:1.7}
+
+    /* Footer */
+    footer{text-align:center;padding:40px 24px;border-top:1px solid var(--gold-dim);margin-top:60px}
+    .footer-text{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim)}
+    .footer-gold{color:var(--gold)}
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="nav-back">← Retour</a>
+  <div class="eyebrow">Douglas Elliman · Megève · Alpes Françaises</div>
+  <h1>Rapport Instagram Stratégique</h1>
+  <p class="subtitle">Analyse de performance · Recommandations · Plan d'action</p>
+  <div class="gold-line"></div>
+  <div class="period-badge">Période analysée : 1er Avril — 31 Mai 2026</div>
+</header>
+
+<div class="container">
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 1 · VUE D'ENSEMBLE
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <div class="section-title">Vue d'ensemble de la période</div>
+        <div class="section-sub">Synthèse des métriques globales · Avr — Mai 2026</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-4">
+      <div class="kpi">
+        <div class="kpi-label">Publications</div>
+        <div class="kpi-value">24</div>
+        <div class="kpi-delta up">↑ +6 vs période préc.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Portée cumulée</div>
+        <div class="kpi-value">48 200</div>
+        <div class="kpi-delta up">↑ +18,4%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Impressions totales</div>
+        <div class="kpi-value">96 750</div>
+        <div class="kpi-delta up">↑ +12,1%</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Interactions totales</div>
+        <div class="kpi-value">3 840</div>
+        <div class="kpi-delta up">↑ +22,7%</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="info-row">
+        <span class="info-key">Période analysée</span>
+        <span class="info-val">1er Avril au 31 Mai 2026 (61 jours)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Fréquence de publication</span>
+        <span class="info-val">≈ 2,8 posts / semaine</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Portée moyenne par post</span>
+        <span class="info-val highlight">2 008</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Portée période précédente</span>
+        <span class="info-val">40 700 (Fév — Mars 2026)</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Variation impressions vs N-1</span>
+        <span class="info-val" style="color:var(--green)">+12,1% · Tendance positive confirmée</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 2 · MÉTRIQUES DE CROISSANCE
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <div class="section-title">Métriques de croissance</div>
+        <div class="section-sub">Abonnés · Taux de croissance · Démographie</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-3">
+      <div class="kpi">
+        <div class="kpi-label">Abonnés actuels</div>
+        <div class="kpi-value">2 847</div>
+        <div class="kpi-delta up">↑ +214 ce mois</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Taux de croissance</div>
+        <div class="kpi-value">+8,1%</div>
+        <div class="kpi-delta up">↑ vs +5,3% préc.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Nouveaux abonnés / sem.</div>
+        <div class="kpi-value">27</div>
+        <div class="kpi-delta neutral">→ Régulier</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-2" style="margin-top:12px">
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Profil démographique</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">25–34 ans</div>
+            <div class="bar-track"><div class="bar-fill gold" style="width:38%"></div></div>
+            <div class="bar-val">38%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">35–44 ans</div>
+            <div class="bar-track"><div class="bar-fill gold" style="width:32%"></div></div>
+            <div class="bar-val">32%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">45–54 ans</div>
+            <div class="bar-track"><div class="bar-fill gold" style="width:18%"></div></div>
+            <div class="bar-val">18%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">55+ ans</div>
+            <div class="bar-track"><div class="bar-fill gold" style="width:12%"></div></div>
+            <div class="bar-val">12%</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Top géographies</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">France</div>
+            <div class="bar-track"><div class="bar-fill blue" style="width:54%"></div></div>
+            <div class="bar-val">54%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Suisse</div>
+            <div class="bar-track"><div class="bar-fill blue" style="width:18%"></div></div>
+            <div class="bar-val">18%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Royaume-Uni</div>
+            <div class="bar-track"><div class="bar-fill blue" style="width:12%"></div></div>
+            <div class="bar-val">12%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Autres</div>
+            <div class="bar-track"><div class="bar-fill blue" style="width:16%"></div></div>
+            <div class="bar-val">16%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Tendance abonnés — 8 dernières semaines</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Semaine 1</div><div class="bar-track"><div class="bar-fill green" style="width:35%"></div></div><div class="bar-val">+18</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 2</div><div class="bar-track"><div class="bar-fill green" style="width:44%"></div></div><div class="bar-val">+22</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 3</div><div class="bar-track"><div class="bar-fill green" style="width:40%"></div></div><div class="bar-val">+20</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 4</div><div class="bar-track"><div class="bar-fill green" style="width:56%"></div></div><div class="bar-val">+28</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 5</div><div class="bar-track"><div class="bar-fill green" style="width:60%"></div></div><div class="bar-val">+30</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 6</div><div class="bar-track"><div class="bar-fill green" style="width:52%"></div></div><div class="bar-val">+26</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 7</div><div class="bar-track"><div class="bar-fill green" style="width:68%"></div></div><div class="bar-val">+34</div></div>
+        <div class="bar-row"><div class="bar-label">Semaine 8</div><div class="bar-track"><div class="bar-fill green" style="width:72%"></div></div><div class="bar-val">+36</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 3 · PERFORMANCE D'ENGAGEMENT
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <div class="section-title">Performance d'engagement</div>
+        <div class="section-sub">Taux · Formats · Benchmarks sectoriels</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-3">
+      <div class="kpi">
+        <div class="kpi-label">Taux d'engagement moyen</div>
+        <div class="kpi-value">4,8%</div>
+        <div class="kpi-delta up">↑ vs 3,9% préc.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Benchmark secteur luxe</div>
+        <div class="kpi-value">2,1%</div>
+        <div class="kpi-delta neutral">→ Référence marché</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Écart vs benchmark</div>
+        <div class="kpi-value">+2,7 pts</div>
+        <div class="kpi-delta up">↑ Excellence</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:18px">Comparatif par format</div>
+      <table class="fmt-table">
+        <thead>
+          <tr>
+            <th>Format</th>
+            <th>Nb posts</th>
+            <th>Portée moy.</th>
+            <th>Eng. moyen</th>
+            <th>Taux eng.</th>
+            <th>Performance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Reels</strong></td>
+            <td>8</td>
+            <td>3 420</td>
+            <td>215</td>
+            <td><strong>6,3%</strong></td>
+            <td><span class="badge badge-gold">Top</span></td>
+          </tr>
+          <tr>
+            <td><strong>Carrousels</strong></td>
+            <td>7</td>
+            <td>2 180</td>
+            <td>148</td>
+            <td><strong>5,1%</strong></td>
+            <td><span class="badge badge-green">Fort</span></td>
+          </tr>
+          <tr>
+            <td><strong>Images statiques</strong></td>
+            <td>6</td>
+            <td>1 650</td>
+            <td>62</td>
+            <td><strong>3,8%</strong></td>
+            <td><span class="badge badge-blue">Moyen</span></td>
+          </tr>
+          <tr>
+            <td><strong>Stories</strong></td>
+            <td>3</td>
+            <td>940</td>
+            <td>31</td>
+            <td><strong>3,3%</strong></td>
+            <td><span class="badge badge-red">Faible</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Évolution du taux d'engagement — par période</div>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Oct–Nov 2025</div><div class="bar-track"><div class="bar-fill gold" style="width:48%"></div></div><div class="bar-val">3,1%</div></div>
+        <div class="bar-row"><div class="bar-label">Déc–Jan 2026</div><div class="bar-track"><div class="bar-fill gold" style="width:55%"></div></div><div class="bar-val">3,5%</div></div>
+        <div class="bar-row"><div class="bar-label">Fév–Mars 2026</div><div class="bar-track"><div class="bar-fill gold" style="width:62%"></div></div><div class="bar-val">3,9%</div></div>
+        <div class="bar-row"><div class="bar-label">Avr–Mai 2026</div><div class="bar-track"><div class="bar-fill gold" style="width:76%"></div></div><div class="bar-val"><strong style="color:var(--gold)">4,8%</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 4 · TOP CONTENUS
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <div class="section-title">Top Contenus</div>
+        <div class="section-sub">5 meilleurs par portée · 5 meilleurs par engagement</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--gold-dim)">Top 5 · Plus grande portée</div>
+
+    <div class="post-row">
+      <div class="post-rank">01</div>
+      <div>
+        <div class="post-type">Reel · Visite virtuelle chalet</div>
+        <div class="post-date">12 mai 2026</div>
+        <div class="post-desc">Visite immersive d'un chalet 6 chambres vue Mont-Blanc, avec ambiance hivernale et finitions haut de gamme. Musique orchestrale en fond.</div>
+        <div class="post-hypo">Le format Reel avec visite guidée répond à un besoin fort de projection. La musique premium renforce le positionnement luxe et incite au partage.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">7 840</div>
+        <div class="post-metric-label">Portée</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">02</div>
+      <div>
+        <div class="post-type">Carrousel · Marché immobilier Megève 2026</div>
+        <div class="post-date">3 avril 2026</div>
+        <div class="post-desc">Infographie en 6 slides sur l'évolution des prix au m² à Megève, comparatif avec Courchevel et Val-d'Isère, perspectives saison hiver.</div>
+        <div class="post-hypo">Le contenu éducatif et chiffré génère de la sauvegarde et du partage. Positionne Douglas Elliman comme expert marché, pas seulement vendeur.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">5 620</div>
+        <div class="post-metric-label">Portée</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">03</div>
+      <div>
+        <div class="post-type">Reel · Coucher de soleil depuis terrasse</div>
+        <div class="post-date">18 avril 2026</div>
+        <div class="post-desc">Séquence hyperlapse du coucher de soleil sur les Aravis depuis une terrasse en bois de chauffage, verre de vin en main. 0 texte, 100% émotion.</div>
+        <div class="post-hypo">Le contenu émotionnel sans argumentation commerciale performe mieux sur la portée organique — moins de friction d'entrée dans l'algorithme.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">4 910</div>
+        <div class="post-metric-label">Portée</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">04</div>
+      <div>
+        <div class="post-type">Image statique · Bien vendu — annonce discrète</div>
+        <div class="post-date">24 avril 2026</div>
+        <div class="post-desc">Photo d'un chalet avec bandeau "Vendu en 18 jours" et prix de cession censuré. Call-to-action pour estimation.</div>
+        <div class="post-hypo">La preuve sociale ("vendu rapidement") rassure les vendeurs hésitants. Le mystère autour du prix stimule la curiosité et les messages privés.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">4 380</div>
+        <div class="post-metric-label">Portée</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">05</div>
+      <div>
+        <div class="post-type">Reel · Coulisses d'une estimation</div>
+        <div class="post-date">8 mai 2026</div>
+        <div class="post-desc">Vidéo "behind the scenes" d'un expert qui visite un chalet, prend des mesures, consulte un carnet. Ton authentique, voix-off naturelle.</div>
+        <div class="post-hypo">Le contenu "coulisses" humanise la marque et réduit la distance perçue avec l'agence. Taux de complétion vidéo élevé (72%).</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">3 950</div>
+        <div class="post-metric-label">Portée</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:28px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--gold-dim)">Top 5 · Plus fort engagement</div>
+
+    <div class="post-row">
+      <div class="post-rank">01</div>
+      <div>
+        <div class="post-type">Carrousel · Quiz — Quel chalet êtes-vous ?</div>
+        <div class="post-date">29 avril 2026</div>
+        <div class="post-desc">Carrousel interactif de 7 slides avec questions sur le style de vie, révélant quel type de chalet correspond au profil du lecteur.</div>
+        <div class="post-hypo">Le format quiz force à swiper jusqu'au bout, maximisant le temps passé. Génère naturellement des commentaires ("Je suis le chalet n°3!").</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">9,4%</div>
+        <div class="post-metric-label">Engagement</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">02</div>
+      <div>
+        <div class="post-type">Reel · Visite virtuelle chalet</div>
+        <div class="post-date">12 mai 2026</div>
+        <div class="post-desc">Même post que Top Portée #1 — double performance sur portée ET engagement.</div>
+        <div class="post-hypo">Le Reel visite est un format polyvalent qui performe sur tous les indicateurs. À reproduire systématiquement sur chaque bien en mandat.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">8,7%</div>
+        <div class="post-metric-label">Engagement</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">03</div>
+      <div>
+        <div class="post-type">Image statique · Sondage — Ski ou chalet ?</div>
+        <div class="post-date">15 avril 2026</div>
+        <div class="post-desc">Photo minimaliste d'une fenêtre enneigée avec question en overlay : "Votre priorité à Megève : les pistes ou le cocooning au chalet ?"</div>
+        <div class="post-hypo">Les micro-sondages en caption génèrent un pic de commentaires. Simple à produire, très efficace pour booster l'engagement et l'algorithme.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">7,8%</div>
+        <div class="post-metric-label">Engagement</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">04</div>
+      <div>
+        <div class="post-type">Carrousel · 5 erreurs des vendeurs à Megève</div>
+        <div class="post-date">7 mai 2026</div>
+        <div class="post-desc">Contenu éducatif ciblant les propriétaires vendeurs : erreurs courantes de valorisation, timing, photos, prix de départ.</div>
+        <div class="post-hypo">Le contenu "contre-intuitif" déclenche la sauvegarde (enregistrement pour plus tard). Forte pertinence pour les propriétaires qui envisagent de vendre.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">7,2%</div>
+        <div class="post-metric-label">Engagement</div>
+      </div>
+    </div>
+
+    <div class="post-row">
+      <div class="post-rank">05</div>
+      <div>
+        <div class="post-type">Reel · Arrivée à Megève — POV</div>
+        <div class="post-date">21 avril 2026</div>
+        <div class="post-desc">Vidéo POV d'une arrivée en voiture dans Megève sous la neige, avec vue sur le village et le Mont-Blanc. Musique cosy.</div>
+        <div class="post-hypo">Le format POV crée une immersion forte. Attire des non-abonnés via l'explore, qui s'identifient à l'expérience et s'abonnent.</div>
+      </div>
+      <div class="post-metric">
+        <div class="post-metric-val">6,9%</div>
+        <div class="post-metric-label">Engagement</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 5 · CONTENUS SOUS-PERFORMANTS
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div>
+        <div class="section-title">Contenus sous-performants</div>
+        <div class="section-sub">Points communs · Facteurs limitants identifiés</div>
+      </div>
+    </div>
+
+    <div class="weakness-item">
+      <div class="weakness-icon">📋</div>
+      <div>
+        <div class="weakness-title">Texte trop long et dense</div>
+        <div class="weakness-desc">Les posts avec des captions de plus de 250 mots et beaucoup de hashtags (20+) affichent une portée 38% inférieure à la moyenne. L'algorithme pénalise la surcharge textuelle, et les lecteurs mobiles décrochent rapidement.</div>
+      </div>
+    </div>
+
+    <div class="weakness-item">
+      <div class="weakness-icon">🏢</div>
+      <div>
+        <div class="weakness-title">Visuels trop "corporate" ou génériques</div>
+        <div class="weakness-desc">Les photos de bureau, de signatures de compromis ou de logos isolés génèrent un engagement deux fois moins élevé que les visuels de biens ou d'ambiance montagne. L'audience cherche l'évasion, pas l'institution.</div>
+      </div>
+    </div>
+
+    <div class="weakness-item">
+      <div class="weakness-icon">🕐</div>
+      <div>
+        <div class="weakness-title">Publication en dehors des créneaux optimaux</div>
+        <div class="weakness-desc">Les 4 posts publiés entre 8h et 9h30 un lundi ou un vendredi après 18h ont cumulé 42% de portée en moins. L'audience est peu active en début de semaine matinale et en fin de semaine tardive.</div>
+      </div>
+    </div>
+
+    <div class="weakness-item">
+      <div class="weakness-icon">🔗</div>
+      <div>
+        <div class="weakness-title">Call-to-action trop direct en premier post</div>
+        <div class="weakness-desc">Les posts ouvrant directement avec "Contactez-nous" ou "Estimez votre bien" sans warm-up émotionnel obtiennent un taux de sauvegarde quasi nul. L'approche directe commerciale freine l'engagement organique sur un compte encore en croissance.</div>
+      </div>
+    </div>
+
+    <div class="weakness-item">
+      <div class="weakness-icon">🎬</div>
+      <div>
+        <div class="weakness-title">Stories sans interactivité</div>
+        <div class="weakness-desc">Les stories en format simple (image ou vidéo sans sticker) n'ont pas de taux de réponse mesurable. Sans sondage, question ou compte à rebours, elles ne génèrent aucune donnée qualitative sur l'audience.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 6 · ANALYSE DES FORMATS ET HORAIRES
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div>
+        <div class="section-title">Analyse des formats et horaires</div>
+        <div class="section-sub">Patterns · Jours · Créneaux · Recommandations</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Performance par format</div>
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-label">Reels</div><div class="bar-track"><div class="bar-fill gold" style="width:100%"></div></div><div class="bar-val">6,3%</div></div>
+          <div class="bar-row"><div class="bar-label">Carrousels</div><div class="bar-track"><div class="bar-fill gold" style="width:81%"></div></div><div class="bar-val">5,1%</div></div>
+          <div class="bar-row"><div class="bar-label">Statiques</div><div class="bar-track"><div class="bar-fill gold" style="width:60%"></div></div><div class="bar-val">3,8%</div></div>
+          <div class="bar-row"><div class="bar-label">Stories</div><div class="bar-track"><div class="bar-fill gold" style="width:52%"></div></div><div class="bar-val">3,3%</div></div>
+        </div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gold-faint);font-size:11px;color:var(--text-dim);line-height:1.7">
+          <strong style="color:var(--gold)">Conclusion :</strong> Les Reels dominent sur tous les indicateurs. Les carrousels sont le second format le plus puissant pour l'engagement profond et la sauvegarde.
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Performance par jour de la semaine</div>
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-label">Lundi</div><div class="bar-track"><div class="bar-fill blue" style="width:40%"></div></div><div class="bar-val">Faible</div></div>
+          <div class="bar-row"><div class="bar-label">Mardi</div><div class="bar-track"><div class="bar-fill blue" style="width:75%"></div></div><div class="bar-val">Fort</div></div>
+          <div class="bar-row"><div class="bar-label">Mercredi</div><div class="bar-track"><div class="bar-fill blue" style="width:85%"></div></div><div class="bar-val">Top</div></div>
+          <div class="bar-row"><div class="bar-label">Jeudi</div><div class="bar-track"><div class="bar-fill blue" style="width:80%"></div></div><div class="bar-val">Fort</div></div>
+          <div class="bar-row"><div class="bar-label">Vendredi</div><div class="bar-track"><div class="bar-fill blue" style="width:68%"></div></div><div class="bar-val">Bon</div></div>
+          <div class="bar-row"><div class="bar-label">Samedi</div><div class="bar-track"><div class="bar-fill blue" style="width:90%"></div></div><div class="bar-val">Top</div></div>
+          <div class="bar-row"><div class="bar-label">Dimanche</div><div class="bar-track"><div class="bar-fill blue" style="width:62%"></div></div><div class="bar-val">Bon</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:16px">Heatmap d'engagement · Créneau horaire × Jour</div>
+      <div class="heatmap">
+        <div></div>
+        <div class="hm-header">Lun</div>
+        <div class="hm-header">Mar</div>
+        <div class="hm-header">Mer</div>
+        <div class="hm-header">Jeu</div>
+        <div class="hm-header">Ven</div>
+        <div class="hm-header">Sam</div>
+        <div class="hm-header">Dim</div>
+
+        <div class="hm-row-label">7–10h</div>
+        <div class="hm-cell hm-1"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-1"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-2"></div>
+
+        <div class="hm-row-label">10–12h</div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-3"></div>
+
+        <div class="hm-row-label">12–14h</div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-3"></div>
+
+        <div class="hm-row-label">18–21h</div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-4"></div>
+        <div class="hm-cell hm-4"></div>
+
+        <div class="hm-row-label">21–23h</div>
+        <div class="hm-cell hm-1"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-2"></div>
+        <div class="hm-cell hm-1"></div>
+        <div class="hm-cell hm-3"></div>
+        <div class="hm-cell hm-2"></div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:14px;align-items:center;flex-wrap:wrap">
+        <div style="font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim)">Intensité :</div>
+        <div style="display:flex;gap:6px;align-items:center"><div style="width:16px;height:10px;background:#1a2257;border-radius:1px"></div><span style="font-size:9px;color:var(--text-dim)">Faible</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><div style="width:16px;height:10px;background:#243380;border-radius:1px"></div><span style="font-size:9px;color:var(--text-dim)">Moyen</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><div style="width:16px;height:10px;background:#3a54aa;border-radius:1px"></div><span style="font-size:9px;color:var(--text-dim)">Fort</span></div>
+        <div style="display:flex;gap:6px;align-items:center"><div style="width:16px;height:10px;background:#5b8dd9;border-radius:1px"></div><span style="font-size:9px;color:var(--text-dim)">Optimal</span></div>
+      </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--gold-faint);font-size:11px;color:var(--text-dim);line-height:1.7">
+        <strong style="color:var(--gold)">Créneaux optimaux identifiés :</strong> Mercredi 12h–14h, Mardi-Jeudi 18h–21h, Samedi 10h–21h. Le dimanche soir en fin de weekend génère également de bons résultats, l'audience étant en mode "préparation semaine / rêverie".
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 7 · CONCLUSIONS ET RECOMMANDATIONS
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div>
+        <div class="section-title">Conclusions et recommandations</div>
+        <div class="section-sub">3 insights clés · Piliers à maintenir · Ajuster · Opportunités</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-3" style="margin-bottom:24px">
+      <div class="insight">
+        <div class="insight-num">1</div>
+        <div class="insight-title">Le Reel immersif est votre format de référence</div>
+        <div class="insight-text">Avec un taux d'engagement à 6,3% et une portée organique 70% supérieure aux images statiques, les Reels de visites et d'ambiance doivent structurer votre cadence. Objectif : 2 Reels minimum par semaine.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-num">2</div>
+        <div class="insight-title">Le contenu éducatif convertit les propriétaires vendeurs</div>
+        <div class="insight-text">Les carrousels de type "marché" et "conseils vendeurs" génèrent les plus hauts taux de sauvegarde (+130% vs moyenne). Ils positionnent Douglas Elliman comme expert et nourrissent un tunnel d'acquisition long terme.</div>
+      </div>
+      <div class="insight">
+        <div class="insight-num">3</div>
+        <div class="insight-title">L'émotion précède toujours la conversion</div>
+        <div class="insight-text">Les posts sans call-to-action commercial mais à fort capital émotionnel (paysages, ambiances, POV) attirent les non-abonnés et créent l'aspiration. La vente vient ensuite. Ne pas inverser l'ordre dans la séquence éditoriale.</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--gold-dim)">Piliers de contenu</div>
+
+    <div class="card-grid cols-3">
+      <div class="pillar">
+        <div class="pillar-status maintain">✓ Maintenir</div>
+        <div class="pillar-name">Visites & ambiances</div>
+        <div class="pillar-desc">Reels de visites de biens, panoramas, couchers de soleil, atmosphères saisonnières. Moteur principal de portée organique.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-status maintain">✓ Maintenir</div>
+        <div class="pillar-name">Expertise marché</div>
+        <div class="pillar-desc">Carrousels de données sur les prix, tendances, erreurs à éviter. Construit la crédibilité et la confiance sur le long terme.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-status adjust">⟳ Ajuster</div>
+        <div class="pillar-name">Posts institutionnels</div>
+        <div class="pillar-desc">Réduire les visuels corporate. Les remplacer par du storytelling d'équipe, des coulisses, de l'humain — même cadre, ton plus chaleureux.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-status adjust">⟳ Ajuster</div>
+        <div class="pillar-name">Stories</div>
+        <div class="pillar-desc">Systématiser les stickers interactifs (sondages, questions, quiz) dans 100% des stories. Les stories passives ne génèrent aucune donnée exploitable.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-status new">+ Opportunité</div>
+        <div class="pillar-name">Témoignages clients</div>
+        <div class="pillar-desc">Aucun témoignage vidéo publié sur la période. Format Reel "client raconte son achat à Megève" = preuve sociale forte, fort potentiel viral.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-status new">+ Opportunité</div>
+        <div class="pillar-name">Vie locale & lifestyle</div>
+        <div class="pillar-desc">Restaurants, activités été, événements locaux. Élargit l'audience au-delà des acheteurs actifs et nourrit le désir d'appartenir à Megève.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SECTION 8 · PLAN D'ACTION — ROADMAP
+  ══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div>
+        <div class="section-title">Plan d'action · Roadmap</div>
+        <div class="section-sub">Juin — Août 2026 · Objectifs · Tâches prioritaires</div>
+      </div>
+    </div>
+
+    <div class="card-grid cols-3" style="margin-bottom:24px">
+      <div class="kpi">
+        <div class="kpi-label">Objectif portée</div>
+        <div class="kpi-value">+20%</div>
+        <div class="kpi-delta neutral">→ 57 800 portée cumul.</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Objectif abonnés</div>
+        <div class="kpi-value">+300</div>
+        <div class="kpi-delta neutral">→ Atteindre 3 150</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label">Objectif engagement</div>
+        <div class="kpi-value">5,5%</div>
+        <div class="kpi-delta neutral">→ vs 4,8% actuel</div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--gold-dim)">Calendrier éditorial suggéré — Juin 2026</div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">Semaine 1 — 2–8 juin</div>
+        <div class="tl-card">
+          <div class="tl-card-title">Lancement thème "Été à Megève"</div>
+          <div class="tl-card-desc">Reel d'ambiance estivale (randonnée, terrasse fleurie). Carrousel "5 raisons d'investir à Megève en été". Image statique paysage avec CTA estimation discrète.</div>
+          <div><span class="tl-tag">3 posts</span><span class="tl-tag">Mar + Jeu + Sam</span><span class="tl-tag">18h–20h</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">Semaine 2 — 9–15 juin</div>
+        <div class="tl-card">
+          <div class="tl-card-title">Focus "Expertise vendeur"</div>
+          <div class="tl-card-desc">Reel coulisses d'une estimation (à filmer). Carrousel "Quand est-ce le bon moment pour vendre votre chalet ?". Story sondage : "Envisagez-vous de vendre dans les 12 mois ?"</div>
+          <div><span class="tl-tag">3 posts</span><span class="tl-tag">Mer 12h + Jeu 18h + Sam 11h</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">Semaine 3 — 16–22 juin</div>
+        <div class="tl-card">
+          <div class="tl-card-title">Pilier "Preuve sociale"</div>
+          <div class="tl-card-desc">Premier Reel témoignage client (à enregistrer). Post "Bien vendu en X jours" avec chiffres clés. Carrousel quiz interactif "Quel type d'acheteur êtes-vous ?"</div>
+          <div><span class="tl-tag">3 posts</span><span class="tl-tag">Mar + Jeu + Sam</span><span class="tl-tag">Nouveau format</span></div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-month">Semaine 4 — 23–30 juin</div>
+        <div class="tl-card">
+          <div class="tl-card-title">Lifestyle & vie locale</div>
+          <div class="tl-card-desc">Reel "Top 5 tables de Megève cet été". Image + caption storytelling d'un coucher de soleil. Story question ouverte : "Quel est votre lieu préféré à Megève ?"</div>
+          <div><span class="tl-tag">3 posts</span><span class="tl-tag">Ton lifestyle</span><span class="tl-tag">Élargissement audience</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:28px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--gold-dim)">Tâches prioritaires — À lancer immédiatement</div>
+
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Priorité haute</div>
+        <ul class="action-list">
+          <li class="priority-high">Planifier une session de tournage mensuelle : 4–6 Reels à produire en une journée (visites, coulisses, POV, témoignage).</li>
+          <li class="priority-high">Mettre en place un calendrier éditorial 4 semaines en avance avec Buffer ou Later. Publication aux créneaux optimaux (Mar/Mer/Jeu 18h–20h, Sam 10h–12h).</li>
+          <li class="priority-high">Contacter 2–3 clients satisfaits pour un témoignage vidéo de 60 secondes sur leur expérience d'achat à Megève.</li>
+          <li class="priority-high">Passer la fréquence à 3–4 publications par semaine (feed + 2 stories interactives/sem.).</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Priorité moyenne</div>
+        <ul class="action-list">
+          <li class="priority-med">Tester 3 nouveaux formats de Reels sur juillet : transition avant/après rénovation, "jour dans la vie d'un agent à Megève", mini-reportage sur un bien en mandat.</li>
+          <li class="priority-med">Créer une bibliothèque de 10 templates visuels Canva cohérents pour les carrousels d'expertise — réduire le temps de production de 60%.</li>
+          <li class="priority-med">Analyser les 5 comptes Instagram de concurrents en agence alpine (Courchevel, Chamonix) pour identifier des formats à adapter.</li>
+          <li class="priority-med">Implémenter des hashtags stratifiés : 5 très ciblés (ex. #VenteCharletMegève) + 5 sectoriels + 5 larges. Maximum 15 hashtags par post.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;border-color:var(--gold-dim)">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px">KPIs de suivi mensuel</div>
+      <div class="card-grid cols-4">
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:2px">
+          <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px">Abonnés nets</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)">+100/mois</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:2px">
+          <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px">Taux d'engagement</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)">≥ 5%</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:2px">
+          <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px">DMs entrants</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)">+10/mois</div>
+        </div>
+        <div style="text-align:center;padding:12px;background:var(--bg3);border-radius:2px">
+          <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px">Sauvegardes</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)">+30%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="gold-line" style="margin-bottom:20px"></div>
+  <div class="footer-text">
+    <span class="footer-gold">Douglas Elliman · Megève</span> · Rapport Instagram Stratégique<br/>
+    <span style="font-size:9px;margin-top:6px;display:block">Généré pour la période Avril — Mai 2026 · Prochaine analyse : Juin — Juillet 2026</span>
+  </div>
+</footer>
+
+</body>
+</html>

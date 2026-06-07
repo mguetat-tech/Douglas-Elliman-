@@ -144,6 +144,26 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
     <div class="field"><label id="el-lbl-gl">Objectif</label>
       <select id="post-goal"><option>Trouver des vendeurs (mandat)</option><option>Attirer des acheteurs internationaux</option><option>Mettre en valeur un bien</option><option>Partager une expertise marché</option><option>Annoncer une vente réalisée</option><option>Développer le réseau professionnel</option></select>
     </div>
+    <div class="two">
+      <div class="field"><label id="el-lbl-ps">Persona cible</label>
+        <select id="post-persona">
+          <option value="Le Cadre Alpin (35-55 ans, dirigeant tech, Alpes françaises, cherche à posséder ce qu'il loue depuis 10 ans)">Cadre Alpin</option>
+          <option value="L'Investisseur Patrimonial (45-60 ans, profession libérale ou cadre dirigeant, Paris/Côte d'Azur, cherche actif prestige discret)">Investisseur Patrimonial</option>
+          <option value="L'Expatrié Fortuné (38-55 ans, francophone à Dubai/Genève/Miami, cherche ancrage physique en France via bien d'exception)">Expatrié Fortuné</option>
+          <option value="Tous profils — audience large, 35-64 ans, patrimoine élevé">Tous profils</option>
+        </select>
+      </div>
+      <div class="field"><label id="el-lbl-tr">Déclencheur émotionnel</label>
+        <select id="post-trigger">
+          <option value="Aversion à la perte : la peur de manquer CE bien, pas un bien similaire">Aversion à la perte</option>
+          <option value="FOMO de statut : un pair vient d'acquérir, le lecteur risque d'être laissé derrière">FOMO statut</option>
+          <option value="Signal d'appartenance : le lecteur accède à une information que peu ont">Appartenance cercle</option>
+          <option value="Miroir identitaire : le lecteur se reconnaît dans la description du profil acheteur idéal">Miroir identitaire</option>
+          <option value="Urgence marché : fenêtre d'opportunité limitée dans le temps ou dans l'offre">Urgence marché</option>
+          <option value="Tension narrative : ouvrir sur un problème non résolu que l'audience vit chaque jour">Tension narrative</option>
+        </select>
+      </div>
+    </div>
     <div class="field"><label id="el-lbl-tn">Ton</label>
       <select id="post-tone"><option>Élégant et sobre</option><option>Émotionnel et inspirant</option><option>Expert et analytique</option><option>Direct et percutant</option></select>
     </div>
@@ -235,7 +255,7 @@ var KB = [
   'DONNÉES MARCHÉ DOUGLAS ELLIMAN 2025-2026',
   '',
   'MEGÈVE : Mont d\'Arbois 18-26k€/m² | Rochebrune 14-20k€ | Centre 12-18k€',
-  'Chalets trophées 15M-45M€. Délai : 45-90j. Tendance +8%/24 mois.',
+  'Chalets trophées 15M-45M€. Délai moyen : 47 jours pour biens >400m² bien positionnés. Tendance +8%/24 mois.',
   'Acheteurs : Parisiens 40%, Britanniques 20%, Suisses 15%, MO 10%, US 5%',
   '',
   'MONACO : Carré d\'Or 50-75k€/m² | Monte-Carlo 40-55k€ | Fontvieille 32-45k€',
@@ -275,7 +295,45 @@ var KB = [
   'STRATÉGIES :',
   'Mandat exclusif → réseau Douglas Elliman mondial : 75 bureaux, 12 000 agents',
   'Off-market → discrétion + rareté = premium 5-15%',
-  'Timing → printemps/automne pour Alpes, été pour Côte d\'Azur, toute l\'année Monaco/Paris'
+  'Timing → printemps/automne pour Alpes, été pour Côte d\'Azur, toute l\'année Monaco/Paris',
+  '',
+  '─────────────────────────────────────────',
+  'PSYCHOLOGIE AUDIENCE RÉELLE (données Instagram)',
+  '─────────────────────────────────────────',
+  'Cœur audience : Hommes 35-64 ans (77%). Cadres et dirigeants tech dans communes premium.',
+  'Villes dominantes : Meylan, Corenc, Saint-Ismier (STMicro, Schneider, Soitec, BioMérieux).',
+  'Patrimoine typique : 500K€–3M€. Locataires saisonniers à Megève depuis 5-15 ans.',
+  '',
+  'PERSONA 1 — LE CADRE ALPIN (35-55 ans, Alpes françaises)',
+  'Désirs profonds : posséder ce qu\'il loue (15-25K€/hiver en location), léguer patrimoine familial, sortir du cycle locatif.',
+  'Frustrations : accès off-market bloqué, peur de surpayer sans repère, manque de temps.',
+  'Déclencheurs : FOMO statut ("un collègue vient d\'acheter"), projection famille-chalet, chiffre précis de marché.',
+  'Vocabulaire résonant : "arrêtez de louer ce que vous pourriez posséder", "ce que peu ont accès", "votre réseau ne vous dira pas ça".',
+  '',
+  'PERSONA 2 — L\'INVESTISSEUR PATRIMONIAL (45-60 ans, Paris/Côte d\'Azur)',
+  'Désirs profonds : diversification patrimoniale plaisir, accès off-market confidentiel, interlocuteur au même niveau.',
+  'Frustrations : portails publics dégradants, relances commerciales agressives, agences locales sans réseau international.',
+  'Déclencheurs : confidentialité garantie, preuve de réseau exclusif (NY/Londres/Genève), données sans baratin.',
+  'Vocabulaire résonant : "off-market", "discrétion absolue", "sans publication", "NDA", "transaction sans condition de prêt".',
+  '',
+  'PERSONA 3 — L\'EXPATRIÉ FORTUNÉ (38-55 ans, Dubai/Genève/Miami/Londres)',
+  'Désirs profonds : ancrage symbolique en France, rapatrier capital en actif européen stable, lien physique avec ses racines.',
+  'Frustrations : transaction impossible à distance sans agent de confiance absolue, agents qui ne parlent pas anglais.',
+  'Déclencheurs : vidéo immersive chalet = projection directe, mention de leurs villes, sécurité juridique française.',
+  'Vocabulaire résonant : "votre prochain hiver à Megève", "propriétaire avant les premières neiges", "actif refuge en euros".',
+  '',
+  '5 LOIS PSYCHOLOGIQUES ACTIVER DANS CHAQUE POST :',
+  '1. AVERSION À LA PERTE → "Ce chalet ne sera plus disponible dans 3 semaines" > "Belle opportunité"',
+  '2. SIGNAL D\'APPARTENANCE → Le lecteur doit sentir qu\'il accède à une information réservée.',
+  '3. AUTORITÉ PAR DONNÉES → Un chiffre précis vaut 10 superlatifs génériques.',
+  '4. MIROIR IDENTITAIRE → Décris l\'acheteur idéal pour qu\'il se reconnaisse dans le texte.',
+  '5. TENSION NARRATIVE → Ouvrir sur un problème non résolu que l\'audience vit au quotidien.',
+  '',
+  'RÈGLES CONTENU ANTI-ENGAGEMENT (à éviter absolument) :',
+  '- Ne jamais mentionner les prix publiquement → le mystère renforce le prestige',
+  '- Ne jamais commencer par "Douglas Elliman est..." → egocentrique, non engageant',
+  '- Ne jamais utiliser "belle opportunité" ou "bien exceptionnel" seuls → trop générique',
+  '- Ne jamais finir sans CTA clair et frictionless (DM, lien bio, message privé)'
 ].join('\n');
 
 /* =============================================
@@ -289,19 +347,19 @@ var T = {
     sec:'Connexion sécurisée via Netlify Functions — clé API jamais exposée.',
     tabPosts:'✍️ Générer posts', tabEstim:'📊 Analyser estimation', tabChat:'💬 Assistant',
     lm1:'Marché', lm2:'Marché', lpf:'Plateforme', lpl:'Langue du post', ltp:'Type de bien',
-    lgl:'Objectif', ltn:'Ton', ldt:'Détails (optionnel)', ltp2:'Type', lmv:'Motivation vendeur',
+    lgl:'Objectif', lps:'Persona cible', ltr:'Déclencheur émotionnel', ltn:'Ton', ldt:'Détails (optionnel)', ltp2:'Type', lmv:'Motivation vendeur',
     lpr:'Prix estimé (€)', llc:'Localisation précise', lst:'Points forts',
     btnPost:'✨ Générer le post avec IA', rlPost:'Post généré par Claude',
     cpPost:'Copier le post', regen:'↺ Regénérer une variante',
     btnEst:'📊 Analyser avec IA', rlEst:'Analyse stratégique par Claude', cpEst:'Copier l\'analyse',
     send:'Envoyer', chatPh:'Posez votre question...', processing:'En cours…', analysing:'Analyse en cours…',
     copied:'✓ Copié !', errNet:'Erreur réseau : ',
-    welcome:'Bonjour ! Je suis votre assistant Douglas Elliman v2.3.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nJe peux vous aider sur :\n• Prix au m² par secteur\n• Profils acheteurs UHNWI\n• Réponses aux objections propriétaires\n• Stratégies mandat et off-market\n\nCliquez sur une suggestion ou posez votre question directement.',
+    welcome:'Bonjour. Je suis votre stratège Douglas Elliman v2.4.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nCapacités :\n• Prix au m² par micro-secteur + stratégie de positionnement\n• Psychologie des 3 personas acheteurs (Cadre Alpin, Investisseur Patrimonial, Expatrié Fortuné)\n• Scripts d\'objections mot-pour-mot pour vos rendez-vous mandats\n• Génération de contenu réseaux sociaux à haute rétention\n• Stratégies mandat exclusif et off-market\n\nCliquez sur une suggestion ou posez votre question.',
     sugs:{
-      '📍 Marchés':['Prix/m² Monaco Carré d\'Or','Tendances Courchevel 1850','Marché Côte d\'Azur 2025','Megève vs Courchevel'],
-      '👤 Acheteurs':['Profil acheteur britannique','Family office Paris','Acheteurs Moyen-Orient Riviera'],
+      '📍 Marchés':['Prix/m² Monaco Carré d\'Or','Tendances Courchevel 1850','Megève vs Courchevel','Marché Côte d\'Azur 2025'],
+      '🧠 Psychologie':['Profil Cadre Alpin Megève','Script prise de mandat confidentiel','Comment déclencher le FOMO de statut','Acheteur expatrié Dubai vers Megève'],
       '💬 Objections':['"Commission trop haute"','"Je vends seul"','"Mon bien vaut plus"','"Rester confidentiel"','"Taux trop hauts"'],
-      '🎯 Stratégie':['Pitch mandat exclusif','Structurer une vente off-market','Timing optimal pour vendre']
+      '✍️ Contenu':['Hook Instagram chalet Megève','Post LinkedIn expertise marché','Script Reel propriété premium','Carrousel "pourquoi vendre maintenant"']
     }
   },
   en: {
@@ -311,19 +369,19 @@ var T = {
     sec:'Secure connection via Netlify Functions — API key never exposed.',
     tabPosts:'✍️ Generate posts', tabEstim:'📊 Analyse valuation', tabChat:'💬 Assistant',
     lm1:'Market', lm2:'Market', lpf:'Platform', lpl:'Post language', ltp:'Property type',
-    lgl:'Objective', ltn:'Tone', ldt:'Details (optional)', ltp2:'Type', lmv:'Seller motivation',
+    lgl:'Objective', lps:'Target persona', ltr:'Emotional trigger', ltn:'Tone', ldt:'Details (optional)', ltp2:'Type', lmv:'Seller motivation',
     lpr:'Estimated price (€)', llc:'Precise location', lst:'Property highlights',
     btnPost:'✨ Generate post with AI', rlPost:'Post generated by Claude',
     cpPost:'Copy post', regen:'↺ Regenerate variant',
     btnEst:'📊 Analyse with AI', rlEst:'Strategic analysis by Claude', cpEst:'Copy analysis',
     send:'Send', chatPh:'Ask your question...', processing:'Processing…', analysing:'Analysing…',
     copied:'✓ Copied!', errNet:'Network error: ',
-    welcome:'Hello! I am your Douglas Elliman AI assistant v2.3.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nI can help you with:\n• Price per m² by sector\n• UHNWI buyer profiles\n• Handling seller objections\n• Mandate and off-market strategies\n\nClick a suggestion or ask your question directly.',
+    welcome:'Hello. I am your Douglas Elliman strategist v2.4.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nCapabilities:\n• Price per m² by micro-sector + positioning strategy\n• Psychology of 3 buyer personas (Alpine Executive, Patrimonial Investor, Expat)\n• Word-for-word objection scripts for mandate meetings\n• High-retention social media content generation\n• Exclusive mandate & off-market strategies\n\nClick a suggestion or type your question.',
     sugs:{
-      '📍 Markets':['Monaco Carré d\'Or price/m²','Courchevel 1850 trends','French Riviera 2025','Megève vs Courchevel'],
-      '👤 Buyers':['British buyer profile','Family office Paris','Middle East Riviera buyers'],
+      '📍 Markets':['Monaco Carré d\'Or price/m²','Courchevel 1850 trends','Megève vs Courchevel','French Riviera 2025'],
+      '🧠 Psychology':['Alpine Executive profile Megève','Confidential mandate script','Trigger status FOMO in content','Dubai expat buyer to Megève'],
       '💬 Objections':['"Commission too high"','"I\'ll sell myself"','"Worth more"','"Stay confidential"','"Rates too high"'],
-      '🎯 Strategy':['Exclusive mandate pitch','Off-market structure','Best timing to sell']
+      '✍️ Content':['Instagram hook chalet Megève','LinkedIn market expertise post','Premium property Reel script','Carousel "why sell now"']
     }
   }
 };
@@ -343,7 +401,7 @@ function setLang(lang, btn) {
     'el-nav-posts':'navPosts','el-nav-estim':'navEstim','el-sec':'sec',
     'tab-posts':'tabPosts','tab-estim':'tabEstim','tab-chat':'tabChat',
     'el-lbl-m1':'lm1','el-lbl-m2':'lm2','el-lbl-pf':'lpf','el-lbl-pl':'lpl',
-    'el-lbl-tp':'ltp','el-lbl-gl':'lgl','el-lbl-tn':'ltn','el-lbl-dt':'ldt',
+    'el-lbl-tp':'ltp','el-lbl-gl':'lgl','el-lbl-ps':'lps','el-lbl-tr':'ltr','el-lbl-tn':'ltn','el-lbl-dt':'ldt',
     'el-lbl-tp2':'ltp2','el-lbl-mv':'lmv','el-lbl-pr':'lpr','el-lbl-lc':'llc',
     'el-lbl-st':'lst','btn-post':'btnPost','el-rl-post':'rlPost',
     'btn-cp-post':'cpPost','btn-regen':'regen','btn-est':'btnEst',
@@ -475,17 +533,43 @@ function generatePost(isRegen) {
   isFetching = true;
   showError(null);
 
-  var sys = 'You are a luxury real estate marketing expert for Douglas Elliman'
-    +' (Megève, Monaco, French Riviera, Paris, Courchevel, Saint-Tropez).'
-    +' Write a '+platform+' post. Market: '+market+'.'
-    +' Language: '+postLang+'. Tone: '+tone+'.'
-    +' Style: refined luxury, max 3 emojis, impeccable grammar.'
-    +' If bilingual, write French first then English below with a separator line.'
-    +' Return ONLY the post text ready to publish. No intro, no explanation.';
+  var persona  = document.getElementById('post-persona').value;
+  var trigger  = document.getElementById('post-trigger').value;
 
-  var prompt = 'Market: '+market+'. Goal: '+goal+'. Property: '+type+'.'
-    +(details ? '\nDetails: '+details : '')
-    +(isRegen ? '\nThis is a regeneration — use a completely different angle.' : '')
+  var sys = 'You are an elite luxury real estate content strategist for Douglas Elliman'
+    +' (Megève, Monaco, French Riviera, Paris, Courchevel, Saint-Tropez).'
+    +' Your posts are engineered with behavioural psychology to stop the scroll, trigger emotional responses, and convert readers into inbound DM leads.'
+    +'\n\n── AUDIENCE PSYCHOLOGY (real data) ──'
+    +'\nCore: Men 35-64 (77%), tech executives & entrepreneurs from affluent Alpine suburbs.'
+    +'\nThey rent 15-25K€/year in ski resorts. They watch peers buy. They want what they don\'t yet have.'
+    +'\nThey are immune to generic luxury language. They respond to precision, exclusivity signals, and content that makes them feel understood — not sold to.'
+    +'\n\n── SELECTED PERSONA ──'
+    +'\n'+persona
+    +'\n\n── EMOTIONAL TRIGGER TO ACTIVATE ──'
+    +'\n'+trigger
+    +'\n\n── PLATFORM ENGINEERING ──'
+    +'\nINSTAGRAM: Line 1 MUST be a scroll-stopper — use tension, a provocative statement, or a question that lands in the reader\'s chest. Never start with "Douglas Elliman" or the brand name. Max 3 emojis, placed strategically (not decoratively). One clear CTA at the end. Hashtags on final line only.'
+    +'\nLINKEDIN: Open with a counter-intuitive insight or an uncomfortable truth about the market. Use bullet arrows (→) or (✦) for structure. Max 1 emoji. End with an open question to generate comments. No hashtag spam — 3-4 max, highly relevant.'
+    +'\n\n── 5 PSYCHOLOGICAL LAWS (apply all) ──'
+    +'\n1. LOSS AVERSION: Frame around what they risk losing, not what they could gain. "This won\'t be available" > "Great opportunity"'
+    +'\n2. INSIDER SIGNAL: The reader must feel they are accessing privileged information not available to the general public.'
+    +'\n3. DATA AUTHORITY: One precise statistic beats ten superlatives. "Sold in 47 days" > "Sells fast"'
+    +'\n4. IDENTITY MIRROR: Describe the ideal buyer so precisely that the reader thinks "that\'s me"'
+    +'\n5. NARRATIVE TENSION: Open on an unresolved tension the audience lives with daily. Resolve it with your offer.'
+    +'\n\n── ABSOLUTE RULES ──'
+    +'\n- NEVER mention prices'
+    +'\n- NEVER use "belle opportunité", "bien exceptionnel", or empty luxury adjectives alone'
+    +'\n- NEVER start with the brand name'
+    +'\n- Language: '+postLang+'. Tone: '+tone+'. Grammar: impeccable.'
+    +'\n- If bilingual: French first, then English below a ─── separator line.'
+    +'\n- Return ONLY the post text ready to publish. Zero intro, zero meta-commentary.';
+
+  var prompt = 'Platform: '+platform+' | Market: '+market+' | Objective: '+goal+' | Property: '+type
+    +(details ? '\nProperty details: '+details : '')
+    +'\n\nTarget persona: '+persona
+    +'\nPrimary psychological trigger to activate: '+trigger
+    +(isRegen ? '\n\n⚡ REGENERATION: Use a COMPLETELY different hook type, different emotional entry point, different opening structure. Do not repeat any element from a previous version.' : '')
+    +'\n\nWrite the post now. Begin directly with the scroll-stopping hook. Make the reader feel seen before they feel sold to.'
     +'\nEnd with relevant hashtags.';
 
   apiCall(sys, [{role:'user',content:prompt}], function(text) {
@@ -520,8 +604,16 @@ function analyzeEstimation() {
 
   var priceFmt = price ? new Intl.NumberFormat('fr-FR').format(Number(price))+' €' : 'nc';
 
-  var sys = 'You are a senior luxury real estate expert at Douglas Elliman France.\n'
-    +KB+'\nRespond in '+(LANG==='fr'?'French':'English')+', professionally structured, directly actionable.';
+  var sys = 'You are a senior luxury real estate advisor at Douglas Elliman France, with 20 years of experience in ultra-prime markets.\n\n'
+    +KB
+    +'\n\nANALYSIS FRAMEWORK — apply to every estimation:'
+    +'\n1. PRICE POSITIONING: Is the price aligned with comparable sales in this micro-market? Over/under/spot-on? By how much?'
+    +'\n2. BUYER PSYCHOLOGY: Which UHNWI buyer profile will respond strongest to this property? What makes it irresistible to them specifically?'
+    +'\n3. SELLER STRATEGY: Based on stated motivation, recommend exact approach (off-market vs. listed, timeline, negotiation room).'
+    +'\n4. BUYER PROFILE: Paint a precise portrait of the ideal buyer — nationality, age, motivation, how they search.'
+    +'\n5. RISK FACTORS: What could kill this deal? Objections to pre-empt, market risks, pricing traps.'
+    +'\n6. PRICE RANGE: Give a realistic range with justification. Never a single number — always min/target/stretch.'
+    +'\n\nSTYLE: Respond in '+(LANG==='fr'?'French':'English')+'. Be direct, structured with section headers. Sound like a trusted advisor, not a salesperson. Use specific numbers, not vague ranges.';
 
   var prompt = 'Strategic analysis — '+market+':\n'
     +'Type: '+type+' | Area: '+(surface||'nc')+' m² | Price: '+priceFmt+'\n'
@@ -590,14 +682,26 @@ function sendChat() {
   isFetching = true;
   var loader = addMsg(T[LANG].analysing, 'ai loading');
 
-  var sys = 'You are the expert real estate assistant of Douglas Elliman France.\n\n'
+  var sys = 'You are the expert real estate strategist and growth advisor of Douglas Elliman France.\n\n'
     +KB+'\n\n'
-    +'YOUR MISSION:\n'
-    +'- Give precise, professional, immediately actionable advice\n'
-    +'- Provide market data, negotiation tactics, objection responses, buyer profiles\n'
-    +'- When asked about objections: give the full rebuttal script agents can use word-for-word\n'
-    +'- When asked about prices: give €/m² range AND total property value range\n\n'
-    +'STYLE: respond in '+(LANG==='fr'?'French':'English')+'. Be direct, structured, sound like a 20-year luxury real estate veteran.';
+    +'── YOUR MISSION ──\n'
+    +'- Give precise, professional, immediately actionable advice on real estate strategy, social media content, buyer psychology, and mandate conversion\n'
+    +'- When asked about objections: deliver the full rebuttal script, word-for-word, ready to use in a client meeting\n'
+    +'- When asked about prices: give €/m² by micro-sector AND realistic total value range with reasoning\n'
+    +'- When asked about content/social media: apply the 5 psychological laws from the KB and tailor to the correct persona\n'
+    +'- When asked about buyers: give a precise portrait — nationality, age, motivation, search behaviour, deal-breakers\n'
+    +'\n── PSYCHOLOGICAL INTELLIGENCE ──\n'
+    +'You have deep knowledge of the 3 core audience personas:\n'
+    +'• Le Cadre Alpin (35-55 ans, tech executive, Alpes) — responds to: FOMO statut, data precision, family legacy framing\n'
+    +'• L\'Investisseur Patrimonial (45-60 ans, Paris/Côte d\'Azur) — responds to: off-market access, confidentiality, peer-level dialogue\n'
+    +'• L\'Expatrié Fortuné (38-55 ans, Dubai/Genève/Miami) — responds to: immersive visuals, trust signals, distance-transaction capability\n'
+    +'\nWhen generating social media content, ALWAYS:\n'
+    +'1. Start with a scroll-stopping hook (tension, data point, or identity mirror)\n'
+    +'2. Activate one of the 5 psychological laws\n'
+    +'3. Never mention prices\n'
+    +'4. End with a low-friction CTA\n'
+    +'\n── STYLE ──\n'
+    +'Respond in '+(LANG==='fr'?'French':'English')+'. Direct, structured with headers when needed. Sound like a trusted advisor who has seen 500 transactions, not a salesperson who needs to close today.';
 
   /* Copie sécurisée de l'historique */
   var history = [];

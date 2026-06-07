@@ -70,6 +70,12 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
 .suggestions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:4px}
 .sug{padding:7px 13px;border:1px solid var(--border);border-radius:2px;font-size:10px;color:var(--text-dim);cursor:pointer;font-family:'Jost',sans-serif;font-weight:300}
 .sug:hover{border-color:var(--gold-mid);color:var(--gold)}
+.format-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:4px}
+.fg{padding:10px 8px;border:1px solid var(--border);border-radius:2px;text-align:center;cursor:pointer;background:var(--bg3);font-family:'Jost',sans-serif;font-size:11px;color:var(--text-dim);font-weight:300;user-select:none}
+.fg.on{background:var(--gold);border-color:var(--gold);color:var(--bg);font-weight:500}
+.fmt-block{margin-bottom:24px;border-left:2px solid var(--gold-mid);padding-left:14px}
+.fmt-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:500}
+.fmt-body{font-size:13px;line-height:1.9;color:var(--text-mid);white-space:pre-wrap;font-weight:300}
 </style>
 </head>
 <body>
@@ -108,7 +114,8 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
 
 <div class="tabs">
   <button class="tab active" onclick="switchTab('posts',this)" id="tab-posts">✍️ Générer posts</button>
-  <button class="tab" onclick="switchTab('estimation',this)" id="tab-estim">📊 Analyser estimation</button>
+  <button class="tab" onclick="switchTab('mult',this)" id="tab-mult">♻️ Multiplier</button>
+  <button class="tab" onclick="switchTab('estimation',this)" id="tab-estim">📊 Estimation</button>
   <button class="tab" onclick="switchTab('chat',this)" id="tab-chat">💬 Assistant</button>
 </div>
 
@@ -217,6 +224,61 @@ h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,6
       <div class="result-label" id="el-rl-est">Analyse stratégique par Claude</div>
       <div class="result-text" id="text-est"></div>
       <button class="btn-outline" id="btn-cp-est" onclick="copyResult('text-est',this)">Copier l'analyse</button>
+    </div>
+  </div>
+
+  <!-- MULTIPLICATEUR -->
+
+  <div class="panel" id="panel-mult">
+    <div class="field">
+      <label id="el-lbl-mi">Idée ou message central</label>
+      <textarea id="mult-idea" style="min-height:70px" placeholder="Ex : Convaincre des propriétaires de chalets à Megève de nous confier leur mandat de vente..."></textarea>
+    </div>
+    <div class="field">
+      <label id="el-lbl-mm">Marché</label>
+      <div class="market-grid" id="mult-market-grid">
+        <div class="mg on" onclick="selMarket(this,'mult')"><span class="mg-flag">🏔️</span>Megève</div>
+        <div class="mg" onclick="selMarket(this,'mult')"><span class="mg-flag">🇲🇨</span>Monaco</div>
+        <div class="mg" onclick="selMarket(this,'mult')"><span class="mg-flag">🌊</span>Côte d'Azur</div>
+        <div class="mg" onclick="selMarket(this,'mult')"><span class="mg-flag">🗼</span>Paris</div>
+        <div class="mg" onclick="selMarket(this,'mult')"><span class="mg-flag">⛷️</span>Courchevel</div>
+        <div class="mg" onclick="selMarket(this,'mult')"><span class="mg-flag">⛵</span>Saint-Tropez</div>
+      </div>
+      <input type="hidden" id="mult-market" value="Megève"/>
+    </div>
+    <div class="two">
+      <div class="field"><label id="el-lbl-mp">Persona cible</label>
+        <select id="mult-persona">
+          <option value="Le Cadre Alpin (35-55 ans, dirigeant tech, Alpes françaises, loue depuis 10 ans)">Cadre Alpin</option>
+          <option value="L'Investisseur Patrimonial (45-60 ans, Paris/Côte d'Azur, cherche actif prestige discret)">Investisseur Patrimonial</option>
+          <option value="L'Expatrié Fortuné (38-55 ans, Dubai/Genève/Miami, cherche ancrage France)">Expatrié Fortuné</option>
+          <option value="Tous profils — propriétaires actuels, 45-65 ans, patrimoine élevé">Propriétaires vendeurs</option>
+        </select>
+      </div>
+      <div class="field"><label id="el-lbl-ml">Langue</label>
+        <select id="mult-lang">
+          <option value="français">Français</option>
+          <option value="anglais">Anglais</option>
+          <option value="français et anglais">FR + EN</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label id="el-lbl-mf">Formats à générer</label>
+      <div class="format-grid" id="mult-formats">
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="reel">🎬 Script Reel</div>
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="carousel">🖼️ Carrousel (7 slides)</div>
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="linkedin">💼 Post LinkedIn</div>
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="hooks">⚡ 5 Hooks</div>
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="story">📱 Stories (×3)</div>
+        <div class="fg on" onclick="toggleFmt(this)" data-fmt="dm">✉️ DM outreach</div>
+      </div>
+    </div>
+    <button class="btn-gold" id="btn-mult" onclick="generateMultiplier()">♻️ Multiplier ce contenu</button>
+    <div class="result-box" id="result-mult">
+      <div class="result-label" id="el-rl-mult">Contenu multiplié</div>
+      <div id="mult-blocks"></div>
+      <button class="btn-outline" id="btn-cp-mult" onclick="copyMultAll()" style="margin-top:16px">Copier tout le contenu</button>
     </div>
   </div>
 
@@ -345,15 +407,17 @@ var T = {
     subtitle:'Megève · Monaco · Côte d\'Azur · Paris · Courchevel · Usage interne',
     navPosts:'← Posts réseaux sociaux', navEstim:'Outil d\'estimation →',
     sec:'Connexion sécurisée via Netlify Functions — clé API jamais exposée.',
-    tabPosts:'✍️ Générer posts', tabEstim:'📊 Analyser estimation', tabChat:'💬 Assistant',
-    lm1:'Marché', lm2:'Marché', lpf:'Plateforme', lpl:'Langue du post', ltp:'Type de bien',
+    tabPosts:'✍️ Générer posts', tabMult:'♻️ Multiplier', tabEstim:'📊 Estimation', tabChat:'💬 Assistant',
+    lm1:'Marché', lm2:'Marché', lmm:'Marché', lpf:'Plateforme', lpl:'Langue du post', ltp:'Type de bien',
     lgl:'Objectif', lps:'Persona cible', ltr:'Déclencheur émotionnel', ltn:'Ton', ldt:'Détails (optionnel)', ltp2:'Type', lmv:'Motivation vendeur',
+    lmi:'Idée ou message central', lmp:'Persona cible', lml:'Langue', lmf:'Formats à générer',
     lpr:'Prix estimé (€)', llc:'Localisation précise', lst:'Points forts',
     btnPost:'✨ Générer le post avec IA', rlPost:'Post généré par Claude',
     cpPost:'Copier le post', regen:'↺ Regénérer une variante',
     btnEst:'📊 Analyser avec IA', rlEst:'Analyse stratégique par Claude', cpEst:'Copier l\'analyse',
+    btnMult:'♻️ Multiplier ce contenu', rlMult:'Contenu multiplié', cpMult:'Copier tout le contenu',
     send:'Envoyer', chatPh:'Posez votre question...', processing:'En cours…', analysing:'Analyse en cours…',
-    copied:'✓ Copié !', errNet:'Erreur réseau : ',
+    multiplying:'Multiplication en cours…', copied:'✓ Copié !', errNet:'Erreur réseau : ',
     welcome:'Bonjour. Je suis votre stratège Douglas Elliman v2.4.\n\nMarchés couverts (données 2025-2026) :\n🏔 Megève · 🇲🇨 Monaco · 🌊 Côte d\'Azur · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nCapacités :\n• Prix au m² par micro-secteur + stratégie de positionnement\n• Psychologie des 3 personas acheteurs (Cadre Alpin, Investisseur Patrimonial, Expatrié Fortuné)\n• Scripts d\'objections mot-pour-mot pour vos rendez-vous mandats\n• Génération de contenu réseaux sociaux à haute rétention\n• Stratégies mandat exclusif et off-market\n\nCliquez sur une suggestion ou posez votre question.',
     sugs:{
       '📍 Marchés':['Prix/m² Monaco Carré d\'Or','Tendances Courchevel 1850','Megève vs Courchevel','Marché Côte d\'Azur 2025'],
@@ -367,15 +431,17 @@ var T = {
     subtitle:'Megève · Monaco · French Riviera · Paris · Courchevel · Internal use',
     navPosts:'← Social media posts', navEstim:'Valuation tool →',
     sec:'Secure connection via Netlify Functions — API key never exposed.',
-    tabPosts:'✍️ Generate posts', tabEstim:'📊 Analyse valuation', tabChat:'💬 Assistant',
-    lm1:'Market', lm2:'Market', lpf:'Platform', lpl:'Post language', ltp:'Property type',
+    tabPosts:'✍️ Generate posts', tabMult:'♻️ Multiply', tabEstim:'📊 Estimation', tabChat:'💬 Assistant',
+    lm1:'Market', lm2:'Market', lmm:'Market', lpf:'Platform', lpl:'Post language', ltp:'Property type',
     lgl:'Objective', lps:'Target persona', ltr:'Emotional trigger', ltn:'Tone', ldt:'Details (optional)', ltp2:'Type', lmv:'Seller motivation',
+    lmi:'Core idea or message', lmp:'Target persona', lml:'Language', lmf:'Formats to generate',
     lpr:'Estimated price (€)', llc:'Precise location', lst:'Property highlights',
     btnPost:'✨ Generate post with AI', rlPost:'Post generated by Claude',
     cpPost:'Copy post', regen:'↺ Regenerate variant',
     btnEst:'📊 Analyse with AI', rlEst:'Strategic analysis by Claude', cpEst:'Copy analysis',
+    btnMult:'♻️ Multiply this content', rlMult:'Multiplied content', cpMult:'Copy all content',
     send:'Send', chatPh:'Ask your question...', processing:'Processing…', analysing:'Analysing…',
-    copied:'✓ Copied!', errNet:'Network error: ',
+    multiplying:'Multiplying…', copied:'✓ Copied!', errNet:'Network error: ',
     welcome:'Hello. I am your Douglas Elliman strategist v2.4.\n\nMarkets covered (2025-2026 data):\n🏔 Megève · 🇲🇨 Monaco · 🌊 French Riviera · 🗼 Paris · ⛷️ Courchevel · ⛵ Saint-Tropez\n\nCapabilities:\n• Price per m² by micro-sector + positioning strategy\n• Psychology of 3 buyer personas (Alpine Executive, Patrimonial Investor, Expat)\n• Word-for-word objection scripts for mandate meetings\n• High-retention social media content generation\n• Exclusive mandate & off-market strategies\n\nClick a suggestion or type your question.',
     sugs:{
       '📍 Markets':['Monaco Carré d\'Or price/m²','Courchevel 1850 trends','Megève vs Courchevel','French Riviera 2025'],
@@ -399,13 +465,16 @@ function setLang(lang, btn) {
   var ids = {
     'el-eyebrow':'eyebrow','el-h1':'h1','el-subtitle':'subtitle',
     'el-nav-posts':'navPosts','el-nav-estim':'navEstim','el-sec':'sec',
-    'tab-posts':'tabPosts','tab-estim':'tabEstim','tab-chat':'tabChat',
+    'tab-posts':'tabPosts','tab-mult':'tabMult','tab-estim':'tabEstim','tab-chat':'tabChat',
     'el-lbl-m1':'lm1','el-lbl-m2':'lm2','el-lbl-pf':'lpf','el-lbl-pl':'lpl',
     'el-lbl-tp':'ltp','el-lbl-gl':'lgl','el-lbl-ps':'lps','el-lbl-tr':'ltr','el-lbl-tn':'ltn','el-lbl-dt':'ldt',
     'el-lbl-tp2':'ltp2','el-lbl-mv':'lmv','el-lbl-pr':'lpr','el-lbl-lc':'llc',
     'el-lbl-st':'lst','btn-post':'btnPost','el-rl-post':'rlPost',
     'btn-cp-post':'cpPost','btn-regen':'regen','btn-est':'btnEst',
-    'el-rl-est':'rlEst','btn-cp-est':'cpEst','btn-chat':'send'
+    'el-rl-est':'rlEst','btn-cp-est':'cpEst',
+    'el-lbl-mi':'lmi','el-lbl-mm':'lmm','el-lbl-mp':'lmp','el-lbl-ml':'lml','el-lbl-mf':'lmf',
+    'btn-mult':'btnMult','el-rl-mult':'rlMult','btn-cp-mult':'cpMult',
+    'btn-chat':'send'
   };
   for (var id in ids) {
     var el = document.getElementById(id);
@@ -433,6 +502,151 @@ function selMarket(el, pfx) {
   }
   name = name.trim();
   document.getElementById(pfx+'-market').value = name;
+}
+
+/* =============================================
+   FORMAT TOGGLE (multiplicateur)
+============================================= */
+function toggleFmt(el) {
+  el.classList.toggle('on');
+}
+
+/* =============================================
+   MULTIPLICATEUR DE CONTENU
+============================================= */
+function generateMultiplier() {
+  if (isFetching) return;
+  var idea    = (document.getElementById('mult-idea').value || '').trim();
+  var market  = document.getElementById('mult-market').value || 'Megève';
+  var persona = document.getElementById('mult-persona').value;
+  var lang    = document.getElementById('mult-lang').value;
+  var btn     = document.getElementById('btn-mult');
+
+  if (!idea) { showError(LANG==='fr' ? 'Saisissez une idée centrale.' : 'Enter a core idea.'); return; }
+
+  /* Formats sélectionnés */
+  var fmtEls = document.getElementById('mult-formats').querySelectorAll('.fg.on');
+  var fmts = [];
+  for (var i=0; i<fmtEls.length; i++) fmts.push(fmtEls[i].dataset.fmt);
+  if (!fmts.length) { showError(LANG==='fr' ? 'Sélectionnez au moins un format.' : 'Select at least one format.'); return; }
+
+  btn.disabled = true;
+  btn.textContent = T[LANG].multiplying;
+  isFetching = true;
+  showError(null);
+
+  var fmtLabels = {
+    reel:     LANG==='fr' ? 'SCRIPT REEL (15-30s)' : 'REEL SCRIPT (15-30s)',
+    carousel: LANG==='fr' ? 'CARROUSEL INSTAGRAM (7 slides)' : 'INSTAGRAM CAROUSEL (7 slides)',
+    linkedin: LANG==='fr' ? 'POST LINKEDIN LONG-FORM' : 'LINKEDIN LONG-FORM POST',
+    hooks:    LANG==='fr' ? '5 HOOKS SCROLL-STOPPER' : '5 SCROLL-STOPPER HOOKS',
+    story:    LANG==='fr' ? 'SÉQUENCE STORIES (×3)' : 'STORIES SEQUENCE (×3)',
+    dm:       LANG==='fr' ? 'MESSAGE DM OUTREACH' : 'DM OUTREACH MESSAGE'
+  };
+
+  var fmtInstructions = {
+    reel:     'A 15-30 second video script with: [0-3s HOOK - visual + text on screen], [3-10s TENSION - the problem or insight], [10-25s VALUE - what you offer that others don\'t], [25-30s CTA - one clear action]. Format as timestamped lines.',
+    carousel: 'A 7-slide carousel. Slide 1 = scroll-stopper cover. Slides 2-6 = one insight per slide (max 15 words each). Slide 7 = CTA. Format: SLIDE 1:, SLIDE 2:, etc.',
+    linkedin: 'A LinkedIn long-form post. Line 1 = hook (all visible before "see more"). Blank line. Body with 3-5 bullet points using → or ✦. Close with an open question to generate comments. Max 1 emoji.',
+    hooks:    '5 completely different scroll-stopping opening lines for the same idea, each using a different psychological mechanism: 1) loss aversion, 2) identity mirror, 3) data-authority, 4) insider signal, 5) narrative tension.',
+    story:    'A 3-story sequence. Story 1 = hook (question or bold statement). Story 2 = value/insight. Story 3 = CTA with swipe-up. Each story = max 15 words + visual description in [brackets].',
+    dm:       'A short, non-salesy DM outreach message to a property owner. 3-5 sentences max. Must feel personal and respectful. No hard sell. End with a low-friction question.'
+  };
+
+  var requestedFmts = fmts.map(function(f){ return '### '+fmtLabels[f]+'\n'+fmtInstructions[f]; }).join('\n\n');
+
+  var sys = 'You are an elite content strategist for Douglas Elliman luxury real estate.\n\n'
+    +KB
+    +'\n\n── MULTIPLIER TASK ──\n'
+    +'Take a single core idea and produce multiple platform-specific content formats simultaneously.'
+    +' Each format must follow its own platform engineering rules and psychological principles from the KB.'
+    +' All formats must feel cohesive — same core message, radically different presentation.'
+    +' Language: '+lang+'. Market: '+market+'. Persona: '+persona+'.'
+    +' NEVER mention prices. NEVER start with the brand name. Always include a CTA.';
+
+  var prompt = 'CORE IDEA: '+idea+'\nMARKET: '+market+'\nPERSONA: '+persona
+    +'\n\nGenerate ONLY the following formats. Use ### headers exactly as shown. No intro, no meta-commentary.\n\n'
+    +requestedFmts;
+
+  apiCall(sys, [{role:'user',content:prompt}], function(text) {
+    renderMultiplierBlocks(text, fmts, fmtLabels);
+    document.getElementById('result-mult').style.display = 'block';
+    document.getElementById('result-mult').scrollIntoView({block:'start'});
+  }, function() {
+    isFetching = false;
+    btn.disabled = false;
+    btn.textContent = T[LANG].btnMult;
+  });
+}
+
+function renderMultiplierBlocks(rawText, fmts, fmtLabels) {
+  var container = document.getElementById('mult-blocks');
+  container.innerHTML = '';
+  /* Split by ### headers */
+  var parts = rawText.split(/^###\s*/m).filter(function(p){ return p.trim(); });
+  if (parts.length <= 1) {
+    /* Fallback: render as single block */
+    var block = document.createElement('div');
+    block.className = 'fmt-block';
+    var body = document.createElement('div');
+    body.className = 'fmt-body';
+    body.textContent = rawText;
+    block.appendChild(body);
+    container.appendChild(block);
+    return;
+  }
+  parts.forEach(function(part) {
+    var lines = part.split('\n');
+    var title = lines[0].trim();
+    var body  = lines.slice(1).join('\n').trim();
+    var block = document.createElement('div');
+    block.className = 'fmt-block';
+    var h = document.createElement('div');
+    h.className = 'fmt-title';
+    h.textContent = title;
+    var b = document.createElement('div');
+    b.className = 'fmt-body';
+    b.textContent = body;
+    var copyBtn = document.createElement('button');
+    copyBtn.className = 'btn-outline';
+    copyBtn.style.marginTop = '10px';
+    copyBtn.style.fontSize = '9px';
+    copyBtn.textContent = LANG==='fr' ? 'Copier ce format' : 'Copy this format';
+    (function(textToCopy, btn){
+      btn.addEventListener('click', function(){
+        var orig = btn.textContent;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(function(){
+            btn.textContent = T[LANG].copied;
+            setTimeout(function(){ btn.textContent = orig; }, 2000);
+          });
+        }
+      });
+    })(body, copyBtn);
+    block.appendChild(h);
+    block.appendChild(b);
+    block.appendChild(copyBtn);
+    container.appendChild(block);
+  });
+}
+
+function copyMultAll() {
+  var blocks = document.getElementById('mult-blocks').querySelectorAll('.fmt-body');
+  var titles = document.getElementById('mult-blocks').querySelectorAll('.fmt-title');
+  var text = '';
+  for (var i=0; i<blocks.length; i++) {
+    if (titles[i]) text += '=== '+titles[i].textContent+' ===\n\n';
+    text += blocks[i].textContent+'\n\n';
+  }
+  var btn = document.getElementById('btn-cp-mult');
+  var orig = btn.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text.trim()).then(function(){
+      btn.textContent = T[LANG].copied;
+      btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent=orig; btn.classList.remove('copied'); }, 2500);
+    });
+  }
 }
 
 /* =============================================

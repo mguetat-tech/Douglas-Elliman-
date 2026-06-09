@@ -15,9 +15,9 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ error: 'Méthode non autorisée' }) };
   }
 
-  const apiKey = event.headers['x-api-key'] || event.headers['X-Api-Key'];
+  const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey || !apiKey.startsWith('sk-ant-')) {
-    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Clé API manquante ou invalide' }) };
+    return { statusCode: 401, headers, body: JSON.stringify({ error: 'Clé API non configurée sur le serveur' }) };
   }
 
   try {

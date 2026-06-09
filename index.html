@@ -8,24 +8,24 @@
   <title>Douglas Elliman · Megève</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    :root{--navy:#1A1D2E;--teal:#1A8FAF;--bg:#FFFFFF;--bg2:#F8F6F2;--bg3:#F2EFEA;--text:#1E1E1E;--text-mid:#3C3C3C;--text-dim:#888880;--border:#E5E2DC}
+    :root{--navy:#1A1D2E;--royal:#1848C8;--teal:#1A8FAF;--bg:#FFFFFF;--bg2:#F8F6F2;--bg3:#F2EFEA;--text:#1E1E1E;--text-mid:#3C3C3C;--text-dim:#888880;--border:#E5E2DC}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
     /* ── HEADER ── */
-    header{text-align:center;padding:0;border-bottom:1px solid var(--border);background:var(--bg)}
-    .header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border)}
-    .header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s}
-    .header-nav-link:hover{color:var(--navy)}
+    header{text-align:center;padding:0;background:var(--royal)}
+    .header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
+    .header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.65);text-decoration:none;transition:color .2s}
+    .header-nav-link:hover{color:#fff}
     .header-logo{text-align:center}
-    .logo-mark{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2px}
-    .logo-circle{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:400;color:var(--navy);letter-spacing:0}
-    .logo-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--navy);letter-spacing:3px;text-transform:uppercase}
-    .logo-sub{font-size:8px;letter-spacing:5px;color:var(--text-dim);text-transform:uppercase;margin-top:2px}
-    .header-content{padding:36px 24px 32px;border-bottom:1px solid var(--border)}
-    .eyebrow{font-size:9px;letter-spacing:6px;color:var(--text-dim);text-transform:uppercase;margin-bottom:16px}
-    h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(26px,5vw,42px);color:var(--text);line-height:1.15;margin-bottom:10px}
+    .logo-mark{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2px}
+    .logo-circle{display:none}
+    .logo-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;letter-spacing:4px;text-transform:uppercase}
+    .logo-sub{font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-top:2px}
+    .header-content{padding:36px 24px 36px}
+    .eyebrow{font-size:9px;letter-spacing:6px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-bottom:16px}
+    h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(26px,5vw,42px);color:#fff;line-height:1.15;margin-bottom:10px}
     h1 em{font-style:italic;font-weight:300}
-    .subtitle{font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-top:8px}
+    .subtitle{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.55);text-transform:uppercase;margin-top:8px}
     /* ── FILTERS ── */
     .filters{display:flex;justify-content:center;gap:0;padding:0;flex-wrap:wrap;max-width:700px;margin:0 auto;border-bottom:1px solid var(--border)}
     .filter-btn{background:transparent;color:var(--text-dim);border:none;border-bottom:2px solid transparent;padding:16px 28px;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;font-weight:500}
@@ -68,7 +68,6 @@
     <a href="estimation.html" class="header-nav-link">Estimation</a>
     <div class="header-logo">
       <div class="logo-mark">
-        <div class="logo-circle">DE</div>
         <span class="logo-name">Douglas Elliman</span>
       </div>
       <div class="logo-sub">Megève · Alpes Françaises</div>

@@ -15,20 +15,15 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:300;min-height:100vh;letter-spacing:.01em}
 /* ── HEADER ── */
-header{background:var(--royal)}
-.header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
-.header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;transition:color .2s}
-.header-nav-link:hover{color:#fff}
-.header-logo{text-align:center}
-.logo-mark{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2px}
-.logo-circle{display:none}
-.logo-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;letter-spacing:4px;text-transform:uppercase}
-.logo-sub{font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:2px}
-.header-content{padding:36px 24px 28px;text-align:center}
+header{text-align:center;padding:48px 24px 40px;background:var(--royal);position:relative}
+.lang-switch{position:absolute;top:20px;right:20px;display:flex;border:1px solid rgba(255,255,255,.3);overflow:hidden}
 .eyebrow{font-size:9px;letter-spacing:6px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:12px;font-weight:400}
 h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(24px,5vw,40px);color:#fff;line-height:1.15;margin-bottom:8px}
 h1 em{font-style:italic;font-weight:300}
 .subtitle{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.85);text-transform:uppercase}
+.header-links{margin-top:24px;display:flex;justify-content:center;gap:24px}
+.header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;border:1px solid rgba(255,255,255,.3);padding:8px 18px;transition:all .2s}
+.header-nav-link:hover{background:rgba(255,255,255,.15)}
 /* ── LANG SWITCH ── */
 .lang-switch{display:flex;border:1px solid var(--border);overflow:hidden}
 .lang-btn{background:transparent;color:var(--text-dim);border:none;padding:7px 14px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s}
@@ -105,23 +100,16 @@ footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);fo
 <body>
 
 <header>
-  <div class="header-bar">
-    <a href="index.html" class="header-nav-link" id="el-nav-posts">← Posts</a>
-    <div class="header-logo">
-      <div class="logo-mark">
-        <span class="logo-name">Douglas Elliman</span>
-      </div>
-      <div class="logo-sub">Intelligence Artificielle</div>
-    </div>
-    <div class="lang-switch">
-      <button class="lang-btn active" onclick="setLang('fr',this)">FR</button>
-      <button class="lang-btn" onclick="setLang('en',this)">EN</button>
-    </div>
+  <div class="lang-switch">
+    <button class="lang-btn active" onclick="setLang('fr',this)">FR</button>
+    <button class="lang-btn" onclick="setLang('en',this)">EN</button>
   </div>
-  <div class="header-content">
-    <div class="eyebrow" id="el-eyebrow">Douglas Elliman · Intelligence Artificielle</div>
-    <h1><em id="el-h1">Assistant IA</em></h1>
-    <p class="subtitle" id="el-subtitle">Megève · Monaco · Côte d'Azur · Paris · Usage interne</p>
+  <div class="eyebrow" id="el-eyebrow">Douglas Elliman · Intelligence Artificielle</div>
+  <h1><em id="el-h1">Assistant IA</em></h1>
+  <p class="subtitle" id="el-subtitle">Megève · Monaco · Côte d'Azur · Paris · Usage interne</p>
+  <div class="header-links">
+    <a href="index.html" class="header-nav-link" id="el-nav-posts">← Posts</a>
+    <a href="estimation.html" class="header-nav-link" id="el-nav-estim">Estimation →</a>
   </div>
 </header>
 

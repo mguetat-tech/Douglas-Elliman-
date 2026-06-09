@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+
+<!-- Générateur d'Images Produit Cinématiques — Douglas Elliman v1.0 -->
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Douglas Elliman · Cinematic Product Shot</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#1A1D2E;
+  --royal:#0D2472;
+  --teal:#1A8FAF;
+  --bg:#FFFFFF;
+  --bg2:#F8F6F2;
+  --bg3:#F2EFEA;
+  --text:#1E1E1E;
+  --text-mid:#3C3C3C;
+  --text-dim:#888880;
+  --border:#E5E2DC;
+  --green:#2e7d4f;
+  --gold:#C9A84C;
+  --red:#c0392b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;font-weight:300;min-height:100vh;letter-spacing:.01em}
+
+/* ── HEADER ── */
+header{background:var(--royal)}
+.header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
+.header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;transition:color .2s}
+.header-nav-link:hover{color:#fff}
+.header-logo{text-align:center}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;letter-spacing:4px;text-transform:uppercase}
+.logo-sub{font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:2px}
+.header-content{padding:36px 24px 28px;text-align:center}
+.eyebrow{font-size:9px;letter-spacing:6px;color:rgba(255,255,255,.75);text-transform:uppercase;margin-bottom:12px;font-weight:400}
+h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(24px,5vw,40px);color:#fff;line-height:1.15;margin-bottom:8px}
+h1 em{font-style:italic;font-weight:300}
+.subtitle{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,.75);text-transform:uppercase}
+
+/* ── LAYOUT ── */
+.wrap{max-width:680px;margin:0 auto;padding:32px 16px 80px}
+
+/* ── SECTION TITLE ── */
+.section-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px;font-weight:500;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* ── PRESETS ── */
+.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.preset-btn{
+  padding:14px 8px;
+  border:1px solid var(--border);
+  background:var(--bg3);
+  cursor:pointer;
+  text-align:center;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  font-weight:300;
+  color:var(--text-dim);
+  transition:all .2s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+}
+.preset-btn:hover{border-color:var(--navy);color:var(--navy)}
+.preset-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:500}
+.preset-dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+
+/* ── FIELDS ── */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;font-weight:500}
+.field input,.field select,.field textarea{
+  width:100%;
+  padding:12px 15px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  color:var(--text);
+  font-family:'Montserrat',sans-serif;
+  font-size:13px;
+  font-weight:300;
+  -webkit-appearance:none;
+  transition:border-color .2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy)}
+.field select option{background:var(--bg);color:var(--text)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+/* ── STYLE TOGGLE ── */
+.style-row{display:flex;gap:0;border:1px solid var(--border);overflow:hidden;margin-bottom:4px}
+.style-opt{
+  flex:1;
+  padding:10px 6px;
+  border:none;
+  background:var(--bg3);
+  font-family:'Montserrat',sans-serif;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  cursor:pointer;
+  transition:all .2s;
+  border-right:1px solid var(--border);
+}
+.style-opt:last-child{border-right:none}
+.style-opt.active{background:var(--navy);color:#fff}
+
+/* ── BUTTONS ── */
+.btn-generate{
+  width:100%;
+  padding:16px;
+  background:var(--navy);
+  color:#fff;
+  border:none;
+  font-family:'Montserrat',sans-serif;
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-weight:500;
+  margin-top:6px;
+  transition:background .2s;
+}
+.btn-generate:hover{background:#2a2f4a}
+.btn-generate:disabled{opacity:.4;cursor:not-allowed}
+
+/* ── LOADING ── */
+.loading-bar{
+  display:none;
+  margin-top:24px;
+  text-align:center;
+  padding:32px 16px;
+  border:1px solid var(--border);
+  background:var(--bg2);
+}
+.loading-bar.show{display:block}
+.loader-ring{
+  width:36px;height:36px;
+  border:2px solid var(--border);
+  border-top-color:var(--navy);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 14px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim)}
+
+/* ── RESULT ── */
+.result-section{display:none;margin-top:28px}
+.result-section.show{display:block}
+
+.visual-preview{
+  height:180px;
+  border-radius:2px;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+.visual-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,4vw,28px);
+  font-weight:300;
+  font-style:italic;
+  color:rgba(255,255,255,.92);
+  text-align:center;
+  text-shadow:0 2px 12px rgba(0,0,0,.35);
+  letter-spacing:2px;
+  z-index:1;
+  padding:0 24px;
+}
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(30px);
+  opacity:.65;
+}
+
+.result-card{
+  border:1px solid var(--border);
+  background:var(--bg2);
+  padding:24px;
+  margin-bottom:16px;
+}
+.result-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--navy);margin-bottom:12px;font-weight:500}
+.prompt-text{
+  font-size:12.5px;
+  line-height:1.95;
+  color:var(--text-mid);
+  font-weight:300;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* ── ACTION BUTTONS ── */
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.action-btn{
+  padding:13px 10px;
+  font-family:'Montserrat',sans-serif;
+  font-size:9px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  font-weight:500;
+  transition:all .2s;
+  text-align:center;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.action-btn.primary{background:var(--navy);color:#fff;border:none}
+.action-btn.primary:hover{background:#2a2f4a}
+.action-btn.primary.copied{background:#2e7d4f}
+.action-btn.outline{background:transparent;border:1px solid var(--navy);color:var(--navy)}
+.action-btn.outline:hover{background:var(--navy);color:#fff}
+.action-btn.canva{background:#7B2FBE;border:none;color:#fff}
+.action-btn.canva:hover{background:#6421a0}
+.action-btn.dalle{background:#10A37F;border:none;color:#fff}
+.action-btn.dalle:hover{background:#0c8a6b}
+
+/* ── CANVA RESULTS ── */
+.canva-section{margin-top:28px;display:none}
+.canva-section.show{display:block}
+.canva-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:14px}
+.canva-card{border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s}
+.canva-card:hover{border-color:var(--navy)}
+.canva-thumb{
+  width:100%;
+  aspect-ratio:1;
+  background:var(--bg3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+.canva-thumb img{width:100%;height:100%;object-fit:cover}
+.canva-card-label{padding:10px 12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);background:var(--bg2)}
+
+/* ── ERROR ── */
+.error-bar{background:#fdf2f2;border:1px solid #e8b4b4;color:var(--red);padding:12px 16px;font-size:11px;margin-top:16px;display:none;line-height:1.6}
+.error-bar.show{display:block}
+
+/* ── INFO BOX ── */
+.info-box{background:var(--bg2);border-left:3px solid var(--teal);padding:16px 18px;margin-bottom:24px;font-size:12px;line-height:1.8;color:var(--text-mid)}
+.info-box strong{color:var(--navy);font-weight:500}
+
+footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);font-weight:400;margin-top:40px}
+
+/* ── MOBILE ── */
+@media(max-width:480px){
+  .preset-grid{grid-template-columns:repeat(2,1fr)}
+  .action-grid{grid-template-columns:1fr}
+  .canva-grid{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-bar">
+    <a href="assistant.html" class="header-nav-link">← Assistant</a>
+    <div class="header-logo">
+      <div class="logo-name">Douglas Elliman</div>
+      <div class="logo-sub">Cinematic Studio</div>
+    </div>
+    <a href="index.html" class="header-nav-link">Posts →</a>
+  </div>
+  <div class="header-content">
+    <div class="eyebrow">Product Image Generator</div>
+    <h1><em>Cinematic Product Still</em></h1>
+    <p class="subtitle">AI-Powered · Prompt Engineering · Luxury Visuals</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="info-box">
+    <strong>How it works</strong> — Choose a beverage and container, then click Generate. Claude crafts a technically precise, photorealistic prompt optimised for DALL-E 3, Midjourney, and Stable Diffusion. Copy the prompt and paste it into your preferred image tool.
+  </div>
+
+  <!-- BEVERAGE TYPE -->
+  <div class="section-title">Beverage Type</div>
+  <div class="preset-grid" id="bev-grid">
+    <button class="preset-btn active" onclick="selectBev(this,'Champagne')" data-hex="#F0C058">
+      <span class="preset-dot" style="background:#F0C058"></span>Champagne
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Red Wine')" data-hex="#8B1A2B">
+      <span class="preset-dot" style="background:#8B1A2B"></span>Red Wine
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'White Wine')" data-hex="#E8DBA0">
+      <span class="preset-dot" style="background:#E8DBA0"></span>White Wine
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Sparkling Water')" data-hex="#B8E4F4">
+      <span class="preset-dot" style="background:#B8E4F4"></span>Sparkling Water
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Whiskey')" data-hex="#C47B2B">
+      <span class="preset-dot" style="background:#C47B2B"></span>Whiskey
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Espresso')" data-hex="#3E1A08">
+      <span class="preset-dot" style="background:#3E1A08"></span>Espresso
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Matcha Latte')" data-hex="#7CB87C">
+      <span class="preset-dot" style="background:#7CB87C"></span>Matcha Latte
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'Rosé')" data-hex="#E8A0A0">
+      <span class="preset-dot" style="background:#E8A0A0"></span>Rosé
+    </button>
+    <button class="preset-btn" onclick="selectBev(this,'custom')" data-hex="#cccccc">
+      <span class="preset-dot" style="background:#cccccc"></span>Custom
+    </button>
+  </div>
+  <div class="field" id="custom-bev-field" style="display:none;margin-top:8px">
+    <input type="text" id="custom-bev" placeholder="Enter beverage type..." />
+  </div>
+
+  <div style="margin-bottom:24px"></div>
+
+  <!-- CONTAINER TYPE -->
+  <div class="section-title">Container Type</div>
+  <div class="preset-grid" id="con-grid">
+    <button class="preset-btn active" onclick="selectCon(this,'Crystal Flute Glass')">Crystal Flute</button>
+    <button class="preset-btn" onclick="selectCon(this,'Wine Glass')">Wine Glass</button>
+    <button class="preset-btn" onclick="selectCon(this,'Whiskey Tumbler')">Tumbler</button>
+    <button class="preset-btn" onclick="selectCon(this,'Glass Bottle')">Glass Bottle</button>
+    <button class="preset-btn" onclick="selectCon(this,'Espresso Cup')">Espresso Cup</button>
+    <button class="preset-btn" onclick="selectCon(this,'Crystal Carafe')">Carafe</button>
+    <button class="preset-btn" onclick="selectCon(this,'Champagne Coupe')">Coupe</button>
+    <button class="preset-btn" onclick="selectCon(this,'Matte Ceramic Mug')">Ceramic Mug</button>
+    <button class="preset-btn" onclick="selectCon(this,'custom')">Custom</button>
+  </div>
+  <div class="field" id="custom-con-field" style="display:none;margin-top:8px">
+    <input type="text" id="custom-con" placeholder="Enter container type..." />
+  </div>
+
+  <div style="margin-bottom:24px"></div>
+
+  <!-- VISUAL STYLE -->
+  <div class="section-title">Visual Style</div>
+  <div class="style-row" id="style-row">
+    <button class="style-opt active" onclick="selectStyle(this,'luxury')">Luxury</button>
+    <button class="style-opt" onclick="selectStyle(this,'minimal')">Minimal</button>
+    <button class="style-opt" onclick="selectStyle(this,'dramatic')">Dramatic</button>
+    <button class="style-opt" onclick="selectStyle(this,'playful')">Playful</button>
+  </div>
+
+  <div style="margin-bottom:28px"></div>
+
+  <!-- GENERATE -->
+  <button class="btn-generate" id="gen-btn" onclick="generate()">
+    Generate Cinematic Prompt
+  </button>
+
+  <div class="error-bar" id="error-bar"></div>
+
+  <!-- LOADING -->
+  <div class="loading-bar" id="loading-bar">
+    <div class="loader-ring"></div>
+    <div class="loading-label">Crafting your cinematic prompt&hellip;</div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-section" id="result-section">
+
+    <!-- Gradient preview -->
+    <div class="visual-preview" id="visual-preview">
+      <div class="orb" id="orb1" style="width:200px;height:200px;top:-40px;left:-20px"></div>
+      <div class="orb" id="orb2" style="width:160px;height:160px;bottom:-30px;right:-10px"></div>
+      <div class="orb" id="orb3" style="width:100px;height:100px;top:40px;right:60px"></div>
+      <span class="visual-label" id="visual-label"></span>
+    </div>
+
+    <!-- Prompt card -->
+    <div class="result-card">
+      <div class="result-label">Cinematic Image Prompt</div>
+      <div class="prompt-text" id="prompt-text"></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-grid">
+      <button class="action-btn primary" id="copy-btn" onclick="copyPrompt()">
+        <span>Copy Prompt</span>
+      </button>
+      <button class="action-btn outline" onclick="generate()">Regenerate</button>
+    </div>
+
+    <div style="margin-top:12px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px">Open In</div>
+    <div class="action-grid">
+      <a class="action-btn dalle" id="dalle-link" href="#" target="_blank" rel="noopener">DALL-E 3</a>
+      <a class="action-btn canva" href="https://www.canva.com/ai-image-generator/" target="_blank" rel="noopener">Canva AI</a>
+    </div>
+
+  </div>
+
+</div>
+
+<footer>Douglas Elliman · Megève &nbsp;·&nbsp; Cinematic Studio &nbsp;·&nbsp; Usage Interne</footer>
+
+<script>
+/* ── STATE ── */
+var BEV = 'Champagne';
+var BEV_HEX = '#F0C058';
+var CON = 'Crystal Flute Glass';
+var STYLE = 'luxury';
+
+/* Colour palette per beverage (bg1, bg2, accent) */
+var PALETTE = {
+  'Champagne':       ['#2A1F05','#C9A030','#F5D060'],
+  'Red Wine':        ['#1A0508','#6B1020','#C04060'],
+  'White Wine':      ['#1A1A08','#8A8020','#D8C870'],
+  'Sparkling Water': ['#041A25','#1050A0','#50C0E8'],
+  'Whiskey':         ['#1A0A02','#8A4010','#D08030'],
+  'Espresso':        ['#080402','#3A1808','#7A4820'],
+  'Matcha Latte':    ['#051005','#286828','#70C070'],
+  'Rosé':            ['#1A0510','#A03060','#E890A0'],
+  'custom':          ['#0D2472','#1A8FAF','#C9A84C']
+};
+
+/* ── BEVERAGE SELECT ── */
+function selectBev(btn, val) {
+  document.querySelectorAll('#bev-grid .preset-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  BEV = val;
+  BEV_HEX = btn.getAttribute('data-hex') || '#cccccc';
+  document.getElementById('custom-bev-field').style.display = (val === 'custom') ? 'block' : 'none';
+}
+
+/* ── CONTAINER SELECT ── */
+function selectCon(btn, val) {
+  document.querySelectorAll('#con-grid .preset-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  CON = val;
+  document.getElementById('custom-con-field').style.display = (val === 'custom') ? 'block' : 'none';
+}
+
+/* ── STYLE SELECT ── */
+function selectStyle(btn, val) {
+  document.querySelectorAll('#style-row .style-opt').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  STYLE = val;
+}
+
+/* ── RESOLVE VALUES ── */
+function resolvedBev() {
+  return BEV === 'custom'
+    ? (document.getElementById('custom-bev').value.trim() || 'Beverage')
+    : BEV;
+}
+function resolvedCon() {
+  return CON === 'custom'
+    ? (document.getElementById('custom-con').value.trim() || 'Glass')
+    : CON;
+}
+
+/* ── GET API URL (Safari-safe absolute path) ── */
+function getApiUrl() {
+  return window.location.origin + '/api/generate-image';
+}
+
+/* ── GENERATE ── */
+function generate() {
+  var bev = resolvedBev();
+  var con = resolvedCon();
+
+  if (!bev || !con) {
+    showError('Please specify both a beverage type and a container.');
+    return;
+  }
+
+  hideError();
+  document.getElementById('loading-bar').classList.add('show');
+  document.getElementById('result-section').classList.remove('show');
+  document.getElementById('gen-btn').disabled = true;
+
+  var payload = JSON.stringify({ beverageType: bev, containerType: con, style: STYLE });
+
+  /* Try fetch, XHR fallback for older Safari */
+  if (typeof fetch !== 'undefined') {
+    fetch(getApiUrl(), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload
+    })
+    .then(function(r){ return r.json(); })
+    .then(handleResult)
+    .catch(function(e){ handleError(e.message); });
+  } else {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', getApiUrl(), true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          if (xhr.status === 200) handleResult(data);
+          else handleError(data.error || 'Request failed');
+        } catch(e) { handleError('Response parse error'); }
+      }
+    };
+    xhr.send(payload);
+  }
+}
+
+/* ── HANDLE SUCCESS ── */
+function handleResult(data) {
+  document.getElementById('loading-bar').classList.remove('show');
+  document.getElementById('gen-btn').disabled = false;
+
+  if (data.error) { handleError(data.error); return; }
+
+  var bev = resolvedBev();
+  var con = resolvedCon();
+  var prompt = data.prompt || '';
+
+  /* Populate prompt */
+  document.getElementById('prompt-text').textContent = prompt;
+
+  /* Visual preview gradient */
+  applyGradientPreview(bev, con);
+
+  /* DALL-E link */
+  document.getElementById('dalle-link').href =
+    'https://platform.openai.com/playground?mode=images&prompt=' + encodeURIComponent(prompt);
+
+  document.getElementById('result-section').classList.add('show');
+  document.getElementById('result-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── GRADIENT PREVIEW ── */
+function applyGradientPreview(bev, con) {
+  var palette = PALETTE[bev] || PALETTE['custom'];
+  var preview = document.getElementById('visual-preview');
+  preview.style.background = 'linear-gradient(135deg, ' + palette[0] + ' 0%, ' + palette[1] + ' 50%, ' + palette[0] + ' 100%)';
+
+  document.getElementById('orb1').style.background = palette[1];
+  document.getElementById('orb2').style.background = palette[2];
+  document.getElementById('orb3').style.background = palette[1];
+  document.getElementById('visual-label').textContent = bev + ' · ' + con;
+}
+
+/* ── COPY PROMPT ── */
+function copyPrompt() {
+  var text = document.getElementById('prompt-text').textContent;
+  var btn = document.getElementById('copy-btn');
+
+  function markCopied() {
+    btn.querySelector('span').textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function() {
+      btn.querySelector('span').textContent = 'Copy Prompt';
+      btn.classList.remove('copied');
+    }, 2200);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(markCopied).catch(function() {
+      fallbackCopy(text); markCopied();
+    });
+  } else {
+    fallbackCopy(text); markCopied();
+  }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ── ERROR HELPERS ── */
+function showError(msg) {
+  var bar = document.getElementById('error-bar');
+  bar.textContent = msg;
+  bar.classList.add('show');
+}
+function hideError() {
+  document.getElementById('error-bar').classList.remove('show');
+}
+function handleError(msg) {
+  document.getElementById('loading-bar').classList.remove('show');
+  document.getElementById('gen-btn').disabled = false;
+  showError('Error: ' + msg);
+}
+</script>
+
+</body>
+</html>

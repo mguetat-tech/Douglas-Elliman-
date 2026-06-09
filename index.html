@@ -6,57 +6,79 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Douglas Elliman · Megève</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
-    /* Palette de couleurs – thème sombre luxe avec accent or */
-    :root{--gold:#c9a84c;--gold-dim:#c9a84c33;--bg:#080806;--bg2:#0f0e09;--bg3:#141208;--text:#e8e0d0;--text-dim:#8a7a60;--text-mid:#c8bfa8}
+    :root{--navy:#1A1D2E;--teal:#1A8FAF;--bg:#FFFFFF;--bg2:#F8F6F2;--bg3:#F2EFEA;--text:#1E1E1E;--text-mid:#3C3C3C;--text-dim:#888880;--border:#E5E2DC}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
-    header{text-align:center;padding:52px 24px 40px;border-bottom:1px solid var(--gold-dim);background:linear-gradient(180deg,#12100a 0%,var(--bg) 100%)}
-    .eyebrow{font-size:9px;letter-spacing:8px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
-    h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,6vw,48px);color:#f0e8d0;letter-spacing:2px;margin-bottom:10px}
-    .subtitle{font-size:11px;letter-spacing:2px;color:var(--text-dim)}
-    .gold-line{width:40px;height:1px;background:var(--gold);margin:20px auto 0}
-    .filters{display:flex;justify-content:center;gap:8px;padding:28px 16px 12px;flex-wrap:wrap}
-    .filter-btn{background:transparent;color:var(--gold);border:1px solid #c9a84c44;padding:8px 20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .25s;font-family:'Montserrat',sans-serif;border-radius:1px}
-    .filter-btn:hover,.filter-btn.active{background:var(--gold);color:var(--bg);border-color:var(--gold)}
-    .posts{max-width:700px;margin:0 auto;padding:16px 16px 60px}
-    .post-card{background:var(--bg2);border:1px solid #c9a84c18;margin-bottom:12px;border-radius:2px;overflow:hidden;transition:border-color .25s}
-    .post-card:hover{border-color:#c9a84c44}
-    .post-header{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s}
-    .post-card.open .post-header{border-bottom-color:#c9a84c15}
+    /* ── HEADER ── */
+    header{text-align:center;padding:0;border-bottom:1px solid var(--border);background:var(--bg)}
+    .header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border)}
+    .header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color .2s}
+    .header-nav-link:hover{color:var(--navy)}
+    .header-logo{text-align:center}
+    .logo-mark{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2px}
+    .logo-circle{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--navy);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:400;color:var(--navy);letter-spacing:0}
+    .logo-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--navy);letter-spacing:3px;text-transform:uppercase}
+    .logo-sub{font-size:8px;letter-spacing:5px;color:var(--text-dim);text-transform:uppercase;margin-top:2px}
+    .header-content{padding:36px 24px 32px;border-bottom:1px solid var(--border)}
+    .eyebrow{font-size:9px;letter-spacing:6px;color:var(--text-dim);text-transform:uppercase;margin-bottom:16px}
+    h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(26px,5vw,42px);color:var(--text);line-height:1.15;margin-bottom:10px}
+    h1 em{font-style:italic;font-weight:300}
+    .subtitle{font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-top:8px}
+    /* ── FILTERS ── */
+    .filters{display:flex;justify-content:center;gap:0;padding:0;flex-wrap:wrap;max-width:700px;margin:0 auto;border-bottom:1px solid var(--border)}
+    .filter-btn{background:transparent;color:var(--text-dim);border:none;border-bottom:2px solid transparent;padding:16px 28px;font-size:9px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;font-weight:500}
+    .filter-btn:hover{color:var(--text)}
+    .filter-btn.active{color:var(--navy);border-bottom-color:var(--navy)}
+    /* ── POSTS ── */
+    .posts{max-width:700px;margin:0 auto;padding:24px 16px 60px}
+    .post-card{background:var(--bg);border:1px solid var(--border);margin-bottom:6px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+    .post-card:hover{border-color:#b0ada7;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+    .post-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s}
+    .post-card.open .post-header{border-bottom-color:var(--border)}
     .post-meta{display:flex;align-items:center;gap:14px}
-    .post-emoji{font-size:22px}
-    .post-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:#f0e8d0;letter-spacing:.5px}
+    .post-emoji{font-size:18px;opacity:.7}
+    .post-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--text);letter-spacing:.2px}
     .post-tags{display:flex;gap:8px;margin-top:4px}
-    .tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim)}
-    .tag-platform{color:var(--gold);font-weight:500}
-    .toggle{font-size:22px;color:var(--gold);font-family:'Cormorant Garamond',serif;transition:transform .3s;min-width:24px;text-align:center}
-    .post-card.open .toggle{transform:rotate(45deg)}
-    .post-body{display:none;padding:22px}
+    .tag{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim)}
+    .tag-platform{color:var(--teal);font-weight:500}
+    .toggle{font-size:18px;color:var(--text-dim);transition:transform .3s;min-width:24px;text-align:center;font-weight:300}
+    .post-card.open .toggle{transform:rotate(45deg);color:var(--navy)}
+    .post-body{display:none;padding:24px}
     .post-card.open .post-body{display:block}
-    .post-text{white-space:pre-wrap;font-size:13px;line-height:1.9;color:var(--text-mid);font-family:'Montserrat',sans-serif;font-weight:300;background:var(--bg3);border:1px solid #c9a84c12;border-radius:2px;padding:18px;max-height:320px;overflow-y:auto;margin-bottom:16px}
-    .copy-btn{width:100%;padding:13px;font-size:10px;letter-spacing:3px;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:none;border-radius:1px;cursor:pointer;transition:all .3s;background:var(--gold);color:var(--bg);font-weight:500}
-    .copy-btn.copied{background:#1e3a12;color:#6dbe3a}
+    .post-text{white-space:pre-wrap;font-size:13px;line-height:1.95;color:var(--text-mid);font-family:'Montserrat',sans-serif;font-weight:300;background:var(--bg2);border:1px solid var(--border);padding:20px;max-height:340px;overflow-y:auto;margin-bottom:16px}
+    .copy-btn{width:100%;padding:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:none;cursor:pointer;transition:background .25s;background:var(--navy);color:#fff;font-weight:500}
+    .copy-btn:hover{background:#2a2f4a}
+    .copy-btn.copied{background:#1a5530;color:#fff}
+    /* ── TIPS ── */
     .tips-box{max-width:700px;margin:0 auto 60px;padding:0 16px}
-    .tips-inner{border:1px solid #c9a84c20;border-radius:2px;background:var(--bg2);padding:28px;text-align:center}
-    .tips-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
-    .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;text-align:left}
-    .tip{padding:14px;background:var(--bg3);border-left:2px solid var(--gold-dim)}
-    .tip-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:500}
+    .tips-inner{background:var(--bg3);border-top:2px solid var(--navy);padding:32px;text-align:center}
+    .tips-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;font-weight:500}
+    .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;text-align:left}
+    .tip{padding:16px;background:var(--bg);border:1px solid var(--border)}
+    .tip-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--navy);margin-bottom:6px;font-weight:500}
     .tip-text{font-size:12px;color:var(--text-dim);line-height:1.7;font-weight:300}
-    /* Masque les cartes lors du filtrage par plateforme */
     .post-card.hidden{display:none}
   </style>
 </head>
 <body>
 <header>
-  <div class="eyebrow">Douglas Elliman · @douglaselliman.megeve · Lancement</div>
-  <h1>Posts de Lancement</h1>
-  <p class="subtitle">9 posts · Feed de lancement · Instagram & LinkedIn</p>
-  <div class="gold-line"></div>
-  <div style="margin-top:20px">
-    <a href="assistant.html" style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid #c9a84c44;padding:8px 20px;border-radius:1px;transition:all .25s">✨ Assistant IA</a>
+  <div class="header-bar">
+    <a href="estimation.html" class="header-nav-link">Estimation</a>
+    <div class="header-logo">
+      <div class="logo-mark">
+        <div class="logo-circle">DE</div>
+        <span class="logo-name">Douglas Elliman</span>
+      </div>
+      <div class="logo-sub">Megève · Alpes Françaises</div>
+    </div>
+    <a href="assistant.html" class="header-nav-link">Assistant IA</a>
+  </div>
+  <div class="header-content">
+    <div class="eyebrow">@douglaselliman.megeve · Lancement</div>
+    <h1>Posts de <em>Lancement</em></h1>
+    <p class="subtitle">9 posts · Instagram &amp; LinkedIn</p>
   </div>
 </header>
 <!-- Barre de filtres -->

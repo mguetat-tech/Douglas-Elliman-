@@ -694,18 +694,28 @@ function showError(msg) {
    APPEL API — URL ABSOLUE, SANS ABORTCONTROLLER
    Compatibilité maximale Safari iOS
 ============================================= */
+/* Safari iOS sérialise les emoji en 🏔 (surrogates JSON) rejetés par l'API.
+   Ce correctif convertit les paires surrogate en vrais caractères Unicode. */
+function fixSurrogates(json) {
+  return json
+    .replace(/\\uD([89AB][0-9A-F]{2})\\uD([C-F][0-9A-F]{2})/gi, function(m, hi, lo) {
+      var code = 0x10000 + (parseInt('D'+hi,16) - 0xD800) * 0x400 + (parseInt('D'+lo,16) - 0xDC00);
+      return String.fromCodePoint ? String.fromCodePoint(code) : m;
+    })
+    .replace(/\\uD[89ABCDEF][0-9A-F]{2}/gi, '');
+}
 function apiCall(systemStr, messagesArr, onSuccess, onDone) {
   /* Construction sécurisée du payload */
   var msgs = [];
   for (var i=0; i<messagesArr.length; i++) {
     msgs.push({ role: ''+messagesArr[i].role, content: ''+messagesArr[i].content });
   }
-  var payload = JSON.stringify({
+  var payload = fixSurrogates(JSON.stringify({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: 1500,
     system: ''+systemStr,
     messages: msgs
-  });
+  }));
 
   var xhr = new XMLHttpRequest();
   xhr.open('POST', getApiUrl(), true);

@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+/* Polices auto-hébergées (mêmes familles que index.html / assistant.html /
+   estimation.html) : servies depuis public/fonts, sans dépendance réseau. */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: block;
+  src: url("./fonts/cormorant-garamond-latin-400-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 400 400;
+  font-display: block;
+  src: url("./fonts/cormorant-garamond-italic-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: block;
+  src: url("./fonts/montserrat-latin-300-500.woff2") format("woff2");
+}

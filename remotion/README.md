@@ -11,6 +11,31 @@
 
 Welcome to your Remotion project!
 
+## Reels Douglas Elliman Megève
+
+Ce projet contient un composant réutilisable `PropertyReel` (voir
+`src/PropertyReel.tsx`) qui génère un reel Instagram vertical (1080x1920) :
+logo → accroche → slides de texte → CTA + coordonnées, sur un décor alpin
+animé (`src/AlpineBackground.tsx`), avec les polices et couleurs de marque
+(`src/brand.ts`, `src/fonts.ts`).
+
+Trois reels sont déjà enregistrés dans `src/Composition.tsx`, à partir des
+textes des posts 1, 4 et 9 de `index.html` :
+
+- `ReelOuverture`
+- `ReelMiroirIdentitaire`
+- `ReelExpatrie`
+
+Pour créer un nouveau reel : ajouter un objet dans `src/presets.ts` (kicker,
+hook, slides, cta, ctaSub, hashtags), puis l'enregistrer avec une nouvelle
+`<Composition>` dans `src/Composition.tsx`.
+
+Rendu :
+
+```console
+npx remotion render src/index.ts ReelOuverture out/reel-ouverture.mp4
+```
+
 ## Commands
 
 **Install Dependencies**

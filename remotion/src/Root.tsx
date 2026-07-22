@@ -1,10 +1,6 @@
 import "./index.css";
-import { MyComposition } from "./Composition";
+import { PropertyReels } from "./Composition";
 
 export const RemotionRoot: React.FC = () => {
-  return (
-    <>
-      <MyComposition />
-    </>
-  );
+  return <PropertyReels />;
 };

@@ -12,7 +12,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
     /* ── HEADER ── */
-    header{background:var(--royal)}
+    header{background:linear-gradient(160deg,var(--royal) 0%,#0A1B57 100%)}
     .header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
     .header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;transition:color .2s}
     .header-nav-link:hover{color:#fff}
@@ -31,8 +31,8 @@
     .filter-btn.active{color:var(--navy);border-bottom-color:var(--navy)}
     /* ── POSTS ── */
     .posts{max-width:700px;margin:0 auto;padding:24px 16px 60px}
-    .post-card{background:var(--bg);border:1px solid var(--border);margin-bottom:6px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
-    .post-card:hover{border-color:#b0ada7;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+    .post-card{background:var(--bg);border:1px solid var(--border);border-radius:3px;margin-bottom:8px;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s}
+    .post-card:hover{border-color:#b0ada7;box-shadow:0 6px 24px rgba(13,36,114,.08);transform:translateY(-1px)}
     .post-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s}
     .post-card.open .post-header{border-bottom-color:var(--border)}
     .post-meta{display:flex;align-items:center;gap:14px}
@@ -46,12 +46,12 @@
     .post-body{display:none;padding:24px}
     .post-card.open .post-body{display:block}
     .post-text{white-space:pre-wrap;font-size:13px;line-height:1.95;color:var(--text-mid);font-family:'Montserrat',sans-serif;font-weight:300;background:var(--bg2);border:1px solid var(--border);padding:20px;max-height:340px;overflow-y:auto;margin-bottom:16px}
-    .copy-btn{width:100%;padding:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:none;cursor:pointer;transition:background .25s;background:var(--navy);color:#fff;font-weight:500}
-    .copy-btn:hover{background:#2a2f4a}
+    .copy-btn{width:100%;padding:14px;font-size:9px;letter-spacing:3px;text-transform:uppercase;font-family:'Montserrat',sans-serif;border:none;cursor:pointer;transition:background .2s,letter-spacing .2s;background:var(--navy);color:#fff;font-weight:500}
+    .copy-btn:hover{background:#2a2f4a;letter-spacing:3.5px}
     .copy-btn.copied{background:#1a5530;color:#fff}
     /* ── TIPS ── */
     .tips-box{max-width:700px;margin:0 auto 60px;padding:0 16px}
-    .tips-inner{background:var(--bg3);border-top:2px solid var(--navy);padding:32px;text-align:center}
+    .tips-inner{background:var(--bg3);border-top:2px solid var(--navy);padding:32px;text-align:center;box-shadow:0 2px 12px rgba(13,36,114,.04)}
     .tips-title{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim);margin-bottom:24px;font-weight:500}
     .tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;text-align:left}
     .tip{padding:16px;background:var(--bg);border:1px solid var(--border)}

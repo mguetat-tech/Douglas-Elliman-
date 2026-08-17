@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PEA Dynamique — Tableau de bord</title>
+<style>
+  :root{
+    --bg:#0B1611;            /* pine ink */
+    --panel:#10201A;
+    --panel-2:#132720;
+    --line:rgba(198,161,91,.20);
+    --line-soft:rgba(255,255,255,.055);
+    --ink:#ECE6D6;           /* parchment */
+    --muted:#8AA093;         /* sage */
+    --muted-2:#647A6E;
+    --brass:#C9A45C;
+    --brass-bright:#E0BE72;
+    --contrib:#5E8577;       /* muted teal — capital versé */
+    --danger:#C07B57;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:radial-gradient(120% 80% at 50% -10%, #15271F 0%, var(--bg) 55%) fixed, var(--bg);
+    color:var(--ink);font-family:var(--sans);line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:22px 16px 40px;
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);font-weight:600}
+  h1{font-family:var(--serif);font-weight:600;letter-spacing:.01em;
+    font-size:clamp(28px,7vw,40px);line-height:1.05;margin:.28em 0 .15em}
+  .sub{color:var(--muted);font-size:14px;max-width:48ch}
+
+  /* Hero */
+  .hero{margin:26px 0 8px;padding:22px 22px 20px;
+    background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(80% 120% at 100% 0%, rgba(201,164,92,.10), transparent 60%);pointer-events:none}
+  .hero .lab{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .hero .lab b{color:var(--ink);font-weight:600}
+  .hero .val{font-family:var(--serif);font-weight:600;color:var(--brass-bright);
+    font-size:clamp(40px,12vw,66px);line-height:1;letter-spacing:.005em;
+    font-variant-numeric:tabular-nums;margin-top:6px}
+  .hero .band{margin-top:9px;color:var(--muted);font-size:13.5px}
+  .hero .band b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+
+  /* Chart */
+  .chart{margin:16px 0 4px;padding:16px 12px 8px;background:var(--panel);
+    border:1px solid var(--line);border-radius:16px;position:relative}
+  .chart .caret{position:absolute;top:14px;left:16px;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted-2)}
+  svg{width:100%;height:auto;display:block;overflow:visible;touch-action:none;cursor:crosshair}
+  .axis{fill:var(--muted-2);font-size:11px;font-family:var(--sans);font-variant-numeric:tabular-nums}
+  .keys{display:flex;flex-wrap:wrap;gap:14px;margin-top:2px;padding:0 4px;
+    font-size:12px;color:var(--muted)}
+  .keys span{display:inline-flex;align-items:center;gap:6px}
+  .keys i{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+  /* Controls */
+  .controls{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media (max-width:520px){.controls{grid-template-columns:1fr}}
+  .ctl{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 15px}
+  .ctl .row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .ctl .name{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .ctl .num{font-family:var(--serif);font-size:20px;color:var(--brass-bright);font-variant-numeric:tabular-nums}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:3px;margin-top:12px;
+    background:linear-gradient(90deg,var(--brass) var(--f,50%),rgba(255,255,255,.10) var(--f,50%));
+    border-radius:3px;cursor:pointer}
+  input[type=range]:focus-visible{outline:2px solid var(--brass-bright);outline-offset:6px;border-radius:6px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;height:20px;width:20px;border-radius:50%;
+    background:var(--brass-bright);border:3px solid var(--bg);box-shadow:0 0 0 1px var(--brass);cursor:pointer}
+  input[type=range]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:var(--brass-bright);
+    border:3px solid var(--bg);box-shadow:0 0 0 1px var(--brass);cursor:pointer}
+
+  .preset{margin-top:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .preset button{font-family:var(--sans);font-size:12px;letter-spacing:.02em;color:var(--ink);
+    background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;
+    transition:border-color .18s,color .18s}
+  .preset button:hover{border-color:var(--brass);color:var(--brass-bright)}
+  .preset button:focus-visible{outline:2px solid var(--brass-bright);outline-offset:3px}
+  .preset .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
+
+  /* Stats */
+  .stats{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 15px}
+  .stat .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .stat .v{font-family:var(--serif);font-size:24px;margin-top:4px;font-variant-numeric:tabular-nums}
+  .stat .v.pos{color:var(--brass-bright)}
+  .stat .sub2{font-size:11.5px;color:var(--muted-2);margin-top:2px;font-variant-numeric:tabular-nums}
+
+  /* Allocation */
+  .alloc{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 16px 18px}
+  .alloc h3{font-family:var(--serif);font-weight:600;font-size:16px;margin-bottom:2px}
+  .alloc .cap{color:var(--muted);font-size:12.5px;margin-bottom:13px}
+  .segbar{display:flex;height:14px;border-radius:8px;overflow:hidden;background:#0c1a15}
+  .segbar span{display:block;height:100%}
+  .legend{margin-top:14px;display:grid;gap:9px}
+  .lg{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;font-size:13.5px}
+  .dot{width:9px;height:9px;border-radius:50%}
+  .lg .tk{font-weight:600;letter-spacing:.02em}
+  .lg .ds{color:var(--muted);font-size:12px}
+  .lg .amt{font-family:var(--serif);font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+  .risk{margin-top:14px;display:flex;align-items:flex-start;gap:10px;
+    background:rgba(192,123,87,.10);border:1px solid rgba(192,123,87,.32);
+    border-radius:12px;padding:11px 14px;font-size:13px;color:#EAD3C6}
+  .risk b{color:var(--danger)}
+
+  .foot{margin-top:22px;color:var(--muted);font-size:11.5px;line-height:1.55}
+  .foot .rule{color:var(--ink);font-family:var(--serif);font-size:14px;margin-bottom:9px}
+  .foot .rule::before{content:"— "}
+  hr.hair{border:0;border-top:1px solid var(--line);margin:20px 0 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Portefeuille · PEA Trade Republic</div>
+  <h1>PEA Dynamique</h1>
+  <p class="sub">Investissement programmé, capitalisant, 100 % actions. Bouge les curseurs — et glisse le doigt sur la courbe pour lire n'importe quelle année.</p>
+
+  <div class="hero">
+    <div class="lab" id="hLab">Valeur projetée · <b id="hHor">15</b> ans · <b id="hRet">7</b> %/an</div>
+    <div class="val" id="hVal">158 700 €</div>
+    <div class="band">Fourchette de scénarios : <b id="hLow">—</b> &nbsp;→&nbsp; <b id="hHigh">—</b></div>
+  </div>
+
+  <div class="chart">
+    <div class="caret" id="scrubTag"></div>
+    <svg id="chart" viewBox="0 0 820 360" role="img" aria-label="Projection du capital, capital versé et plus-value"></svg>
+  </div>
+  <div class="keys">
+    <span><i style="background:#5E8577"></i>Capital versé</span>
+    <span><i style="background:#C9A45C"></i>Plus-value</span>
+    <span><i style="background:#E0BE72"></i>Valeur totale</span>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <div class="row"><span class="name">Versement / mois</span><span class="num" id="oM">500 €</span></div>
+      <input id="sM" type="range" min="50" max="1000" step="10" value="500" aria-label="Versement mensuel">
+    </div>
+    <div class="ctl">
+      <div class="row"><span class="name">Capital de départ</span><span class="num" id="oP">70 €</span></div>
+      <input id="sP" type="range" min="0" max="20000" step="10" value="70" aria-label="Capital de départ">
+    </div>
+    <div class="ctl">
+      <div class="row"><span class="name">Horizon</span><span class="num" id="oY">15 ans</span></div>
+      <input id="sY" type="range" min="5" max="25" step="1" value="15" aria-label="Horizon">
+    </div>
+    <div class="ctl">
+      <div class="row"><span class="name">Rendement espéré</span><span class="num" id="oR">7 %</span></div>
+      <input id="sR" type="range" min="3" max="11" step="0.5" value="7" aria-label="Rendement espéré">
+    </div>
+  </div>
+
+  <div class="preset">
+    <span class="lbl">Scénarios</span>
+    <button data-r="5">Prudent · 5 %</button>
+    <button data-r="7">Central · 7 %</button>
+    <button data-r="9">Optimiste · 9 %</button>
+    <button id="reset">↺ Ma politique</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Total versé</div><div class="v" id="vContrib">—</div></div>
+    <div class="stat"><div class="k">Plus-value</div><div class="v pos" id="vGain">—</div><div class="sub2" id="vMult">—</div></div>
+    <div class="stat"><div class="k">Net après PS 17,2 %</div><div class="v" id="vNet">—</div></div>
+    <div class="stat"><div class="k">Rente indicative (règle 4 %)</div><div class="v pos" id="vRente">—</div></div>
+  </div>
+
+  <div class="alloc">
+    <h3>Répartition de la mensualité</h3>
+    <div class="cap">Tout en PEA, ETF capitalisants, plan programmé gratuit.</div>
+    <div class="segbar">
+      <span style="background:var(--brass);width:65%"></span>
+      <span style="background:var(--brass-bright);width:20%;opacity:.85"></span>
+      <span style="background:var(--contrib);width:15%"></span>
+    </div>
+    <div class="legend">
+      <div class="lg"><span class="dot" style="background:var(--brass)"></span>
+        <span><span class="tk">WPEA</span> · <span class="ds">MSCI World — cœur · 65 %</span></span>
+        <span class="amt" id="aW">325 €</span></div>
+      <div class="lg"><span class="dot" style="background:var(--brass-bright)"></span>
+        <span><span class="tk">PUST</span> · <span class="ds">Nasdaq-100 — booster · 20 %</span></span>
+        <span class="amt" id="aN">100 €</span></div>
+      <div class="lg"><span class="dot" style="background:var(--contrib)"></span>
+        <span><span class="tk">PAEEM</span> · <span class="ds">Émergents · 15 %</span></span>
+        <span class="amt" id="aE">75 €</span></div>
+    </div>
+  </div>
+
+  <div class="risk"><span>⚠️</span><span>Année de krach : le portefeuille peut perdre <b>−45 à −55 %</b>. Tenable grâce à l'horizon long et au coussin Livret A — on ne vend jamais dans la baisse.</span></div>
+
+  <hr class="hair">
+  <div class="foot">
+    <div class="rule">Ouvre le PEA tôt (même 70 €) pour lancer le compteur des 5 ans : ensuite, gains exonérés d'IR, seuls 17,2 % de prélèvements sociaux.</div>
+    Projections en euros nominaux (hors inflation, ~2 %/an à retrancher mentalement), nettes des frais de fonds. Le cône figure une fourchette de scénarios, pas une garantie. Document indicatif — ne constitue pas un conseil en investissement personnalisé. Benchmark : MSCI ACWI.
+  </div>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const PS = 0.172, WD = 0.04;
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fmt  = n => Math.round(n).toLocaleString('fr-FR') + ' €';
+  const fmtk = n => n>=1000 ? Math.round(n/1000).toLocaleString('fr-FR')+' k€' : Math.round(n)+' €';
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+  // value of the plan after t years (t may be fractional)
+  function total(p0,pm,annual,t){
+    const r=annual/12, n=t*12;
+    return r===0 ? p0+pm*n : p0*Math.pow(1+r,n) + pm*((Math.pow(1+r,n)-1)/r);
+  }
+  const versed=(p0,pm,t)=>p0+pm*12*t;
+  function series(p0,pm,annual,years){const a=[];for(let y=0;y<=years;y++)a.push(total(p0,pm,annual,y));return a;}
+
+  const SVG='http://www.w3.org/2000/svg';
+  const chart=$('chart');
+  const W=820,H=360, m={l:6,r:16,t:20,b:30};
+  let ST={};                       // shared state for the scrubber
+  let scrubT=null;                 // current scrub position (years) or null
+
+  const el=(t,a)=>{const e=document.createElementNS(SVG,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+
+  function draw(p0,pm,ret,years){
+    const lowR=clamp(ret-2,0,20)/100, midR=ret/100, highR=clamp(ret+2,0,20)/100;
+    const low=series(p0,pm,lowR,years), mid=series(p0,pm,midR,years), high=series(p0,pm,highR,years);
+    const vsd=[]; for(let y=0;y<=years;y++) vsd.push(versed(p0,pm,y));
+    const maxV=(high[high.length-1]||1)*1.06;
+
+    const X=t=>m.l+(W-m.l-m.r)*(t/years);
+    const Y=v=>H-m.b-(H-m.t-m.b)*(v/maxV);
+    ST={p0,pm,midR,years,X,Y,maxV};
+
+    const pathTop = a => a.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+    const areaTo  = (a,base) => pathTop(a)+' '+base.map((v,i)=>[X(years-i),Y(v)]).map((p,i)=>'L'+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')+' Z';
+    const zero = vsd.map(()=>0);
+
+    chart.innerHTML='';
+    const defs=document.createElementNS(SVG,'defs');
+    defs.innerHTML=
+      '<linearGradient id="gGain" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#C9A45C" stop-opacity="0.42"/>'+
+        '<stop offset="1" stop-color="#C9A45C" stop-opacity="0.06"/></linearGradient>'+
+      '<linearGradient id="gVer" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#5E8577" stop-opacity="0.34"/>'+
+        '<stop offset="1" stop-color="#5E8577" stop-opacity="0.05"/></linearGradient>';
+    chart.appendChild(defs);
+
+    // gridlines + y labels
+    for(let g=1;g<=3;g++){
+      const v=maxV*g/3.4, y=Y(v);
+      chart.appendChild(el('line',{x1:m.l,x2:W-m.r,y1:y,y2:y,stroke:'rgba(255,255,255,.05)'}));
+      const t=el('text',{x:W-m.r,y:y-5,'text-anchor':'end',class:'axis'}); t.textContent=fmtk(v); chart.appendChild(t);
+    }
+
+    // stacked areas: versé (bottom) then plus-value (versé -> total)
+    chart.appendChild(el('path',{d:areaTo(vsd,zero),fill:'url(#gVer)'}));
+    chart.appendChild(el('path',{d:pathTop(mid)+' '+vsd.map((v,i)=>[X(years-i),Y(v)]).map((p,i)=>'L'+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ')+' Z',fill:'url(#gGain)'}));
+
+    // low / high scenario guides (subtle dashed)
+    [low,high].forEach(a=>chart.appendChild(el('path',{d:pathTop(a),fill:'none',stroke:'rgba(224,190,114,.28)','stroke-width':1,'stroke-dasharray':'2 5'})));
+
+    // versé line
+    chart.appendChild(el('path',{d:pathTop(vsd),fill:'none',stroke:'#5E8577','stroke-width':1.6}));
+    // total line
+    const mp=el('path',{d:pathTop(mid),fill:'none',stroke:'#E0BE72','stroke-width':2.6,'stroke-linecap':'round','stroke-linejoin':'round'});
+    chart.appendChild(mp);
+    // endpoint dot
+    const end=[X(years),Y(mid[years])];
+    const dot=el('circle',{cx:end[0],cy:end[1],r:4.5,fill:'#E0BE72'}); chart.appendChild(dot);
+
+    // x labels
+    [[0,"Aujourd'hui"],[years,years+' ans']].forEach(([i,lab])=>{
+      const t=el('text',{x:clamp(X(i),m.l+4,W-m.r-4),y:H-8,'text-anchor':i===0?'start':'end',class:'axis'});
+      t.textContent=lab; chart.appendChild(t);
+    });
+
+    // scrubber layer (hidden until interaction)
+    const sg=el('g',{id:'scrub',opacity:0});
+    sg.appendChild(el('line',{id:'sLine',x1:0,x2:0,y1:m.t-4,y2:H-m.b,stroke:'rgba(236,230,214,.35)','stroke-width':1}));
+    sg.appendChild(el('circle',{id:'sTot',r:4.5,fill:'#E0BE72',stroke:'var(--bg)','stroke-width':2}));
+    sg.appendChild(el('circle',{id:'sVer',r:3.5,fill:'#5E8577',stroke:'var(--bg)','stroke-width':2}));
+    chart.appendChild(sg);
+
+    if(!reduce){
+      const len=mp.getTotalLength();
+      mp.style.strokeDasharray=len; mp.style.strokeDashoffset=len;
+      mp.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:850,easing:'cubic-bezier(.4,0,.2,1)',fill:'forwards'});
+      dot.animate([{opacity:0},{opacity:0,offset:.75},{opacity:1}],{duration:850,fill:'forwards'});
+    }
+    return {mid:mid[years],low:low[years],high:high[years]};
+  }
+
+  // ---- scrubber interaction ----
+  function ptToYears(evt){
+    const box=chart.getBoundingClientRect();
+    const cx=(evt.touches?evt.touches[0].clientX:evt.clientX);
+    const sx=(cx-box.left)/box.width*W;            // into viewBox space
+    const t=(sx-m.l)/(W-m.l-m.r)*ST.years;
+    return clamp(t,0,ST.years);
+  }
+  function showScrub(t){
+    scrubT=t;
+    const g=$('scrub'); if(!g)return;
+    const tot=total(ST.p0,ST.pm,ST.midR,t), ver=versed(ST.p0,ST.pm,t);
+    const x=ST.X(t);
+    g.setAttribute('opacity',1);
+    $('sLine').setAttribute('x1',x); $('sLine').setAttribute('x2',x);
+    $('sTot').setAttribute('cx',x); $('sTot').setAttribute('cy',ST.Y(tot));
+    $('sVer').setAttribute('cx',x); $('sVer').setAttribute('cy',ST.Y(ver));
+    // header switches to the scrubbed year
+    $('hLab').innerHTML='À <b>'+Math.round(t)+'</b> ans · versé <b>'+fmt(ver)+'</b>';
+    $('hVal').textContent=fmt(tot);
+    $('scrubTag').textContent='+ '+fmt(tot-ver)+' de plus-value';
+  }
+  function clearScrub(){
+    scrubT=null; const g=$('scrub'); if(g)g.setAttribute('opacity',0);
+    $('scrubTag').textContent=''; refreshHeader();
+  }
+  chart.addEventListener('pointerdown',e=>{chart.setPointerCapture(e.pointerId);showScrub(ptToYears(e));});
+  chart.addEventListener('pointermove',e=>{if(e.buttons||e.pressure>0)showScrub(ptToYears(e));});
+  chart.addEventListener('pointerup',clearScrub);
+  chart.addEventListener('pointercancel',clearScrub);
+  chart.addEventListener('mouseleave',()=>{if(scrubT!==null)clearScrub();});
+
+  // ---- header / stats ----
+  let LAST={};
+  function refreshHeader(){
+    $('hLab').innerHTML='Valeur projetée · <b>'+LAST.years+'</b> ans · <b>'+LAST.retTxt+'</b> %/an';
+    $('hVal').textContent=fmt(LAST.mid);
+  }
+
+  function update(){
+    const pm=+$('sM').value, p0=+$('sP').value, years=+$('sY').value, ret=+$('sR').value;
+    const fill=(el,min,max)=>el.style.setProperty('--f',(($(el.id).value-min)/(max-min)*100)+'%');
+    fill($('sM'),50,1000);fill($('sP'),0,20000);fill($('sY'),5,25);fill($('sR'),3,11);
+    const retTxt=ret.toString().replace('.',',');
+    $('oM').textContent=fmt(pm);$('oP').textContent=fmt(p0);
+    $('oY').textContent=years+' ans';$('oR').textContent=retTxt+' %';
+    $('hHor').textContent=years;$('hRet').textContent=retTxt;
+
+    const r=draw(p0,pm,ret,years);
+    const contrib=p0+pm*12*years, gain=r.mid-contrib;
+    const net=contrib+gain*(1-PS), rente=r.mid*WD/12, mult=contrib>0?r.mid/contrib:0;
+
+    LAST={years,retTxt,mid:r.mid};
+    refreshHeader();
+    $('hLow').textContent=fmt(r.low);$('hHigh').textContent=fmt(r.high);
+    $('vContrib').textContent=fmt(contrib);
+    $('vGain').textContent='+ '+fmt(gain);
+    $('vMult').textContent='× '+mult.toFixed(2).replace('.',',')+' le capital versé';
+    $('vNet').textContent=fmt(net);
+    $('vRente').textContent=fmt(rente)+' /mois';
+    $('aW').textContent=fmt(pm*0.65);$('aN').textContent=fmt(pm*0.20);$('aE').textContent=fmt(pm*0.15);
+    scrubT=null;
+  }
+
+  ['sM','sP','sY','sR'].forEach(id=>$(id).addEventListener('input',update));
+  document.querySelectorAll('.preset [data-r]').forEach(b=>b.addEventListener('click',()=>{
+    $('sR').value=b.dataset.r; update();
+  }));
+  $('reset').addEventListener('click',()=>{
+    $('sM').value=500;$('sP').value=70;$('sY').value=15;$('sR').value=7;update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rémunération Manager — Agence de Megève</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1E18; --panel:#0F281F; --panel-2:#12302493; --edge:rgba(198,161,91,.20);
+    --edge-soft:rgba(198,161,91,.10); --cream:#F1EBDD; --muted:#9AAFA3;
+    --brass:#C6A15B; --brass-bright:#E7CE93; --sage:#7FB49B;
+    --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+    --sans:'Jost',ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:
+      radial-gradient(1200px 500px at 78% -8%, rgba(198,161,91,.10), transparent 60%),
+      radial-gradient(900px 600px at -10% 110%, rgba(127,180,155,.08), transparent 55%),
+      var(--bg);
+    color:var(--cream); font-family:var(--sans); font-weight:300;
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+    padding:clamp(18px,5vw,44px);
+  }
+  .wrap{max-width:780px;margin:0 auto}
+
+  .eyebrow{
+    font-size:.72rem; letter-spacing:.34em; text-transform:uppercase;
+    color:var(--brass); font-weight:400; margin:0 0 14px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .eyebrow::after{content:"";height:1px;flex:1;background:var(--edge)}
+  h1{
+    font-family:var(--serif); font-weight:500; letter-spacing:.4px;
+    font-size:clamp(2rem,7vw,3.1rem); line-height:1.04; margin:0 0 10px;
+  }
+  h1 em{font-style:italic;color:var(--brass-bright);font-weight:500}
+  .sub{color:var(--muted);font-size:.95rem;max-width:52ch;margin:0}
+
+  /* Hero */
+  .hero{
+    margin:34px 0 26px; padding:26px 26px 24px;
+    border:1px solid var(--edge); border-radius:18px;
+    background:linear-gradient(180deg,var(--panel),transparent);
+    position:relative; overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(600px 220px at 90% -30%,rgba(198,161,91,.14),transparent 70%);
+  }
+  .hero-label{font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+  .hero-num{
+    font-family:var(--serif);font-weight:600;letter-spacing:-.5px;
+    font-size:clamp(2.9rem,13vw,5.2rem);line-height:.98;margin:6px 0 4px;
+    color:var(--cream);
+  }
+  .hero-eq{color:var(--muted);font-size:.92rem}
+  .hero-eq b{color:var(--cream);font-weight:400}
+  .chip{
+    display:inline-flex;align-items:baseline;gap:7px;margin-top:14px;
+    padding:7px 13px;border:1px solid var(--edge);border-radius:999px;
+    background:var(--panel-2);
+  }
+  .chip .k{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .chip .v{font-family:var(--serif);font-size:1.15rem;color:var(--brass-bright)}
+
+  /* Controls */
+  .controls{display:grid;gap:16px;margin:0 0 24px}
+  @media(min-width:560px){.controls{grid-template-columns:1fr 1fr}}
+  .field.span-all{grid-column:1/-1}
+  .field{
+    border:1px solid var(--edge-soft);border-radius:14px;padding:16px 18px;
+    background:var(--panel);
+  }
+  .field label{display:block;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .field .read{font-family:var(--serif);font-size:1.6rem;color:var(--cream);line-height:1}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:3px;margin-top:16px;
+    background:linear-gradient(90deg,var(--brass) var(--fill,50%),rgba(255,255,255,.12) var(--fill,50%));
+    border-radius:3px;outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;height:20px;width:20px;border-radius:50%;
+    background:var(--brass-bright);border:3px solid var(--bg);
+    box-shadow:0 0 0 1px var(--brass);cursor:pointer;transition:transform .12s ease;
+  }
+  input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.12)}
+  input[type=range]::-moz-range-thumb{height:16px;width:16px;border-radius:50%;background:var(--brass-bright);border:3px solid var(--bg);cursor:pointer}
+  .track-note{display:flex;justify-content:space-between;margin-top:9px;font-size:.68rem;color:var(--muted);letter-spacing:.04em}
+  .num-input{
+    width:100%;background:transparent;border:none;outline:none;color:var(--cream);
+    font-family:var(--serif);font-size:1.6rem;line-height:1;
+    border-bottom:1px dashed var(--edge);padding-bottom:4px;
+  }
+  .num-input:focus{border-bottom-color:var(--brass)}
+  .hint{font-size:.68rem;color:var(--muted);margin-top:8px;letter-spacing:.02em}
+
+  /* Breakdown cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 26px}
+  @media(max-width:560px){.cards{grid-template-columns:1fr}}
+  .card{
+    border:1px solid var(--edge-soft);border-radius:14px;padding:16px 16px 15px;
+    background:linear-gradient(180deg,var(--panel),transparent);
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .card .tag{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .card .amt{font-family:var(--serif);font-size:1.85rem;line-height:1;color:var(--cream)}
+  .card .meta{font-size:.74rem;color:var(--muted)}
+  .card.bonus{border-color:var(--edge)}
+  .card.bonus .amt{color:var(--brass-bright)}
+  .card.dim{opacity:.5}
+  .card.dim .amt{color:var(--muted)}
+
+  /* Curve */
+  .curve-wrap{border:1px solid var(--edge-soft);border-radius:16px;padding:20px 18px 12px;background:var(--panel)}
+  .curve-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+  .curve-head h2{font-family:var(--serif);font-weight:500;font-size:1.25rem;margin:0;letter-spacing:.3px}
+  .curve-head .leg{font-size:.7rem;color:var(--muted);letter-spacing:.06em}
+  .curve-head .leg b{color:var(--brass);font-weight:500}
+  svg{width:100%;height:auto;display:block;overflow:visible}
+  .axis{stroke:rgba(255,255,255,.10);stroke-width:1}
+  .axlab{fill:var(--muted);font-family:var(--sans);font-size:11px;letter-spacing:.04em}
+  .thr{stroke:var(--brass);stroke-width:1;stroke-dasharray:3 4;opacity:.7}
+  .thrlab{fill:var(--brass);font-family:var(--sans);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .curveline{fill:none;stroke:var(--brass-bright);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+  .guide{stroke:rgba(255,255,255,.22);stroke-width:1;stroke-dasharray:2 4}
+  .dot{fill:var(--brass-bright);stroke:var(--bg);stroke-width:3}
+
+  footer{margin-top:22px;color:var(--muted);font-size:.76rem;line-height:1.6}
+  footer .r{color:var(--brass);letter-spacing:.14em;text-transform:uppercase;font-size:.68rem;display:block;margin-bottom:6px}
+  footer a{color:var(--cream)}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Douglas Elliman · Excellia Immobilier</p>
+  <h1>Rémunération Manager<br>— Agence de <em>Megève</em></h1>
+  <p class="sub">Simulation annuelle. Commission de 4&nbsp;% sur le CA HT de l'agence de Megève, plus 1&nbsp;% sur la tranche au-delà de l'objectif de 1&nbsp;200&nbsp;000&nbsp;€. <span style="color:var(--sage)">Aucune commission sur l'activité Excellia.</span></p>
+
+  <section class="hero" aria-live="polite">
+    <div class="hero-label">Revenu annuel total</div>
+    <div class="hero-num" id="total">—</div>
+    <div class="hero-eq"><span style="color:var(--sage);font-size:.82em">Revenus propres (0 %)</span> Excellia <b id="eqExc">—</b> + Douglas <b id="eqExc2">—</b> &nbsp;+&nbsp; Commission Megève <b id="eqComm">—</b></div>
+    <div class="chip" style="margin-right:8px"><span class="k">Taux de base</span><span class="v">4,00&nbsp;%</span></div>
+    <div class="chip"><span class="k">Taux effectif</span><span class="v" id="effRate">—</span></div>
+  </section>
+
+  <section class="controls">
+    <div class="field span-all">
+      <label for="ca">CA agence Megève — HT (assiette de la commission)</label>
+      <div class="read" id="caRead">—</div>
+      <input type="range" id="ca" min="600000" max="3000000" step="10000" value="1350000">
+      <div class="track-note"><span>600 k€</span><span>seuil 1,2 M€</span><span>3 M€</span></div>
+    </div>
+    <div class="field">
+      <label for="exc">Excellia Immobilier — TTC · <span style="color:var(--sage)">0 % de commission</span></label>
+      <input class="num-input" id="exc" type="text" inputmode="numeric" value="120 000 €">
+      <div class="hint">Activité propre · conservée à 100 %</div>
+    </div>
+    <div class="field">
+      <label for="exc2">Ventes perso Douglas Elliman — TTC · <span style="color:var(--sage)">0 % de commission</span></label>
+      <input class="num-input" id="exc2" type="text" inputmode="numeric" value="27 000 €">
+      <div class="hint">Production propre sous la marque · conservée à 100 %</div>
+    </div>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <span class="tag">Commission base — 4 %</span>
+      <span class="amt" id="cBase">—</span>
+      <span class="meta">4 % × CA agence</span>
+    </div>
+    <div class="card bonus" id="bonusCard">
+      <span class="tag">Bonus +1 % — objectif atteint</span>
+      <span class="amt" id="cBonus">—</span>
+      <span class="meta" id="bonusMeta">activé dès 1,2 M€ atteint</span>
+    </div>
+    <div class="card">
+      <span class="tag">Commission manager Megève</span>
+      <span class="amt" id="cComm">—</span>
+      <span class="meta" id="commMeta">base + bonus</span>
+    </div>
+  </section>
+
+  <section class="curve-wrap">
+    <div class="curve-head">
+      <h2>Courbe de commission</h2>
+      <span class="leg">Rupture de pente au seuil <b>1&nbsp;200&nbsp;000&nbsp;€</b> — 4 %&nbsp;→&nbsp;5 % en marginal</span>
+    </div>
+    <svg id="curve" viewBox="0 0 720 330" role="img" aria-label="Commission Douglas en fonction du chiffre d'affaires de l'agence"></svg>
+  </section>
+
+  <footer>
+    <span class="r">Hypothèses</span>
+    4 % automatique sur l'intégralité du CA HT de l'agence de Megève. Le +1 % se déclenche uniquement lorsque l'objectif annuel de 1&nbsp;200&nbsp;000&nbsp;€ HT est atteint, et ne porte que sur la fraction du CA excédant ce seuil (marginal), non sur la totalité. <b style="color:var(--sage);font-weight:400">Aucune commission n'est prélevée sur tes revenus propres</b> — ni Excellia, ni tes ventes personnelles réalisées sous la marque Douglas Elliman (ex. la vente de 27 000 €) : elles restent conservées à 100 % et n'entrent dans le total qu'au titre de tes revenus propres, hors assiette du 4 %. Vérifie qu'une vente perso comptée ici n'est pas déjà incluse dans le CA de l'agence ci-dessus, sinon elle serait comptée deux fois. Le CA Excellia est saisi en TTC, la commission agence est calculée sur le CA HT — bases différentes à réconcilier avant arbitrage définitif.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var BASE=0.04, BONUS=0.01, THR=1200000;
+  var CA_MIN=600000, CA_MAX=3000000, CHART_MAX=3000000;
+
+  var eurFmt=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  var pctFmt=new Intl.NumberFormat('fr-FR',{style:'percent',minimumFractionDigits:2,maximumFractionDigits:2});
+  var eur=function(n){return eurFmt.format(Math.round(n));};
+
+  var el=function(id){return document.getElementById(id);};
+  var caIn=el('ca'), excIn=el('exc'), excIn2=el('exc2');
+
+  function commission(ca){
+    var base=BASE*ca;
+    var bonus=BONUS*Math.max(0,ca-THR);
+    return {base:base,bonus:bonus,total:base+bonus};
+  }
+  function parseNum(s){var d=(s||'').replace(/[^0-9]/g,'');return d?parseInt(d,10):0;}
+
+  // ---- chart geometry ----
+  var VBW=720, VBH=330, padL=8, padR=14, padT=18, padB=34;
+  var plotW=VBW-padL-padR, plotH=VBH-padT-padB;
+  var vMax=BASE*CHART_MAX+BONUS*(CHART_MAX-THR); // commission at chart max
+  function X(ca){return padL+(ca/CHART_MAX)*plotW;}
+  function Y(v){return padT+plotH-(v/vMax)*plotH;}
+  var svg=el('curve');
+  var SVGNS="http://www.w3.org/2000/svg";
+  function mk(tag,attrs){var e=document.createElementNS(SVGNS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);return e;}
+
+  function drawStatic(){
+    // baseline
+    svg.appendChild(mk('line',{class:'axis',x1:padL,y1:Y(0),x2:padL+plotW,y2:Y(0)}));
+    // curve segments (0->thr slope 4%, thr->max slope 5%)
+    var p0=[X(0),Y(0)], p1=[X(THR),Y(commission(THR).total)], p2=[X(CHART_MAX),Y(vMax)];
+    // area fill
+    var grad=mk('linearGradient',{id:'g1',x1:0,y1:0,x2:0,y2:1});
+    grad.appendChild(mk('stop',{offset:'0%','stop-color':'#C6A15B','stop-opacity':'.22'}));
+    grad.appendChild(mk('stop',{offset:'100%','stop-color':'#C6A15B','stop-opacity':'0'}));
+    svg.appendChild(grad);
+    svg.appendChild(mk('path',{d:'M'+p0[0]+','+p0[1]+' L'+p1[0]+','+p1[1]+' L'+p2[0]+','+p2[1]+' L'+p2[0]+','+Y(0)+' Z',fill:'url(#g1)',stroke:'none'}));
+    svg.appendChild(mk('polyline',{class:'curveline',points:p0.join(',')+' '+p1.join(',')+' '+p2.join(',')}));
+    // threshold marker
+    svg.appendChild(mk('line',{class:'thr',x1:X(THR),y1:Y(0),x2:X(THR),y2:padT-2}));
+    var tl=mk('text',{class:'thrlab',x:X(THR)+6,y:padT+6}); tl.textContent='seuil +1 %'; svg.appendChild(tl);
+    // x labels
+    [[0,'0'],[THR,'1,2 M€'],[CHART_MAX,'3 M€']].forEach(function(t){
+      var tx=mk('text',{class:'axlab',x:X(t[0]),y:VBH-12,'text-anchor':t[0]===0?'start':(t[0]===CHART_MAX?'end':'middle')});
+      tx.textContent=t[1]; svg.appendChild(tx);
+    });
+    // dynamic group (guide + dot) added last so it's on top
+    window.__guide=mk('line',{class:'guide'}); svg.appendChild(window.__guide);
+    window.__dot=mk('circle',{class:'dot',r:6}); svg.appendChild(window.__dot);
+  }
+
+  function update(){
+    var ca=parseInt(caIn.value,10);
+    var exc=parseNum(excIn.value);
+    var exc2=parseNum(excIn2.value);
+    var c=commission(ca);
+    var total=exc+exc2+c.total;
+
+    el('total').textContent=eur(total);
+    el('eqExc').textContent=eur(exc);
+    el('eqExc2').textContent=eur(exc2);
+    el('eqComm').textContent=eur(c.total);
+    el('effRate').textContent=pctFmt.format(ca>0?c.total/ca:0);
+
+    el('caRead').textContent=eur(ca);
+    el('cBase').textContent=eur(c.base);
+    el('cBonus').textContent=eur(c.bonus);
+    el('cComm').textContent=eur(c.total);
+
+    var fill=((ca-CA_MIN)/(CA_MAX-CA_MIN))*100;
+    caIn.style.setProperty('--fill',fill.toFixed(1)+'%');
+
+    var bonusCard=el('bonusCard');
+    if(ca>=THR){
+      bonusCard.classList.remove('dim');
+      el('bonusMeta').textContent='objectif atteint · 1 % × '+eur(ca-THR)+' (part > 1,2 M€)';
+    }else{
+      bonusCard.classList.add('dim');
+      el('bonusMeta').textContent='inactif — objectif de 1,2 M€ non atteint';
+    }
+
+    // chart dot + guide
+    var dx=X(ca), dy=Y(c.total);
+    window.__dot.setAttribute('cx',dx); window.__dot.setAttribute('cy',dy);
+    window.__guide.setAttribute('x1',dx); window.__guide.setAttribute('y1',Y(0));
+    window.__guide.setAttribute('x2',dx); window.__guide.setAttribute('y2',dy);
+  }
+
+  // Personal-revenue fields: format on blur, keep raw on focus
+  [excIn,excIn2].forEach(function(inp){
+    inp.addEventListener('focus',function(){inp.value=String(parseNum(inp.value));});
+    inp.addEventListener('blur',function(){inp.value=eur(parseNum(inp.value));update();});
+    inp.addEventListener('input',update);
+  });
+  caIn.addEventListener('input',update);
+
+  drawStatic();
+  update();
+})();
+</script>
+</body>
+</html>

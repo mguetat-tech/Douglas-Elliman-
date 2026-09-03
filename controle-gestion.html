@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<!-- Contrôle de gestion – Excellia Immobilier / Douglas Elliman Megève -->
+<!-- Auteur : Usage interne uniquement -->
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Douglas Elliman · Contrôle de Gestion</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--royal:#0D2472;--navy:#1A1D2E;--accent:#1A8FAF;--bg:#FFFFFF;--bg2:#F8F6F2;--bg3:#F2EFEA;--dark:#1A1D2E;--text:#1E1E1E;--text-dim:#888880;--text-mid:#3C3C3C;--border:#E5E2DC;--good:#1A7A4C;--warn:#B8892B;--bad:#B33A3A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;min-height:100vh}
+header{background:linear-gradient(160deg,var(--royal) 0%,#0A1B57 100%)}
+.header-bar{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.15);gap:12px;flex-wrap:wrap}
+.header-nav-group{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.header-nav-link{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.9);text-decoration:none;transition:color .2s;white-space:nowrap}
+.header-nav-link:hover{color:#fff}
+.header-logo{text-align:center}
+.logo-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:#fff;letter-spacing:4px;text-transform:uppercase}
+.logo-sub{font-size:8px;letter-spacing:5px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-top:2px}
+.header-content{padding:32px 24px 30px;text-align:center}
+.eyebrow{font-size:9px;letter-spacing:6px;color:rgba(255,255,255,.85);text-transform:uppercase;margin-bottom:14px}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(24px,5vw,38px);color:#fff;line-height:1.15;margin-bottom:8px;letter-spacing:1px}
+.subtitle{font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.85);text-transform:uppercase;max-width:56ch;margin:0 auto}
+
+/* Tabs */
+.tabs{display:flex;justify-content:center;gap:0;flex-wrap:wrap;max-width:920px;margin:0 auto;border-bottom:1px solid var(--border)}
+.tab-btn{background:transparent;color:var(--text-dim);border:none;border-bottom:2px solid transparent;padding:15px 22px;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Montserrat',sans-serif;font-weight:500}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--royal);border-bottom-color:var(--royal)}
+.wrap{max-width:920px;margin:0 auto;padding:26px 16px 70px}
+.panel{display:none}
+.panel.active{display:block;animation:up .35s ease}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Section headers */
+.sec{margin-bottom:26px}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--dark)}
+.sec-d{font-size:11px;color:var(--text-dim);letter-spacing:.3px}
+
+/* KPI cards */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:22px}
+.kpi{padding:15px 16px;background:var(--bg3);border-left:2px solid var(--accent)}
+.kpi.warn{border-left-color:var(--warn)}
+.kpi.bad{border-left-color:var(--bad)}
+.kpi .kl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px}
+.kpi .kv{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--dark)}
+.kpi .ks{font-size:10px;color:var(--text-dim);margin-top:3px}
+
+/* Forms */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:3px;margin-bottom:18px}
+.ch{padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg3);font-size:9px;letter-spacing:2.5px;color:var(--accent);text-transform:uppercase;font-weight:500}
+.cb{padding:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.f label{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:6px;font-weight:500}
+input,select{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:2px;font-family:'Montserrat',sans-serif;font-size:13px;color:var(--text);background:var(--bg);appearance:none}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.row-actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+button.btn{padding:10px 18px;border:none;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:500;transition:background .2s}
+.btn-p{background:var(--navy);color:#fff}
+.btn-p:hover{background:#2a2f4a}
+.btn-o{background:transparent;color:var(--navy);border:1px solid var(--border)}
+.btn-o:hover{border-color:var(--navy)}
+.btn-d{background:transparent;color:var(--bad);border:1px solid #B33A3A44;padding:6px 10px;font-size:9px}
+.btn-d:hover{background:#B33A3A11}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:3px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
+th{background:var(--bg3);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:500}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-mid);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#F8F6F2}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+.badge{display:inline-block;padding:3px 9px;border-radius:10px;font-size:9px;letter-spacing:1px;text-transform:uppercase}
+.badge.ok{background:#1A7A4C15;color:var(--good)}
+.badge.mid{background:#1A8FAF15;color:var(--accent)}
+.badge.late{background:#B33A3A15;color:var(--bad)}
+td select, td input{padding:5px 6px;font-size:11px;min-width:90px}
+.empty{padding:26px;text-align:center;color:var(--text-dim);font-size:12px}
+
+/* Fiscalité */
+.result-line{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.result-line:last-child{border-bottom:none}
+.result-line .lbl{color:var(--text-mid)}
+.result-line .val{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dark);font-variant-numeric:tabular-nums}
+.result-line.total .val{color:var(--royal);font-size:19px}
+.result-line.total .lbl{font-weight:500}
+.note{font-size:10.5px;color:var(--text-dim);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)}
+.disc{font-size:10px;color:var(--bad);line-height:1.7;padding:12px 14px;background:#B33A3A0D;border:1px solid #B33A3A33;border-radius:3px;margin-bottom:18px}
+.disc b{color:var(--bad)}
+
+.calendar{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.cal-item{padding:13px 14px;background:var(--bg3);border-left:2px solid var(--accent)}
+.cal-item .cd{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--dark)}
+.cal-item .cl{font-size:10.5px;color:var(--text-dim);margin-top:3px;line-height:1.5}
+
+/* Collapsible optional details */
+details.opt{margin-top:12px}
+details.opt summary{cursor:pointer;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:500;list-style:none}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:'+ Détails';}
+details.opt[open] summary::before{content:'– Masquer les détails';}
+details.opt summary span{display:none}
+details.opt .grid{margin-top:14px}
+details.opt-block{margin-top:26px}
+details.opt-block summary{cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--royal);list-style:none;letter-spacing:.3px}
+details.opt-block summary::-webkit-details-marker{display:none}
+details.opt-block summary::before{content:'▸ ';font-size:13px}
+details.opt-block[open] summary::before{content:'▾ ';font-size:13px}
+details.opt-block .calendar{margin-top:14px}
+.cell-sub{font-size:10.5px;color:var(--text-dim);margin-top:2px}
+
+/* Reporting charts */
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:18px;margin-bottom:18px}
+.chart-t{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--dark);margin-bottom:12px}
+.bar-row{display:grid;grid-template-columns:120px 1fr 90px;align-items:center;gap:10px;margin-bottom:9px;font-size:11.5px}
+.bar-row .bl{color:var(--text-mid)}
+.bar-track{height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,#1A8FAF55,var(--accent));border-radius:5px;transition:width .6s ease}
+.bar-row .bv{text-align:right;font-variant-numeric:tabular-nums;color:var(--dark)}
+
+footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-dim);font-weight:400}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-bar">
+    <div class="header-nav-group">
+      <a href="index.html" class="header-nav-link">← Posts</a>
+      <a href="estimation.html" class="header-nav-link">Estimation</a>
+    </div>
+    <div class="header-logo">
+      <div class="logo-name">Douglas Elliman</div>
+      <div class="logo-sub">Contrôle de Gestion</div>
+    </div>
+    <a href="assistant.html" class="header-nav-link">Assistant IA</a>
+  </div>
+  <div class="header-content">
+    <div class="eyebrow">Excellia Immobilier · Douglas Elliman · Alpes</div>
+    <h1>Contrôleur de <em>Gestion</em></h1>
+    <p class="subtitle">Honoraires, pipeline, fiscalité agent commercial / EIR, reporting — Megève · Courchevel · Chamonix · Alpe d'Huez</p>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="pipeline" onclick="showTab('pipeline',this)">Pipeline</button>
+  <button class="tab-btn" data-tab="honoraires" onclick="showTab('honoraires',this)">Honoraires</button>
+  <button class="tab-btn" data-tab="fiscalite" onclick="showTab('fiscalite',this)">Fiscalité</button>
+  <button class="tab-btn" data-tab="reporting" onclick="showTab('reporting',this)">Reporting</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ============ PIPELINE ============ -->
+  <div class="panel active" id="p-pipeline">
+    <div class="sec">
+      <div class="sec-h"><div class="sec-t">Suivi du pipeline</div><div class="sec-d">Compromis signés, actes, honoraires prévisionnels vs encaissés</div></div>
+      <div class="kpis" id="pipeKpis"></div>
+
+      <div class="card">
+        <div class="ch">Ajouter un mandat / une vente</div>
+        <div class="cb">
+          <div class="grid">
+            <div class="f"><label>Bien</label><input id="fBien" type="text" placeholder="Chalet Le Mont d'Arbois"></div>
+            <div class="f"><label>Station</label>
+              <select id="fStation"><option>Megève</option><option>Courchevel</option><option>Chamonix</option><option>Alpe d'Huez</option></select>
+            </div>
+            <div class="f"><label>Marque</label>
+              <select id="fMarque"><option>Excellia Immobilier</option><option>Douglas Elliman</option></select>
+            </div>
+            <div class="f"><label>Prix de vente €</label><input id="fPrix" type="number" min="0" step="1000" placeholder="1 200 000"></div>
+            <div class="f"><label>Taux honoraires %</label><input id="fTaux" type="number" min="0" max="20" step="0.1" value="5"></div>
+            <div class="f"><label>Statut</label>
+              <select id="fStatut"><option>Mandat en cours</option><option>Compromis signé</option><option>Acte réalisé</option><option>Encaissé</option></select>
+            </div>
+          </div>
+          <details class="opt"><summary><span>Détails</span></summary>
+            <div class="grid">
+              <div class="f"><label>Part agence %</label><input id="fPart" type="number" min="0" max="100" step="1" value="100" title="Part revenant à l'agence après partage inter-agences / apporteur"></div>
+              <div class="f"><label>Date compromis</label><input id="fDateC" type="date"></div>
+              <div class="f"><label>Date acte prévue</label><input id="fDateA" type="date"></div>
+              <div class="f"><label>Encaissé € (TTC)</label><input id="fEncaisse" type="number" min="0" step="100" value="0"></div>
+            </div>
+          </details>
+          <div class="row-actions">
+            <button class="btn btn-p" onclick="addRow()">+ Ajouter au pipeline</button>
+            <button class="btn btn-o" onclick="exportCSV()">Exporter CSV</button>
+            <button class="btn btn-o" onclick="clearAll()">Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table id="pipeTable">
+          <thead><tr>
+            <th>Bien</th><th>Prix vente</th><th>Honoraires TTC</th><th>Statut</th><th>Encaissé</th><th>Écart</th><th></th>
+          </tr></thead>
+          <tbody id="pipeBody"></tbody>
+        </table>
+      </div>
+      <div id="pipeEmpty" class="empty" style="display:none">Aucun mandat enregistré. Ajoute une première ligne ci-dessus — les données sont stockées localement dans ce navigateur.</div>
+    </div>
+  </div>
+
+  <!-- ============ HONORAIRES ============ -->
+  <div class="panel" id="p-honoraires">
+    <div class="sec">
+      <div class="sec-h"><div class="sec-t">Calculateur d'honoraires &amp; partages</div><div class="sec-d">Barème, partage inter-agences, apporteur d'affaires, rétrocession agent commercial</div></div>
+
+      <div class="card">
+        <div class="ch">Hypothèses de calcul</div>
+        <div class="cb">
+          <div class="grid">
+            <div class="f"><label>Prix de vente net vendeur €</label><input id="hPrix" type="number" min="0" step="1000" value="1200000"></div>
+            <div class="f"><label>Taux honoraires %</label><input id="hTaux" type="number" min="0" max="20" step="0.1" value="5"></div>
+            <div class="f"><label>Co-mandat ? Part agence principale %</label><input id="hRepart" type="number" min="0" max="100" step="1" value="100"></div>
+            <div class="f"><label>Apporteur d'affaires % (sur part agence)</label><input id="hApporteur" type="number" min="0" max="100" step="1" value="0"></div>
+            <div class="f"><label>Commission agent commercial % (sur solde)</label><input id="hAgent" type="number" min="0" max="100" step="1" value="70"></div>
+            <div class="f"><label>Apporteur / agent assujettis TVA ?</label>
+              <select id="hTvaTiers"><option value="1">Oui (facture TVA 20%)</option><option value="0">Non (franchise en base)</option></select>
+            </div>
+          </div>
+          <div class="row-actions"><button class="btn btn-p" onclick="calcHonoraires()">Calculer</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch">Détail ligne par ligne</div>
+        <div class="cb" id="hResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FISCALITÉ ============ -->
+  <div class="panel" id="p-fiscalite">
+    <div class="sec">
+      <div class="disc"><b>Ordres de grandeur, pas une déclaration.</b> Les taux ci-dessous sont des repères 2025 modifiables — ils ne remplacent pas une validation par ton expert-comptable ou l'URSSAF avant tout dépôt (CA3, DSI, échéancier).</div>
+      <div class="sec-h"><div class="sec-t">Statut agent commercial / EIR</div><div class="sec-d">TVA, cotisations URSSAF, acomptes IS/IR</div></div>
+
+      <div class="card">
+        <div class="ch">Hypothèses</div>
+        <div class="cb">
+          <div class="grid">
+            <div class="f"><label>CA encaissé HT (période) €</label><input id="tCa" type="number" min="0" step="500" value="0"></div>
+            <div class="f"><label>Régime TVA</label>
+              <select id="tTva"><option value="franchise">Franchise en base (pas de TVA)</option><option value="reel">Réel (TVA collectée 20%)</option></select>
+            </div>
+            <div class="f"><label>Régime cotisations</label>
+              <select id="tRegime"><option value="microbnc">Micro-BNC (agent commercial)</option><option value="reel">Réel (EIR / société)</option></select>
+            </div>
+            <div class="f"><label>Taux cotisations URSSAF %</label><input id="tUrssaf" type="number" min="0" max="50" step="0.1" value="24.6"></div>
+            <div class="f"><label>ACRE (réduction 1ʳᵉ année) ?</label>
+              <select id="tAcre"><option value="0">Non</option><option value="0.5">Oui (~ -50% la 1ʳᵉ année)</option></select>
+            </div>
+            <div class="f"><label>Versement libératoire IR (micro-BNC) ?</label>
+              <select id="tVl"><option value="0">Non — barème progressif (abatt. 34%)</option><option value="0.022">Oui — 2,2% du CA</option></select>
+            </div>
+          </div>
+          <div class="row-actions"><button class="btn btn-p" onclick="calcFiscal()">Calculer</button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch">Estimation</div>
+        <div class="cb" id="tResult"></div>
+      </div>
+
+      <details class="opt-block">
+        <summary>Calendrier déclaratif indicatif</summary>
+        <div class="calendar">
+          <div class="cal-item"><div class="cd">Mensuel / trimestriel</div><div class="cl">URSSAF — déclaration &amp; paiement des cotisations (micro : mensuel ou trimestriel au choix, échéance le dernier jour du mois suivant la période)</div></div>
+          <div class="cal-item"><div class="cd">Mensuel (si TVA réelle)</div><div class="cl">CA3 — déclaration de TVA, généralement entre le 15 et le 24 du mois suivant selon échéancier</div></div>
+          <div class="cal-item"><div class="cd">15/03 · 15/06 · 15/09 · 15/12</div><div class="cl">Acomptes d'IS (si exercice en société soumise à l'IS)</div></div>
+          <div class="cal-item"><div class="cd">Mai — Juin</div><div class="cl">Déclaration de revenus IR (2042-C-PRO si micro-BNC / DSI si réel)</div></div>
+          <div class="cal-item"><div class="cd">15 décembre</div><div class="cl">CFE — Cotisation Foncière des Entreprises</div></div>
+          <div class="cal-item"><div class="cd">Continu</div><div class="cl">Facturation avec mention TVA correcte (assujetti ou franchise en base — art. 293 B du CGI)</div></div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ============ REPORTING ============ -->
+  <div class="panel" id="p-reporting">
+    <div class="sec">
+      <div class="sec-h"><div class="sec-t">Reporting</div><div class="sec-d">CA par marque, par station, calculé depuis le pipeline saisi ci-contre</div></div>
+      <div id="repEmpty" class="empty" style="display:none">Aucune donnée. Renseigne le pipeline (onglet « Pipeline ») pour générer le reporting.</div>
+      <div id="repCharts"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Usage interne · Excellia Immobilier — Douglas Elliman · Alpes Françaises</footer>
+
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const STORE_KEY = 'edc_pipeline_v1';
+const fmt = n => (Math.round((n||0)*100)/100).toLocaleString('fr-FR',{minimumFractionDigits:0,maximumFractionDigits:0}) + ' €';
+const fmtPct = n => (Math.round((n||0)*10)/10).toString().replace('.',',') + ' %';
+
+function showTab(name, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  $('p-'+name).classList.add('active');
+  if(name==='reporting') renderReporting();
+}
+window.showTab = showTab;
+
+/* ---------- PIPELINE ---------- */
+function loadRows(){
+  try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }catch(e){ return []; }
+}
+function saveRows(rows){
+  localStorage.setItem(STORE_KEY, JSON.stringify(rows));
+}
+let rows = loadRows();
+
+function rowCalc(r){
+  const prix = +r.prix||0, taux=+r.taux||0, part=+r.part||0;
+  const honoHT = prix*(taux/100)*(part/100);
+  const tva = honoHT*0.20;
+  const ttc = honoHT+tva;
+  const encaisse = +r.encaisse||0;
+  const ecart = ttc-encaisse;
+  return {honoHT,tva,ttc,ecart};
+}
+
+function daysLate(r){
+  if(!r.dateA) return 0;
+  const d = new Date(r.dateA);
+  if(isNaN(d)) return 0;
+  const diff = Math.floor((Date.now()-d.getTime())/86400000);
+  return diff;
+}
+
+function addRow(){
+  const bien=$('fBien').value.trim();
+  const prix=+$('fPrix').value||0;
+  if(!bien || prix<=0){ alert('Renseigne au minimum le bien et le prix de vente.'); return; }
+  rows.push({
+    bien, station:$('fStation').value, marque:$('fMarque').value,
+    prix, taux:+$('fTaux').value||0, part:+$('fPart').value||100,
+    dateC:$('fDateC').value, dateA:$('fDateA').value,
+    statut:$('fStatut').value, encaisse:+$('fEncaisse').value||0
+  });
+  saveRows(rows);
+  $('fBien').value='';$('fPrix').value='';$('fEncaisse').value=0;
+  renderPipeline();
+}
+window.addRow = addRow;
+
+function delRow(i){
+  rows.splice(i,1);
+  saveRows(rows);
+  renderPipeline();
+}
+window.delRow = delRow;
+
+function updateRow(i, field, value){
+  rows[i][field]=value;
+  saveRows(rows);
+  renderPipeline();
+}
+window.updateRow = updateRow;
+
+function clearAll(){
+  if(!rows.length) return;
+  if(confirm('Supprimer toutes les lignes du pipeline ? Cette action est irréversible.')){
+    rows=[]; saveRows(rows); renderPipeline();
+  }
+}
+window.clearAll = clearAll;
+
+function exportCSV(){
+  if(!rows.length){ alert('Rien à exporter.'); return; }
+  const head=['Bien','Station','Marque','Prix vente','Taux %','Honoraires HT','TVA','Honoraires TTC','Date compromis','Date acte','Statut','Encaissé','Écart'];
+  const lines=[head.join(';')];
+  rows.forEach(r=>{
+    const c=rowCalc(r);
+    lines.push([r.bien,r.station,r.marque,r.prix,r.taux,c.honoHT.toFixed(2),c.tva.toFixed(2),c.ttc.toFixed(2),r.dateC||'',r.dateA||'',r.statut,r.encaisse,c.ecart.toFixed(2)].join(';'));
+  });
+  const blob=new Blob([lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='pipeline_'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+window.exportCSV = exportCSV;
+
+function statutBadge(s, late){
+  if(late>30) return '<span class="badge late">Retard '+late+'j</span>';
+  if(s==='Encaissé') return '<span class="badge ok">Encaissé</span>';
+  if(s==='Acte réalisé') return '<span class="badge mid">Acte réalisé</span>';
+  return '<span class="badge mid">'+s+'</span>';
+}
+
+function renderPipeline(){
+  const body=$('pipeBody');
+  if(!rows.length){
+    body.innerHTML='';
+    $('pipeEmpty').style.display='block';
+  } else {
+    $('pipeEmpty').style.display='none';
+    body.innerHTML = rows.map((r,i)=>{
+      const c=rowCalc(r);
+      const late = (r.statut==='Acte réalisé' && c.ecart>0) ? daysLate(r) : 0;
+      return '<tr>'+
+        '<td><div>'+(r.bien||'—')+'</div><div class="cell-sub">'+r.station+' · '+r.marque+'</div></td>'+
+        '<td class="num">'+fmt(r.prix)+'</td>'+
+        '<td class="num"><div>'+fmt(c.ttc)+'</div><div class="cell-sub">HT '+fmt(c.honoHT)+'</div></td>'+
+        '<td><select onchange="updateRow('+i+',\'statut\',this.value)">'+
+          ['Mandat en cours','Compromis signé','Acte réalisé','Encaissé'].map(s=>'<option'+(s===r.statut?' selected':'')+'>'+s+'</option>').join('')+
+        '</select><div class="cell-sub">'+statutBadge(r.statut, late)+'</div></td>'+
+        '<td><input type="number" min="0" step="100" value="'+r.encaisse+'" onchange="updateRow('+i+',\'encaisse\',+this.value)"></td>'+
+        '<td class="num" style="color:'+(c.ecart>0?'#B33A3A':'#1A7A4C')+'">'+fmt(c.ecart)+'</td>'+
+        '<td><button class="btn btn-d" onclick="delRow('+i+')">✕</button></td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  const totalPrevTTC = rows.reduce((s,r)=>s+rowCalc(r).ttc,0);
+  const totalPrevHT = rows.reduce((s,r)=>s+rowCalc(r).honoHT,0);
+  const totalRealiseTTC = rows.filter(r=>r.statut==='Acte réalisé'||r.statut==='Encaissé').reduce((s,r)=>s+rowCalc(r).ttc,0);
+  const totalEncaisse = rows.reduce((s,r)=>s+(+r.encaisse||0),0);
+  const impayes = rows.filter(r=>{
+    const c=rowCalc(r);
+    return r.statut==='Acte réalisé' && c.ecart>0 && daysLate(r)>30;
+  });
+  const impayesMontant = impayes.reduce((s,r)=>s+rowCalc(r).ecart,0);
+
+  $('pipeKpis').innerHTML = [
+    ['CA prévisionnel TTC', fmt(totalPrevTTC), rows.length+' mandat(s) · dont '+fmt(totalPrevHT)+' HT', ''],
+    ['Encaissé TTC', fmt(totalEncaisse), (totalRealiseTTC>0? fmtPct(100*totalEncaisse/Math.max(totalRealiseTTC,totalEncaisse||1)) +' du réalisé ('+fmt(totalRealiseTTC)+')':''), ''],
+    ['Impayés &gt; 30 jours', fmt(impayesMontant), impayes.length+' dossier(s) à relancer', impayes.length?'bad':'']
+  ].map(([l,v,s,cls])=>'<div class="kpi'+(cls?' '+cls:'')+'"><div class="kl">'+l+'</div><div class="kv">'+v+'</div>'+(s?'<div class="ks">'+s+'</div>':'')+'</div>').join('');
+}
+
+/* ---------- HONORAIRES ---------- */
+function calcHonoraires(){
+  const prix=+$('hPrix').value||0, taux=+$('hTaux').value||0;
+  const repart=+$('hRepart').value||100, apporteurPct=+$('hApporteur').value||0, agentPct=+$('hAgent').value||0;
+  const tvaTiers = $('hTvaTiers').value==='1';
+
+  const honoHT = prix*(taux/100);
+  const tva = honoHT*0.20;
+  const honoTTC = honoHT+tva;
+  const partPrincipaleHT = honoHT*(repart/100);
+  const partPartenaireHT = honoHT-partPrincipaleHT;
+  const apporteurHT = partPrincipaleHT*(apporteurPct/100);
+  const apporteurTVA = tvaTiers? apporteurHT*0.20 : 0;
+  const soldeApresApporteurHT = partPrincipaleHT-apporteurHT;
+  const agentHT = soldeApresApporteurHT*(agentPct/100);
+  const agentTVA = tvaTiers? agentHT*0.20 : 0;
+  const soldeAgenceHT = soldeApresApporteurHT-agentHT;
+
+  const lines=[];
+  lines.push(['Honoraires totaux HT (barème)', honoHT, false]);
+  lines.push(['+ TVA 20%', tva, false]);
+  lines.push(['= Honoraires totaux TTC', honoTTC, true]);
+  if(repart<100){
+    lines.push(['Part agence principale HT ('+fmtPct(repart)+')', partPrincipaleHT, false]);
+    lines.push(['Part agence partenaire HT ('+fmtPct(100-repart)+')', partPartenaireHT, false]);
+  } else {
+    lines.push(['Part agence principale HT', partPrincipaleHT, false]);
+  }
+  if(apporteurPct>0){
+    lines.push(['Apporteur d\'affaires HT ('+fmtPct(apporteurPct)+' de la part agence)'+(tvaTiers?' + TVA '+fmt(apporteurTVA):' (franchise TVA)'), apporteurHT, false]);
+    lines.push(['Solde agence après apporteur HT', soldeApresApporteurHT, false]);
+  }
+  if(agentPct>0){
+    lines.push(['Rétrocession agent commercial HT ('+fmtPct(agentPct)+')'+(tvaTiers?' + TVA '+fmt(agentTVA):' (franchise TVA)'), agentHT, false]);
+    lines.push(['Solde net agence HT', soldeAgenceHT, true]);
+  }
+
+  $('hResult').innerHTML = lines.map(([l,v,tot])=>
+    '<div class="result-line'+(tot?' total':'')+'"><span class="lbl">'+l+'</span><span class="val">'+fmt(v)+'</span></div>'
+  ).join('') + '<div class="note">Hypothèse : taux honoraires appliqué au prix net vendeur, TVA 20% sur la part agence. Vérifier le barème réellement contractualisé dans le mandat avant facturation.</div>';
+}
+window.calcHonoraires = calcHonoraires;
+
+/* ---------- FISCALITÉ ---------- */
+function calcFiscal(){
+  const ca=+$('tCa').value||0;
+  const tvaRegime=$('tTva').value;
+  const urssafPct=+$('tUrssaf').value||0;
+  const acreReduction=+$('tAcre').value||0;
+  const vlRate=+$('tVl').value||0;
+
+  const tvaCollectee = tvaRegime==='reel' ? ca*0.20 : 0;
+  const urssafBase = ca; // micro : cotisations calculées sur le CA encaissé
+  const urssaf = urssafBase*(urssafPct/100)*(1-acreReduction);
+  const caNetApresUrssaf = ca - urssaf;
+
+  let ir, irLabel, baseImposable;
+  if(vlRate>0){
+    ir = ca*vlRate;
+    irLabel = 'IR — versement libératoire ('+fmtPct(vlRate*100)+' du CA)';
+    baseImposable = ca;
+  } else {
+    baseImposable = ca*(1-0.34); // abattement forfaitaire micro-BNC 34%
+    ir = null; // dépend du barème progressif et du foyer fiscal — non calculable sans données du foyer
+    irLabel = 'Base imposable IR (après abattement 34%, micro-BNC)';
+  }
+
+  const lines=[];
+  lines.push(['CA encaissé HT', ca, false]);
+  if(tvaRegime==='reel') lines.push(['TVA collectée à reverser (20%)', tvaCollectee, false]);
+  lines.push(['Cotisations URSSAF estimées ('+fmtPct(urssafPct*(1-acreReduction))+')', urssaf, false]);
+  lines.push(['= Revenu net après cotisations', caNetApresUrssaf, true]);
+  if(vlRate>0){
+    lines.push([irLabel, ir, false]);
+    lines.push(['= Net après IR (VL) et URSSAF', caNetApresUrssaf-ir, true]);
+  } else {
+    lines.push([irLabel, baseImposable, false]);
+  }
+
+  let html = lines.map(([l,v,tot])=>
+    '<div class="result-line'+(tot?' total':'')+'"><span class="lbl">'+l+'</span><span class="val">'+fmt(v)+'</span></div>'
+  ).join('');
+
+  if(vlRate===0){
+    html += '<div class="note">Sans versement libératoire, l\'impôt sur le revenu dépend du barème progressif appliqué à l\'ensemble des revenus du foyer fiscal — non calculable ici sans le détail du foyer. La base imposable ci-dessus (après abattement micro-BNC de 34%) doit être reportée en 2042-C-PRO ; l\'IR effectif est à estimer avec le barème réel ou un professionnel.</div>';
+  }
+  html += '<div class="note">Taux et abattements = repères 2025 par défaut, modifiables ci-dessus. Statut agent commercial = généralement micro-BNC (prestation d\'intermédiation) sauf option pour le régime réel ou l\'exercice en société (EIR/SASU). <b>À valider avec l\'expert-comptable avant toute déclaration.</b></div>';
+
+  $('tResult').innerHTML = html;
+}
+window.calcFiscal = calcFiscal;
+
+/* ---------- REPORTING ---------- */
+function groupSum(list, keyFn){
+  const m={};
+  list.forEach(r=>{
+    const k=keyFn(r);
+    const v=rowCalc(r).honoHT;
+    m[k]=(m[k]||0)+v;
+  });
+  return m;
+}
+function barChart(title, map){
+  const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  const max=Math.max(...entries.map(e=>e[1]),1);
+  const rowsHtml = entries.map(([k,v])=>
+    '<div class="bar-row"><span class="bl">'+k+'</span>'+
+    '<div class="bar-track"><div class="bar-fill" style="width:'+Math.max(2,Math.round(v/max*100))+'%"></div></div>'+
+    '<span class="bv">'+fmt(v)+'</span></div>'
+  ).join('');
+  return '<div class="chart-card"><div class="chart-t">'+title+'</div>'+(rowsHtml||'<div class="empty">Pas de données</div>')+'</div>';
+}
+function renderReporting(){
+  if(!rows.length){
+    $('repEmpty').style.display='block';
+    $('repCharts').innerHTML='';
+    return;
+  }
+  $('repEmpty').style.display='none';
+  const byMarque = groupSum(rows, r=>r.marque);
+  const byStation = groupSum(rows, r=>r.station);
+  const byMonth = groupSum(rows.filter(r=>r.dateA), r=>{
+    const d=new Date(r.dateA);
+    return isNaN(d)? 'Non daté' : d.toLocaleDateString('fr-FR',{month:'short',year:'numeric'});
+  });
+  $('repCharts').innerHTML =
+    barChart('CA honoraires HT par marque', byMarque) +
+    barChart('CA honoraires HT par station', byStation) +
+    barChart('CA honoraires HT par mois d\'acte', byMonth);
+}
+
+/* init */
+renderPipeline();
+calcHonoraires();
+calcFiscal();
+})();
+</script>
+</body>
+</html>

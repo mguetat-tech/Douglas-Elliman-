@@ -68,7 +68,7 @@ button.btn{padding:10px 18px;border:none;border-radius:2px;font-family:'Montserr
 
 /* Table */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:3px}
-table{width:100%;border-collapse:collapse;font-size:12px;min-width:920px}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
 th{background:var(--bg3);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:500}
 td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-mid);white-space:nowrap}
 tr:last-child td{border-bottom:none}
@@ -96,6 +96,22 @@ td select, td input{padding:5px 6px;font-size:11px;min-width:90px}
 .cal-item{padding:13px 14px;background:var(--bg3);border-left:2px solid var(--accent)}
 .cal-item .cd{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--dark)}
 .cal-item .cl{font-size:10.5px;color:var(--text-dim);margin-top:3px;line-height:1.5}
+
+/* Collapsible optional details */
+details.opt{margin-top:12px}
+details.opt summary{cursor:pointer;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:500;list-style:none}
+details.opt summary::-webkit-details-marker{display:none}
+details.opt summary::before{content:'+ Détails';}
+details.opt[open] summary::before{content:'– Masquer les détails';}
+details.opt summary span{display:none}
+details.opt .grid{margin-top:14px}
+details.opt-block{margin-top:26px}
+details.opt-block summary{cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--royal);list-style:none;letter-spacing:.3px}
+details.opt-block summary::-webkit-details-marker{display:none}
+details.opt-block summary::before{content:'▸ ';font-size:13px}
+details.opt-block[open] summary::before{content:'▾ ';font-size:13px}
+details.opt-block .calendar{margin-top:14px}
+.cell-sub{font-size:10.5px;color:var(--text-dim);margin-top:2px}
 
 /* Reporting charts */
 .chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:18px;margin-bottom:18px}
@@ -158,14 +174,18 @@ footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);fo
             </div>
             <div class="f"><label>Prix de vente €</label><input id="fPrix" type="number" min="0" step="1000" placeholder="1 200 000"></div>
             <div class="f"><label>Taux honoraires %</label><input id="fTaux" type="number" min="0" max="20" step="0.1" value="5"></div>
-            <div class="f"><label>Part agence %</label><input id="fPart" type="number" min="0" max="100" step="1" value="100" title="Part revenant à l'agence après partage inter-agences / apporteur"></div>
-            <div class="f"><label>Date compromis</label><input id="fDateC" type="date"></div>
-            <div class="f"><label>Date acte prévue</label><input id="fDateA" type="date"></div>
             <div class="f"><label>Statut</label>
               <select id="fStatut"><option>Mandat en cours</option><option>Compromis signé</option><option>Acte réalisé</option><option>Encaissé</option></select>
             </div>
-            <div class="f"><label>Encaissé € (TTC)</label><input id="fEncaisse" type="number" min="0" step="100" value="0"></div>
           </div>
+          <details class="opt"><summary><span>Détails</span></summary>
+            <div class="grid">
+              <div class="f"><label>Part agence %</label><input id="fPart" type="number" min="0" max="100" step="1" value="100" title="Part revenant à l'agence après partage inter-agences / apporteur"></div>
+              <div class="f"><label>Date compromis</label><input id="fDateC" type="date"></div>
+              <div class="f"><label>Date acte prévue</label><input id="fDateA" type="date"></div>
+              <div class="f"><label>Encaissé € (TTC)</label><input id="fEncaisse" type="number" min="0" step="100" value="0"></div>
+            </div>
+          </details>
           <div class="row-actions">
             <button class="btn btn-p" onclick="addRow()">+ Ajouter au pipeline</button>
             <button class="btn btn-o" onclick="exportCSV()">Exporter CSV</button>
@@ -177,9 +197,7 @@ footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);fo
       <div class="tbl-wrap">
         <table id="pipeTable">
           <thead><tr>
-            <th>Bien</th><th>Station</th><th>Marque</th><th>Prix vente</th><th>Taux</th>
-            <th>Honoraires HT</th><th>TVA 20%</th><th>Honoraires TTC</th>
-            <th>Date acte</th><th>Statut</th><th>Encaissé</th><th>Écart</th><th></th>
+            <th>Bien</th><th>Prix vente</th><th>Honoraires TTC</th><th>Statut</th><th>Encaissé</th><th>Écart</th><th></th>
           </tr></thead>
           <tbody id="pipeBody"></tbody>
         </table>
@@ -251,15 +269,17 @@ footer{text-align:center;padding:24px 16px;border-top:1px solid var(--border);fo
         <div class="cb" id="tResult"></div>
       </div>
 
-      <div class="sec-h" style="margin-top:24px"><div class="sec-t">Calendrier déclaratif indicatif</div></div>
-      <div class="calendar">
-        <div class="cal-item"><div class="cd">Mensuel / trimestriel</div><div class="cl">URSSAF — déclaration &amp; paiement des cotisations (micro : mensuel ou trimestriel au choix, échéance le dernier jour du mois suivant la période)</div></div>
-        <div class="cal-item"><div class="cd">Mensuel (si TVA réelle)</div><div class="cl">CA3 — déclaration de TVA, généralement entre le 15 et le 24 du mois suivant selon échéancier</div></div>
-        <div class="cal-item"><div class="cd">15/03 · 15/06 · 15/09 · 15/12</div><div class="cl">Acomptes d'IS (si exercice en société soumise à l'IS)</div></div>
-        <div class="cal-item"><div class="cd">Mai — Juin</div><div class="cl">Déclaration de revenus IR (2042-C-PRO si micro-BNC / DSI si réel)</div></div>
-        <div class="cal-item"><div class="cd">15 décembre</div><div class="cl">CFE — Cotisation Foncière des Entreprises</div></div>
-        <div class="cal-item"><div class="cd">Continu</div><div class="cl">Facturation avec mention TVA correcte (assujetti ou franchise en base — art. 293 B du CGI)</div></div>
-      </div>
+      <details class="opt-block">
+        <summary>Calendrier déclaratif indicatif</summary>
+        <div class="calendar">
+          <div class="cal-item"><div class="cd">Mensuel / trimestriel</div><div class="cl">URSSAF — déclaration &amp; paiement des cotisations (micro : mensuel ou trimestriel au choix, échéance le dernier jour du mois suivant la période)</div></div>
+          <div class="cal-item"><div class="cd">Mensuel (si TVA réelle)</div><div class="cl">CA3 — déclaration de TVA, généralement entre le 15 et le 24 du mois suivant selon échéancier</div></div>
+          <div class="cal-item"><div class="cd">15/03 · 15/06 · 15/09 · 15/12</div><div class="cl">Acomptes d'IS (si exercice en société soumise à l'IS)</div></div>
+          <div class="cal-item"><div class="cd">Mai — Juin</div><div class="cl">Déclaration de revenus IR (2042-C-PRO si micro-BNC / DSI si réel)</div></div>
+          <div class="cal-item"><div class="cd">15 décembre</div><div class="cl">CFE — Cotisation Foncière des Entreprises</div></div>
+          <div class="cal-item"><div class="cd">Continu</div><div class="cl">Facturation avec mention TVA correcte (assujetti ou franchise en base — art. 293 B du CGI)</div></div>
+        </div>
+      </details>
     </div>
   </div>
 
@@ -392,18 +412,12 @@ function renderPipeline(){
       const c=rowCalc(r);
       const late = (r.statut==='Acte réalisé' && c.ecart>0) ? daysLate(r) : 0;
       return '<tr>'+
-        '<td>'+(r.bien||'—')+'</td>'+
-        '<td>'+r.station+'</td>'+
-        '<td>'+r.marque+'</td>'+
+        '<td><div>'+(r.bien||'—')+'</div><div class="cell-sub">'+r.station+' · '+r.marque+'</div></td>'+
         '<td class="num">'+fmt(r.prix)+'</td>'+
-        '<td class="num">'+fmtPct(r.taux)+'</td>'+
-        '<td class="num">'+fmt(c.honoHT)+'</td>'+
-        '<td class="num">'+fmt(c.tva)+'</td>'+
-        '<td class="num">'+fmt(c.ttc)+'</td>'+
-        '<td>'+(r.dateA||'—')+'</td>'+
+        '<td class="num"><div>'+fmt(c.ttc)+'</div><div class="cell-sub">HT '+fmt(c.honoHT)+'</div></td>'+
         '<td><select onchange="updateRow('+i+',\'statut\',this.value)">'+
           ['Mandat en cours','Compromis signé','Acte réalisé','Encaissé'].map(s=>'<option'+(s===r.statut?' selected':'')+'>'+s+'</option>').join('')+
-        '</select><br>'+statutBadge(r.statut, late)+'</td>'+
+        '</select><div class="cell-sub">'+statutBadge(r.statut, late)+'</div></td>'+
         '<td><input type="number" min="0" step="100" value="'+r.encaisse+'" onchange="updateRow('+i+',\'encaisse\',+this.value)"></td>'+
         '<td class="num" style="color:'+(c.ecart>0?'#B33A3A':'#1A7A4C')+'">'+fmt(c.ecart)+'</td>'+
         '<td><button class="btn btn-d" onclick="delRow('+i+')">✕</button></td>'+
@@ -411,8 +425,8 @@ function renderPipeline(){
     }).join('');
   }
 
-  const totalPrevHT = rows.reduce((s,r)=>s+rowCalc(r).honoHT,0);
   const totalPrevTTC = rows.reduce((s,r)=>s+rowCalc(r).ttc,0);
+  const totalPrevHT = rows.reduce((s,r)=>s+rowCalc(r).honoHT,0);
   const totalRealiseTTC = rows.filter(r=>r.statut==='Acte réalisé'||r.statut==='Encaissé').reduce((s,r)=>s+rowCalc(r).ttc,0);
   const totalEncaisse = rows.reduce((s,r)=>s+(+r.encaisse||0),0);
   const impayes = rows.filter(r=>{
@@ -422,10 +436,8 @@ function renderPipeline(){
   const impayesMontant = impayes.reduce((s,r)=>s+rowCalc(r).ecart,0);
 
   $('pipeKpis').innerHTML = [
-    ['CA prévisionnel HT', fmt(totalPrevHT), rows.length+' mandat(s)', ''],
-    ['CA prévisionnel TTC', fmt(totalPrevTTC), '', ''],
-    ['CA réalisé TTC (actes)', fmt(totalRealiseTTC), '', ''],
-    ['Encaissé TTC', fmt(totalEncaisse), (totalRealiseTTC>0? fmtPct(100*totalEncaisse/Math.max(totalRealiseTTC,totalEncaisse||1)) +' du réalisé':''), ''],
+    ['CA prévisionnel TTC', fmt(totalPrevTTC), rows.length+' mandat(s) · dont '+fmt(totalPrevHT)+' HT', ''],
+    ['Encaissé TTC', fmt(totalEncaisse), (totalRealiseTTC>0? fmtPct(100*totalEncaisse/Math.max(totalRealiseTTC,totalEncaisse||1)) +' du réalisé ('+fmt(totalRealiseTTC)+')':''), ''],
     ['Impayés &gt; 30 jours', fmt(impayesMontant), impayes.length+' dossier(s) à relancer', impayes.length?'bad':'']
   ].map(([l,v,s,cls])=>'<div class="kpi'+(cls?' '+cls:'')+'"><div class="kl">'+l+'</div><div class="kv">'+v+'</div>'+(s?'<div class="ks">'+s+'</div>':'')+'</div>').join('');
 }

@@ -1,0 +1,12 @@
+schema: paperclip/v1
+routines:
+  veille-off-market-hebdo:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 8 * * 1"
+        timezone: Europe/Paris
+  reporting-financier-mensuel:
+    triggers:
+      - kind: schedule
+        cronExpression: "0 9 1 * *"
+        timezone: Europe/Paris

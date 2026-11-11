@@ -1,0 +1,37 @@
+diff --git a/remotion-composer/src/Root.tsx b/remotion-composer/src/Root.tsx
+index 8970bed..035d4d0 100644
+--- a/remotion-composer/src/Root.tsx
++++ b/remotion-composer/src/Root.tsx
+@@ -15,6 +15,7 @@ import { HeroTitle } from "./components/HeroTitle";
+ import { ProductReveal, ProductRevealProps } from "./components/ProductReveal";
+ import { CaptionOverlay, WordCaption } from "./components/CaptionOverlay";
+ import { CollageBurst, CollageBurstProps } from "./CollageBurst";
++import { ChaletReel, CHALET_REEL_SECONDS } from "./ChaletReel";
+ import { LyricOverlay, LyricOverlayProps, calculateLyricOverlayMetadata } from "./LyricOverlay";
+ 
+ // ---------------------------------------------------------------------------
+@@ -331,6 +332,24 @@ export const Root: React.FC = () => {
+           fadeOutSeconds: 1.5,
+           overlay: true,
+         } as EndTagProps}
++      />
++          <Composition
++        id="ChaletMegeve"
++        component={ChaletReel}
++        durationInFrames={CHALET_REEL_SECONDS * 30}
++        fps={30}
++        width={1920}
++        height={1080}
++        defaultProps={{ layout: "landscape" as const }}
++      />
++      <Composition
++        id="ChaletMegeveVertical"
++        component={ChaletReel}
++        durationInFrames={CHALET_REEL_SECONDS * 30}
++        fps={30}
++        width={1080}
++        height={1920}
++        defaultProps={{ layout: "vertical" as const }}
+       />
+     </>
+   );

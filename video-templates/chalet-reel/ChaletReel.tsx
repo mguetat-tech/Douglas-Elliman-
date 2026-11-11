@@ -133,22 +133,8 @@ const EndCard: React.FC<{ layout: Layout }> = ({ layout }) => {
       </div>
       <div
         style={{
-          ...caps,
-          ...appear(1.6),
-          fontSize: v ? 24 : 22,
-          letterSpacing: v ? 5 : 7,
-          marginTop: v ? 36 : 28,
-          color: "#c9c2b6",
-          maxWidth: v ? 860 : undefined,
-          lineHeight: 1.6,
-        }}
-      >
-        Présentation confidentielle sur demande
-      </div>
-      <div
-        style={{
-          ...appear(2.3),
-          marginTop: v ? 110 : 70,
+          ...appear(1.8),
+          marginTop: v ? 96 : 60,
           fontFamily: sans,
           color: "#e9e3d8",
           textAlign: "center",
@@ -163,7 +149,7 @@ const EndCard: React.FC<{ layout: Layout }> = ({ layout }) => {
       </div>
       <div
         style={{
-          ...appear(2.3),
+          ...appear(1.8),
           position: "absolute",
           right: v ? 28 : 24,
           bottom: v ? 24 : 14,

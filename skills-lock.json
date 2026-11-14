@@ -1,6 +1,12 @@
 {
   "version": 2,
   "skills": {
+    "chief-of-staff": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "c-level-advisor/skills/chief-of-staff/SKILL.md",
+      "computedHash": "3427bc3d856809b9bd790b9f81ca4caf0fac74d0767057077a7231cbe9deea4e"
+    },
     "last30days": {
       "source": "mvanhorn/last30days-skill",
       "sourceType": "github",

@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "skills": {
+    "chief-of-staff": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "c-level-advisor/skills/chief-of-staff/SKILL.md",
+      "computedHash": "3427bc3d856809b9bd790b9f81ca4caf0fac74d0767057077a7231cbe9deea4e"
+    },
+    "last30days": {
+      "source": "mvanhorn/last30days-skill",
+      "sourceType": "github",
+      "skillPath": "skills/last30days/SKILL.md",
+      "computedHash": "a57ccb6ae0f852f6a8d46df95212fad0b7eddf7b2a15cd6ef3d79670001c37d7"
+    },
+    "teach": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/teach/SKILL.md",
+      "computedHash": "31bb3eed09dd2787e290e933def99fbf7d65044a29119c224af47c01404ab228"
+    }
+  }
+}

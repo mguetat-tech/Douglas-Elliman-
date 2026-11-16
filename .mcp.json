@@ -3,6 +3,10 @@
     "higgsfield": {
       "type": "http",
       "url": "https://mcp.higgsfield.ai/mcp"
+    },
+    "datagouv": {
+      "type": "http",
+      "url": "https://mcp.data.gouv.fr/mcp"
     }
   }
 }
